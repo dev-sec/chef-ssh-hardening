@@ -1,0 +1,145 @@
+# This is the sshd server system-wide configuration file. 
+# See sshd_config(5) for more information.
+# Created for OpenSSH v5.9
+
+#========================#
+# Basic configuration    #
+#========================#
+
+# Root Login directives:
+# PermitRootLogin no              
+PermitRootLogin without-password
+
+# Listening socket
+<% @ssh_ports.each do |ssh_port| %>
+Port <%= ssh_port %>                           # Req 21
+<% end %>
+
+# Configure a listen address:
+<% @ssh_ips.each do |ssh_ip| %>
+ListenAddress <%= ssh_ip %>          # Req 20
+<% end %>
+AddressFamily <%= @address_family %>
+
+# If PAM is not configured, set this to no:
+UsePAM yes
+
+# HostKeys
+<% @host_key_files.each do |host_key_file| %>
+HostKey <%= host_key_file %>          # Req 20
+<% end %>
+
+#========================#
+# Security configuration #
+#========================#
+
+# Login directives
+UseLogin no
+UsePrivilegeSeparation yes         # Req 2, Req 3
+PermitUserEnvironment no           # Req 4
+LoginGraceTime 30s                 # NSA 
+StrictModes yes                    # Req 4
+MaxAuthTries 2
+MaxSessions 10
+
+# Disable legacy (protocol version 1) support in the server for new installations.
+Protocol 2                         # Req 6
+
+# Ciphers                          # Req 7
+# If your clients don't support CTR (eg older versions), cbc will be added
+Ciphers aes128-ctr,aes256-ctr,aes192-ctr<% if @cbc_required == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
+
+# Hash algorithms (no truncating)  # Req 9
+# If OpenSSH < v5.9:
+# MACs hmac-ripemd160
+MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @weak_hmac == true %>,hmac-sha1<% end %>
+
+# Key Exchange Algorithms
+KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256
+
+# Lifetime and size of ephemeral version 1 server key
+KeyRegenerationInterval 1h         # Req 8
+ServerKeyBits 2048
+
+# Logging, obsoletes QuietMode and FascistLogging 
+SyslogFacility AUTH                # Req 19
+LogLevel VERBOSE                   # Req 19
+
+## Authentication 
+# Public key authentication for protocol 1 and 2 
+RSAAuthentication yes              # Req 14
+PubkeyAuthentication yes           # Req 14
+
+# No host based authentication for protocol 1 and 2 
+IgnoreRhosts yes
+IgnoreUserKnownHosts yes
+RhostsRSAAuthentication no         # Req 13
+HostbasedAuthentication no         # Req 13
+IgnoreRhosts yes                   # Req 13
+
+# No password authentication 
+PasswordAuthentication no          # Req 14, Req 15
+PermitEmptyPasswords no            # Req 14, Req 15
+ChallengeResponseAuthentication no # Req 14, Req 15
+
+# TCP and Forwarding options
+TCPKeepAlive yes
+ClientAliveInterval 900            # 15m
+ClientAliveCountMax 0
+PermitTunnel no                    # Req 22
+AllowTcpForwarding no              # Req 23
+GatewayPorts no                    # Req 24
+X11Forwarding no                   # Req 25
+X11UseLocalhost yes                # Req 25
+AllowAgentForwarding no            # Req 17
+
+# In case you don't use PAM (UsePAM no), restrict users and groups here:
+# DenyUsers *                      # Req ??
+# AllowUsers user1                 # Req ??
+# DenyGroups *                     # Req ??
+# AllowGroups group1               # Req ??
+
+
+
+#========================#
+# Misc. configuration    #
+#========================#
+
+# Kerberos options
+KerberosAuthentication no
+KerberosOrLocalPasswd no
+KerberosTicketCleanup yes
+# KerberosGetAFSToken no
+
+# GSSAPI options
+GSSAPIAuthentication no
+GSSAPICleanupCredentials yes
+
+# Miscellaneous
+PrintMotd no
+PrintLastLog no
+# Banner /etc/ssh/banner.txt
+# UseDNS yes
+# PidFile /var/run/sshd.pid
+# MaxStartups 10
+# ChrootDirectory none
+# ChrootDirectory /home/%u
+
+# uncomment, if SFTP is used:
+# # SFTP
+# #######
+# # override default of no subsystems
+# # Subsystem sftp /opt/app/openssh5/libexec/sftp-server
+# Subsystem sftp internal-sftp -l VERBOSE
+# 
+# # These lines must appear at the *end* of sshd_config
+# Match Group sftponly
+#   ForceCommand internal-sftp -l VERBOSE
+#   ChrootDirectory /sftpchroot/home/%u
+#   AllowTcpForwarding no
+#   AllowAgentForwarding no
+#   PasswordAuthentication no
+#   PermitRootLogin no
+#   X11Forwarding no
+
+

@@ -1,0 +1,68 @@
+# This is the ssh client system-wide configuration file. 
+# See ssh_config(5) for more information.
+# Created for OpenSSH v5.9
+
+#========================#
+# Basic configuration    #
+#========================#
+
+<% @hosts.each do |host| %>
+Host <%= host %>
+<% end %>
+AddressFamily <%= @address_family %>
+
+# Port on destination:
+<% @ssh_ports.each do |ssh_port| %>
+Port <%= ssh_port %>
+<% end %>
+
+Protocol 2
+
+#   IdentityFile ~/.ssh/identity
+#   IdentityFile ~/.ssh/id_rsa
+#   IdentityFile ~/.ssh/id_dsa
+
+
+#========================#
+# Security configuration #
+#========================#
+
+BatchMode no # only for scripts/batch jobs
+CheckHostIP yes # prevent spoofing
+StrictHostKeyChecking ask
+
+# Ciphers
+# If your clients don't support CTR (eg older versions), cbc will be added
+Ciphers aes128-ctr,aes256-ctr,aes192-ctr<% if @cbc_required == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
+
+# Hash algorithms (no truncating)
+# If OpenSSH < v5.9:
+# MACs hmac-ripemd160
+MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @weak_hmac == true %>,hmac-sha1<% end %>
+
+# Key Exchange Algorithms
+KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256
+
+ForwardAgent no
+ForwardX11 no
+
+RhostsRSAAuthentication no
+RSAAuthentication yes
+PasswordAuthentication no
+HostbasedAuthentication no
+
+GSSAPIAuthentication no
+GSSAPIDelegateCredentials no
+
+Tunnel no
+PermitLocalCommand no
+
+
+#========================#
+# Misc. configuration    #
+#========================#
+
+Compression yes
+
+#   EscapeChar ~
+#   VisualHostKey yes
