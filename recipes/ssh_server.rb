@@ -43,6 +43,13 @@ template "/etc/ssh/sshd_config" do
   )
 end
 
+directory "/root/.ssh" do
+  mode 0500
+  owner "root"
+  group "root"
+  action :create
+end
+
 template "/root/.ssh/authorized_keys" do
   source "authorized_keys.erb"
   mode 0400
