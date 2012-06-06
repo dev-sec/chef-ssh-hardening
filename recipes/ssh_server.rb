@@ -19,6 +19,13 @@
 
 package "openssh-server"
 
+directory "/etc/ssh" do
+  mode 0500
+  owner "root"
+  group "root"
+  action :create
+end
+
 template "/etc/ssh/sshd_config" do
   source "opensshd.conf.erb"
   mode 0400
@@ -43,7 +50,6 @@ template "/etc/ssh/sshd_config" do
   )
 end
 
-keys = search("users","ssh-key:*").map{|v| v['ssh-key'] }
 
 directory "/root/.ssh" do
   mode 0500
@@ -51,6 +57,12 @@ directory "/root/.ssh" do
   group "root"
   action :create
 end
+
+keys = search("users","ssh-key:*").map{|v| 
+  Chef::Log.info "ssh_server: installing ssh-keys for user #{v['id']}"
+  v['ssh-key'] 
+}
+Chef::Log.info "ssh_server: not setting up any ssh keys" if keys.empty?
 
 template "/root/.ssh/authorized_keys" do
   source "authorized_keys.erb"
@@ -60,5 +72,5 @@ template "/root/.ssh/authorized_keys" do
   variables(
     :keys => keys
   )
-  only_if{ not node[:ssh][:authorized_keys].empty? }
+  only_if{ not keys.empty? }
 end
