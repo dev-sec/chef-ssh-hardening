@@ -1,7 +1,7 @@
 Description
 ===========
 
-This cookbook provides ssh-client and ssh-server configurations, focusing on ease and security-awareness.
+This cookbook provides secure ssh-client and ssh-server configurations.
 
 Requirements
 ============
