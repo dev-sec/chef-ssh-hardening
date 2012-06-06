@@ -17,5 +17,5 @@
 # limitations under the License.
 #
 
-include_recipe "ssh::ssh_server"
-include_recipe "ssh::ssh_client"
+include_recipe "ssh::server"
+include_recipe "ssh::client"

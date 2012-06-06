@@ -28,8 +28,8 @@ Add the recipes to the run_list:
 
 This will install ssh-server and ssh-client. You can alternatively choose only one via:
 
-    "recipe[ssh::ssh_server]"
-    "recipe[ssh::ssh_client]"
+    "recipe[ssh::server]"
+    "recipe[ssh::client]"
 
 Configure attributes:
 
