@@ -15,9 +15,32 @@ Attributes
 * `[:ssh][:cbc_required]` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
 * `[:ssh][:weak_hmac]` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
 * `[:ssh][:ports]` - ports to which ssh-server should listen to and ssh-client should connect to
-* `[:ssh][:authorized_keys]` - authorized public keys to which ssh-server should be configured.
 * `[:ssh][:listen_to]` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
 * `[:ssh][:remote_hosts]` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
+
+Data Bags
+=========
+
+Have your users in your `data_bag/users/` directory. This cookbook looks for users inside this folder with a `ssh-key`.
+
+Example: 
+
+First you have to find out the ssh-key of the user you want to allow. A typical example for this is
+
+    cat ~/.ssh/id_rsa.pub
+
+If you that folder doesn't exist or you don't know what this is all about, please read a SSH tutorial for your blend of operating system first.
+
+You can now add this key to the data bag. Example for dada:
+
+Example for `data_bags/users/dada.json`
+
+    {
+      "id" : "dada",
+      // ... other stuff ...
+      "ssh-key" : "ssh-rsa AAAA....mail.com"
+    }
+
 
 Usage
 =====
@@ -34,7 +57,6 @@ This will install ssh-server and ssh-client. You can alternatively choose only o
 Configure attributes:
 
     "ssh" : {
-      "authorized_keys" : ["ssh-rsa AAAA...com"],
       "listen_to" : "10.2.3.4"
     }
 
