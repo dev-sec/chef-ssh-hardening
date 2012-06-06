@@ -43,6 +43,8 @@ template "/etc/ssh/sshd_config" do
   )
 end
 
+keys = search("users","ssh-key:*").map{|v| v['ssh-key'] }
+
 directory "/root/.ssh" do
   mode 0500
   owner "root"
@@ -56,12 +58,7 @@ template "/root/.ssh/authorized_keys" do
   owner "root"
   group "root"
   variables(
-    :keys => node[:ssh][:authorized_keys]
+    :keys => keys
   )
   only_if{ not node[:ssh][:authorized_keys].empty? }
-end
-
-execute "minimize_ssh_folder_access" do 
-  command "chmod 500 /etc/ssh"
-  command "chmod 400 /root/.ssh/authorized_keys"
 end
