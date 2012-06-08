@@ -27,7 +27,7 @@ template "/etc/ssh/ssh_config" do
   variables(
     :hosts => node[:ssh][:remote_hosts],
     :ssh_ports => node[:ssh][:ports],
-    :address_family => ((node[:network][:ipv6][:disable]) ? "inet" : "any" ),
+    :address_family => ((node[:network][:ipv6][:enable]) ? "any" : "inet" ),
     # CBC: is true if you want to connect with OpenSSL-base libraries
     #      eg ruby Net::SSH::Transport::CipherFactory requires cbc-versions
     #      of the given openssh ciphers to work

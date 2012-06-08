@@ -11,7 +11,7 @@ Requirements
 Attributes
 ==========
 
-* `[:network][:ipv6][:disable]` - true if IPv6 is not needed
+* `[:network][:ipv6][:enable]` - true if IPv6 is needed
 * `[:ssh][:cbc_required]` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
 * `[:ssh][:weak_hmac]` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
 * `[:ssh][:ports]` - ports to which ssh-server should listen to and ssh-client should connect to

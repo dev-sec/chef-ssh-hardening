@@ -17,10 +17,10 @@
 # limitations under the License.
 #
 
-default[:network][:ipv6][:disable] = true    # sshd + ssh
-default[:ssh][:cbc_required]       = false   # sshd + ssh
-default[:ssh][:weak_hmac]          = false   # sshd + ssh
-default[:ssh][:ports]              = [ 22 ]  # sshd + ssh
-default[:ssh][:authorized_keys]    = [ ]     # sshd
-default[:ssh][:listen_to]          = [ ]     # sshd
-default[:ssh][:remote_hosts]       = [ ]     # ssh
+default[:network][:ipv6][:enable] = false   # sshd + ssh
+default[:ssh][:cbc_required]      = false   # sshd + ssh
+default[:ssh][:weak_hmac]         = false   # sshd + ssh
+default[:ssh][:ports]             = [ 22 ]  # sshd + ssh
+default[:ssh][:authorized_keys]   = [ ]     # sshd
+default[:ssh][:listen_to]         = [ ]     # sshd
+default[:ssh][:remote_hosts]      = [ ]     # ssh
