@@ -20,7 +20,7 @@
 package "openssh-server"
 
 directory "/etc/ssh" do
-  mode 0500
+  mode 0555
   owner "root"
   group "root"
   action :create

@@ -19,9 +19,16 @@
 
 package "openssh-client"
 
+directory "/etc/ssh" do
+  mode 0555
+  owner "root"
+  group "root"
+  action :create
+end
+
 template "/etc/ssh/ssh_config" do
   source "openssh.conf.erb"
-  mode 0400
+  mode 0444
   owner "root"
   group "root"
   variables(
@@ -39,8 +46,4 @@ template "/etc/ssh/ssh_config" do
     # activating this rule will enable sha1 for hmac
     :weak_hmac => node[:ssh][:weak_hmac]
   )
-end
-
-execute "minimize_ssh_folder_access" do 
-  command "chmod 500 /etc/ssh"
 end
