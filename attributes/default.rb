@@ -20,6 +20,7 @@
 default[:network][:ipv6][:enable] = false   # sshd + ssh
 default[:ssh][:cbc_required]      = false   # sshd + ssh
 default[:ssh][:weak_hmac]         = false   # sshd + ssh
+default[:ssh][:weak_kex]          = false   # sshd + ssh
 default[:ssh][:ports]             = [ 22 ]  # sshd + ssh
 default[:ssh][:authorized_keys]   = [ ]     # sshd
 default[:ssh][:listen_to]         = [ ]     # sshd
