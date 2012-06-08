@@ -47,8 +47,8 @@ template "/etc/ssh/sshd_config" do
     #    so this will have to be set true in this case.
     # activating this rule will enable sha1 for hmac
     :weak_hmac => node[:ssh][:weak_hmac],
-    # weak hmac is sometimes required if older package versions are used
-    # eg ruby's Net::SSH at around 2.2.* doesn't support sha2 for hmac,
+    # weak kex is sometimes required if older package versions are used
+    # eg ruby's Net::SSH at around 2.2.* doesn't support sha2 for kex,
     #    so this will have to be set true in this case.
     # activating this rule will enable sha1 for kex
     :weak_kex => node[:ssh][:weak_kex]
