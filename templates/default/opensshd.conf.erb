@@ -128,7 +128,7 @@ GSSAPICleanupCredentials yes
 # Disable TCP keep alive since it is spoofable. Use ClientAlive messages instead, they use the encrypted channel
 TCPKeepAlive no
 
-# Set a maximum alive interval 60 minutes
+# Manage `ClientAlive..` signals via interval and maximum count. This will periodically check up to a `..CountMax` number of times within `..Interval` timeframe, and abort the connection once these fail.
 ClientAliveInterval <%= @node[:ssh][:client_alive_interval] %>
 ClientAliveCountMax <%= @node[:ssh][:client_alive_count] %>
 
