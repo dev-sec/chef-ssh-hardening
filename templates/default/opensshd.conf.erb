@@ -117,7 +117,9 @@ GSSAPICleanupCredentials yes
 
 # TCP configuration.
 TCPKeepAlive yes
-ClientAliveInterval 900   # 15 minutes
+
+# Set a maximum alive interval 60 minutes
+ClientAliveInterval 3600
 ClientAliveCountMax 0
 
 # Disable tunneling
