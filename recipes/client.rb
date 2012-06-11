@@ -31,24 +31,4 @@ template "/etc/ssh/ssh_config" do
   mode 0444
   owner "root"
   group "root"
-  variables(
-    :hosts => node[:ssh][:remote_hosts],
-    :ssh_ports => node[:ssh][:ports],
-    :address_family => ((node[:network][:ipv6][:enable]) ? "any" : "inet" ),
-    # CBC: is true if you want to connect with OpenSSL-base libraries
-    #      eg ruby Net::SSH::Transport::CipherFactory requires cbc-versions
-    #      of the given openssh ciphers to work
-    #      eg see: http://net-ssh.github.com/net-ssh/classes/Net/SSH/Transport/CipherFactory.html
-    :cbc_required => node[:ssh][:cbc_required],
-    # weak hmac is sometimes required if older package versions are used
-    # eg ruby's Net::SSH at around 2.2.* doesn't support sha2 for hmac,
-    #    so this will have to be set true in this case.
-    # activating this rule will enable sha1 for hmac
-    :weak_hmac => node[:ssh][:weak_hmac],
-    # weak kex is sometimes required if older package versions are used
-    # eg ruby's Net::SSH at around 2.2.* doesn't support sha2 for kex,
-    #    so this will have to be set true in this case.
-    # activating this rule will enable sha1 for kex
-    :weak_kex => node[:ssh][:weak_kex]
-  )
 end
