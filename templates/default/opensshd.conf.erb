@@ -28,9 +28,6 @@ AddressFamily <%= ((@node[:network][:ipv6][:enable]) ? "any" : "inet" ) %>
 ListenAddress <%= ssh_ip %>
 <% end %>
 
-# If PAM is not configured, set this to `no`, otherwise `yes`.
-UsePAM yes
-
 # List HostKeys here.
 <% Array(@node[:ssh][:host_key_files]).each do |host_key_file| %>
 HostKey <%= host_key_file %>          # Req 20
@@ -101,6 +98,7 @@ RhostsRSAAuthentication no
 HostbasedAuthentication no
 
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
+UsePAM no
 PasswordAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
@@ -115,7 +113,7 @@ KerberosTicketCleanup yes
 GSSAPIAuthentication no
 GSSAPICleanupCredentials yes
 
-# In case you don't use PAM (`UsePAM no`), restrict users and groups here:
+# In case you don't use PAM (`UsePAM no`), you can alternatively restrict users and groups here. For key-based authentication this is not necessary, since all keys must be explicitely enabled.
 #DenyUsers *
 #AllowUsers user1
 #DenyGroups *
