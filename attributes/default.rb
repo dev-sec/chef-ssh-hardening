@@ -26,6 +26,6 @@ default[:ssh][:ports]                 = [ 22 ]  # sshd + ssh
 default[:ssh][:authorized_keys]       = [ ]     # sshd
 default[:ssh][:listen_to]             = [ ]     # sshd
 default[:ssh][:host_key_files]        = [ ]     # sshd
-default[:ssh][:client_alive_interval] = 6000    # sshd, 10min
+default[:ssh][:client_alive_interval] = 600     # sshd, 10min
 default[:ssh][:client_alive_count]    = 3       # sshd, ~> 3 x interval
 default[:ssh][:remote_hosts]          = [ ]     # ssh
