@@ -23,7 +23,6 @@ default[:ssh][:cbc_required]          = false   # sshd + ssh
 default[:ssh][:weak_hmac]             = false   # sshd + ssh
 default[:ssh][:weak_kex]              = false   # sshd + ssh
 default[:ssh][:ports]                 = [ 22 ]  # sshd + ssh
-default[:ssh][:authorized_keys]       = [ ]     # sshd
 default[:ssh][:listen_to]             = [ ]     # sshd
 default[:ssh][:host_key_files]        = [ ]     # sshd
 default[:ssh][:client_alive_interval] = 600     # sshd, 10min
