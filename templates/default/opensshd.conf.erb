@@ -1,4 +1,4 @@
-<% node[:config_disclaimer].to_s.split("\n").each do |l| %>
+<% node['config_disclaimer'].to_s.split("\n").each do |l| %>
 # <%= l %>
 <% end %>
 #---
@@ -16,20 +16,20 @@
 PermitRootLogin without-password
 
 # Define which port sshd should listen to. Default to `22`.
-<% Array(@node[:ssh][:ports]).each do |ssh_port| %>
+<% Array(@node['ssh']['ports']).each do |ssh_port| %>
 Port <%= ssh_port %>
 <% end %>
 
 # Address family should always be limited to the active network configuration.
-AddressFamily <%= ((@node[:network][:ipv6][:enable]) ? "any" : "inet" ) %>
+AddressFamily <%= ((@node['network']['ipv6']['enable']) ? "any" : "inet" ) %>
 
 # Define which addresses sshd should listen to. Default to `0.0.0.0`, ie make sure you put your desired address in here, since otherwise sshd will listen to everyone.
-<% Array(@node[:ssh][:listen_to]).each do |ssh_ip| %>
+<% Array(@node['ssh']['listen_to']).each do |ssh_ip| %>
 ListenAddress <%= ssh_ip %>
 <% end %>
 
 # List HostKeys here.
-<% Array(@node[:ssh][:host_key_files]).each do |host_key_file| %>
+<% Array(@node['ssh']['host_key_files']).each do |host_key_file| %>
 HostKey <%= host_key_file %>          # Req 20
 <% end %>
 
@@ -55,13 +55,13 @@ LogLevel VERBOSE
 # eg ruby Net::SSH::Transport::CipherFactory requires cbc-versions of the given openssh ciphers to work
 # -- see: (http://net-ssh.github.com/net-ssh/classes/Net/SSH/Transport/CipherFactory.html)
 # 
-Ciphers aes128-ctr,aes256-ctr,aes192-ctr<% if @node[:ssh][:cbc_required] == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
+Ciphers aes128-ctr,aes256-ctr,aes192-ctr<% if @node['ssh']['cbc_required'] == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
 
 # **Hash algorithms** -- Make sure not to use SHA1 for hashing, unless it is really necessary.
 # Weak HMAC is sometimes required if older package versions are used 
 # eg Ruby's Net::SSH at around 2.2.* doesn't support sha2 for hmac, so this will have to be set true in this case.
 # 
-MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @node[:ssh][:weak_hmac] == true %>,hmac-sha1<% end %>
+MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @node['ssh']['weak_hmac'] == true %>,hmac-sha1<% end %>
 
 # Alternative setting, if OpenSSH version is below v5.9
 #MACs hmac-ripemd160
@@ -70,7 +70,7 @@ MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @node[:ssh][:weak_hmac] == 
 # Weak kex is sometimes required if older package versions are used
 # eg ruby's Net::SSH at around 2.2.* doesn't support sha2 for kex, so this will have to be set true in this case.
 # 
-KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256<% if @node[:ssh][:weak_kex] == true %>,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1<% end %>
+KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256<% if @node['ssh']['weak_kex'] == true %>,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1<% end %>
 
 # Lifetime and size of ephemeral version 1 server key
 KeyRegenerationInterval 1h
@@ -127,8 +127,8 @@ GSSAPICleanupCredentials yes
 TCPKeepAlive no
 
 # Manage `ClientAlive..` signals via interval and maximum count. This will periodically check up to a `..CountMax` number of times within `..Interval` timeframe, and abort the connection once these fail.
-ClientAliveInterval <%= @node[:ssh][:client_alive_interval] %>
-ClientAliveCountMax <%= @node[:ssh][:client_alive_count] %>
+ClientAliveInterval <%= @node['ssh']['client_alive_interval'] %>
+ClientAliveCountMax <%= @node['ssh']['client_alive_count'] %>
 
 # Disable tunneling
 PermitTunnel no

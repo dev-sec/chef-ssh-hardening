@@ -11,13 +11,13 @@ Requirements
 Attributes
 ==========
 
-* `[:network][:ipv6][:enable]` - true if IPv6 is needed
-* `[:ssh][:cbc_required]` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
-* `[:ssh][:weak_hmac]` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
-* `[:ssh][:weak_hmac]` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled. 
-* `[:ssh][:ports]` - ports to which ssh-server should listen to and ssh-client should connect to
-* `[:ssh][:listen_to]` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
-* `[:ssh][:remote_hosts]` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
+* `['network']['ipv6']['enable']` - true if IPv6 is needed
+* `['ssh']['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
+* `['ssh']['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
+* `['ssh']['weak_hmac']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled. 
+* `['ssh']['ports']` - ports to which ssh-server should listen to and ssh-client should connect to
+* `['ssh']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
+* `['ssh']['remote_hosts']` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
 
 Data Bags
 =========
