@@ -23,7 +23,9 @@ Attributes
 Data Bags
 =========
 
-Have your users in your `data_bag/users/` directory. This cookbook looks for users inside this folder with a `ssh-key`.
+This cookbook handles authorized keys for the root user. Use other cookbooks to set up your users.
+
+Have users in your `data_bag/users/` directory. This cookbook looks for users inside this folder with a `ssh_rootkey`.
 
 Example: 
 
@@ -31,7 +33,7 @@ First you have to find out the ssh-key of the user you want to allow. A typical 
 
     cat ~/.ssh/id_rsa.pub
 
-If you that folder doesn't exist or you don't know what this is all about, please read a SSH tutorial for your blend of operating system first.
+If that folder doesn't exist or you don't know what this is all about, please read a SSH tutorial for your blend of operating system first.
 
 You can now add this key to the data bag. Example for dada:
 
@@ -40,8 +42,12 @@ Example for `data_bags/users/dada.json`
     {
       "id" : "dada",
       // ... other stuff ...
-      "ssh-key" : "ssh-rsa AAAA....mail.com"
+      "ssh_rootkey" : "ssh-rsa AAAA....mail.com"
     }
+
+You can then access
+
+    ssh root@yourmachines
 
 
 Usage

@@ -34,18 +34,18 @@ template "/etc/ssh/sshd_config" do
 end
 
 
+keys = search("users","ssh_rootkeys:*").map{|v|
+  Chef::Log.info "ssh_server: installing ssh-keys for root acces of user #{v['id']}"
+  v['ssh_rootkeys']
+}
+Chef::Log.info "ssh_server: not setting up any ssh keys" if keys.empty?
+
 directory "/root/.ssh" do
   mode 0500
   owner "root"
   group "root"
   action :create
 end
-
-keys = search("users","ssh-key:*").map{|v| 
-  Chef::Log.info "ssh_server: installing ssh-keys for user #{v['id']}"
-  v['ssh-key'] 
-}
-Chef::Log.info "ssh_server: not setting up any ssh keys" if keys.empty?
 
 template "/root/.ssh/authorized_keys" do
   source "authorized_keys.erb"
