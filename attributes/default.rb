@@ -28,3 +28,4 @@ default['ssh']['host_key_files']        = [ ]     # sshd
 default['ssh']['client_alive_interval'] = 600     # sshd, 10min
 default['ssh']['client_alive_count']    = 3       # sshd, ~> 3 x interval
 default['ssh']['remote_hosts']          = [ ]     # ssh
+default['ssh']['allow_root_with_key']   = false   # sshd

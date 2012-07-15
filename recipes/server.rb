@@ -57,3 +57,8 @@ template "/root/.ssh/authorized_keys" do
   )
   only_if{ not keys.empty? }
 end
+
+execute "unlock root account if it is locked" do
+  command "sed 's/^root:\!/root:*/' /etc/shadow -i"
+  only_if{ node['ssh']['allow_root_with_key'] }
+end
