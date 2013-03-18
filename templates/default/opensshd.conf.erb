@@ -137,7 +137,12 @@ ClientAliveCountMax <%= @node['ssh']['client_alive_count'] %>
 PermitTunnel no
 
 # Disable forwarding tcp connections.
-AllowTcpForwarding no
+# no real advantage without denied shell access
+AllowTcpForwarding yes
+
+# Disable agent formwarding, since local agent could be accessed through forwarded connection.
+# no real advantage without denied shell access
+AllowAgentForwarding yes
 
 # Do not allow remote port forwardings to bind to non-loopback addresses.
 GatewayPorts no
@@ -145,9 +150,6 @@ GatewayPorts no
 # Disable X11 forwarding, since local X11 display could be accessed through forwarded connection.
 X11Forwarding no
 X11UseLocalhost yes
-
-# Disable agent formwarding, since local agent could be accessed through forwarded connection.
-AllowAgentForwarding no
 
 
 # Misc. configuration
