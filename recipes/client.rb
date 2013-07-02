@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-package "openssh-client"
+package "openssh-client" do
+  package_name node['sslclient']['package']
+end
 
 directory "/etc/ssh" do
   mode 0555
