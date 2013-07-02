@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-package "openssh-server"
+package "openssh-server" do
+  package_name node['sslserver']['package']
+end
 
 directory "/etc/ssh" do
   mode 0555
