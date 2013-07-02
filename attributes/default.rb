@@ -21,8 +21,10 @@
 case platform
 when "redhat", "centos", "fedora", "amazon", "oracle"
     default['sslclient']['package'] = "openssh-clients"
-when "debian", "ubuntu", "arch"
+when "debian", "ubuntu"
     default['sslclient']['package'] = "openssh-client"
+when "arch"
+    default['sslclient']['package'] = "openssh"
 else
     default['sslclient']['package'] = "openssh-client"
 end
