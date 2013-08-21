@@ -71,6 +71,20 @@ Configure attributes:
 Under `listen` you can define a number of accept-rules, comprised of at least the field `proto`, which designates one or more protocols/services. `to` and `from` may take one or more ip addresses (including bitmasks) upon which the rule will act.
 
 
+Contributors + Kudos
+====================
+
+* Christoph Hartmann
+* Patrick Meier
+
+This cookbook is mostly based on guides by:
+
+* [NSA: Guide to the Secure Configuration of Red Hat Enterprise Linux 5](http://www.nsa.gov/ia/_files/os/redhat/rhel5-pamphlet-i731.pdf)
+* Deutsche Telekom, Group IT Security, Security Requirements (not publicly available)
+
+Thanks to all of you!!
+
+
 License and Author
 ==================
 Author:: Dominik Richter <dominik.richter@googlemail.com>
