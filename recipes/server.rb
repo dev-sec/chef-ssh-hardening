@@ -35,11 +35,14 @@ template "/etc/ssh/sshd_config" do
   group "root"
 end
 
+def get_key_from field
+  search("users","#{field}:*").map do |v|
+    Chef::Log.info "ssh_server: installing ssh-keys for root access of user #{v['id']}"
+    v[field]
+  end.flatten
+end
 
-keys = search("users","ssh_rootkeys:*").map{|v|
-  Chef::Log.info "ssh_server: installing ssh-keys for root acces of user #{v['id']}"
-  v['ssh_rootkeys']
-}
+keys = get_key_from('ssh_rootkey') + get_key_from('ssh_rootkeys')
 Chef::Log.info "ssh_server: not setting up any ssh keys" if keys.empty?
 
 directory "/root/.ssh" do
