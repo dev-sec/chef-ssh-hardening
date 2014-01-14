@@ -58,13 +58,13 @@ LogLevel VERBOSE
 # eg ruby Net::SSH::Transport::CipherFactory requires cbc-versions of the given openssh ciphers to work
 # -- see: (http://net-ssh.github.com/net-ssh/classes/Net/SSH/Transport/CipherFactory.html)
 # 
-Ciphers aes128-ctr,aes256-ctr,aes192-ctr<% if @node['ssh']['cbc_required'] == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
+Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes128-ctr,aes256-ctr,aes192-ctr<% if @node['ssh']['cbc_required'] == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
 
 # **Hash algorithms** -- Make sure not to use SHA1 for hashing, unless it is really necessary.
 # Weak HMAC is sometimes required if older package versions are used 
 # eg Ruby's Net::SSH at around 2.2.* doesn't support sha2 for hmac, so this will have to be set true in this case.
 # 
-MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @node['ssh']['weak_hmac'] == true %>,hmac-sha1<% end %>
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @node['ssh']['weak_hmac'] == true %>,hmac-sha1<% end %>
 
 # Alternative setting, if OpenSSH version is below v5.9
 #MACs hmac-ripemd160
@@ -72,8 +72,9 @@ MACs hmac-sha2-256,hmac-sha2-512,hmac-ripemd160<% if @node['ssh']['weak_hmac'] =
 # **Key Exchange Algorithms** -- Make sure not to use SHA1 for kex, unless it is really necessary
 # Weak kex is sometimes required if older package versions are used
 # eg ruby's Net::SSH at around 2.2.* doesn't support sha2 for kex, so this will have to be set true in this case.
-# 
-KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256<% if @node['ssh']['weak_kex'] == true %>,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1<% end %>
+# based on: https://bettercrypto.org/static/applied-crypto-hardening.pdf
+KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1<% if @node['ssh']['weak_kex'] == true %>,diffie-hellman-group1-sha1<% end %>
+
 
 # Lifetime and size of ephemeral version 1 server key
 KeyRegenerationInterval 1h
