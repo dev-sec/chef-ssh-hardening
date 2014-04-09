@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ssh
+# Cookbook Name:: ssh-hardening
 # Recipe:: ssh_server.rb
 #
 # Copyright 2012, Dominik Richter
