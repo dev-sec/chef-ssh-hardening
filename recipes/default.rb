@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ssh
+# Cookbook Name:: ssh-hardening
 # Recipe:: default.rb
 #
 # Copyright 2012, Dominik Richter
@@ -17,5 +17,5 @@
 # limitations under the License.
 #
 
-include_recipe "ssh::server"
-include_recipe "ssh::client"
+include_recipe "ssh-hardening::server"
+include_recipe "ssh-hardening::client"

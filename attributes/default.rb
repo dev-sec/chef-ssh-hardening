@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ssh
+# Cookbook Name:: ssh-hardening
 # Attributes:: default
 #
 # Copyright 2012, Dominik Richter
