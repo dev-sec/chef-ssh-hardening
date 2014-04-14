@@ -1,15 +1,14 @@
-Description
-===========
+# ssh-hardening (Chef cookbook)
+
+## Description
 
 This cookbook provides secure ssh-client and ssh-server configurations.
 
-Requirements
-============
+## Requirements
 
 * Opscode chef
 
-Attributes
-==========
+## Attributes
 
 * `['network']['ipv6']['enable']` - true if IPv6 is needed
 * `['ssh']['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
@@ -20,8 +19,7 @@ Attributes
 * `['ssh']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
 * `['ssh']['remote_hosts']` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
 
-Data Bags
-=========
+## Data Bags
 
 This cookbook handles authorized keys for the root user. Use other cookbooks to set up your users.
 
@@ -50,8 +48,7 @@ You can then access
     ssh root@yourmachines
 
 
-Usage
-=====
+## Usage
 
 Add the recipes to the run_list:
     
@@ -71,9 +68,9 @@ Configure attributes:
 Under `listen` you can define a number of accept-rules, comprised of at least the field `proto`, which designates one or more protocols/services. `to` and `from` may take one or more ip addresses (including bitmasks) upon which the rule will act.
 
 
-Contributors + Kudos
-====================
+## Contributors + Kudos
 
+* Dominik Richter
 * Christoph Hartmann
 * Patrick Meier
 * Bernhard K. Weisshuhn
@@ -81,16 +78,15 @@ Contributors + Kudos
 This cookbook is mostly based on guides by:
 
 * [NSA: Guide to the Secure Configuration of Red Hat Enterprise Linux 5](http://www.nsa.gov/ia/_files/os/redhat/rhel5-pamphlet-i731.pdf)
-* Deutsche Telekom, Group IT Security, Security Requirements (not publicly available)
+* [Deutsche Telekom, Group IT Security, Security Requirements (German)](http://www.telekom.com/static/-/155996/7/technische-sicherheitsanforderungen-si)
 
 Thanks to all of you!!
 
 
-License and Author
-==================
+## License and Author
 
-Author:: Dominik Richter <dominik.richter@googlemail.com>
-Author:: Deutsche Telekom AG
+* Author:: Dominik Richter <dominik.richter@googlemail.com>
+* Author:: Deutsche Telekom AG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
