@@ -41,4 +41,3 @@ suites:
 - name: default
   run_list:
     - role[ssh]
-
