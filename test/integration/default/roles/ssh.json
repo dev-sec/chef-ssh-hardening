@@ -5,7 +5,9 @@
     "json_class": "Chef::Role",
     "description": "Centos Security Role",
     "chef_type": "role",
-    "default_attributes" : {
+    "default_attributes" : { "ssh" : {
+        "listen_to" : "192.168.251.102"
+        }
     },
     "run_list": [
         "recipe[chef-solo-search]",
