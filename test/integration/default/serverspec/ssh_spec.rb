@@ -50,9 +50,9 @@ describe 'check sshd_config' do
         its(:content) { should match /^ListenAddress*/}
     end
 
-    #describe file('/etc/ssh/sshd_config') do
-    #    its(:content) { should match /^HostKey*/}
-    #end
+    describe file('/etc/ssh/sshd_config') do
+        its(:content) { should match /^HostKey*/}
+    end
 
     describe file('/etc/ssh/sshd_config') do
         its(:content) { should match /^Protocol 2$/}
