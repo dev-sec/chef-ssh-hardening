@@ -67,6 +67,27 @@ Configure attributes:
 
 Under `listen` you can define a number of accept-rules, comprised of at least the field `proto`, which designates one or more protocols/services. `to` and `from` may take one or more ip addresses (including bitmasks) upon which the rule will act.
 
+## Local Testing
+
+For local testing you can use vagrant and Virtualbox of VMWare to run tests locally. You will have to install Virtualbox and Vagrant on your system. See [Vagrant Downloads](http://downloads.vagrantup.com/) for a vagrant package suitable for your system. For all our tests we use `test-kitchen`. If you are not familiar with `test-kitchen` please have a look at [their guide](http://kitchen.ci/docs/getting-started).
+
+Next install test-kitchen:
+
+    gem install test-kitchen kitchen-vagrant
+
+Next install berkshelf for dependency management
+
+    gem install berkshelf
+
+Create a local kitchen configuration:
+
+    cp .kitchen.local.yml{.example,}
+
+You should now be able to run tests:
+
+    kitchen test
+
+http://kitchen.ci/docs/getting-started
 
 ## Contributors + Kudos
 
