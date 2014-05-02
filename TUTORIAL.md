@@ -18,45 +18,49 @@
 
 4. Download the chef cookbook
 
-        git clone ......./chef-os-hardening
+        git clone https://github.com/TelekomLabs/chef-ssh-hardening.git
 
 5. Move hardening to `cookbooks`
 
         mkdir cookbooks
-        mv chef-os-hardening cookbooks/os-hardening
+        mv chef-ssh-hardening cookbooks/ssh-hardening
 
 6. Download some dependences for the os-hardening cookbook
 
         cd cookbooks
-        git clone https://github.com/onehealth-cookbooks/sysctl
-        git clone https://github.com/opscode-cookbooks/apt.git
-        git clone https://github.com/gmiranda23/ntp.git
-        git clone https://github.com/opscode-cookbooks/yum.git
+        git clone https://github.com/edelight/chef-solo-search
         cd ..
 
-7. Create `solo.rb`
+7. Add a public key to the root user `data_bags/users/root.json`
 
-    This file is used to specify the configuration details for chef-solo. So create a `solo.rb` that include the `cookbook_path`.
+        {
+          "id" : "root",
+          "ssh_rootkeys" : "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key"
+        }
+
+8. Create `solo.rb`
+
+    This file is used to specify the configuration details for chef-solo. So create a `solo.rb` that include the `cookbook_path` and the `data_bags`.
 
         cookbook_path "cookbooks"
+        data_bag_path "data_bags
 
-8. Create `solo.json`
+9. Create `solo.json`
 
     Chef-solo does not interact with the Chef Server. Consequently, node-specific attributes must be located in a JSON file on the target system. Create the following `solo.json`.
 
         {
-            "security" : {"suid_sgid": {
-                "remove_from_unkown" : true,
-                "system_whitelist" : []
-                }
-            },
+
+            "ssh" : {
+                "listen_to" : "10.0.2.15"
+           },
             "run_list":[
-                "recipe[os-hardening]"
+                "recipe[chef-solo-search]",
+                "recipe[ssh-hardening::server]"
             ]
         }
 
-
-9. Run chef-solo
+10. Run chef-solo
 
         chef-solo -c solo.rb -j solo.json
 
