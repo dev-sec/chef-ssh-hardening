@@ -32,7 +32,7 @@ describe 'SSH owner, group and permissions' do
 
 end
 
-describe 'sshd_config' do
+describe 'check sshd_config' do
 
     describe file('/etc/ssh/sshd_config') do
         its(:content) { should match /^PermitRootLogin no$|^PermitRootLogin without-password$/}
@@ -79,7 +79,7 @@ describe 'sshd_config' do
     end
 
     describe file('/etc/ssh/sshd_config') do
-        its(:content) { should match /^(KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1)|(KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1)$/}
+        its(:content) { should match /^KexAlgorithms (diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1)|(diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1)$/}
     end
 
     describe file('/etc/ssh/sshd_config') do
@@ -292,6 +292,102 @@ describe 'sshd_config' do
 
     describe file('/etc/ssh/sshd_config') do
         its(:content) { should match /^#X11Forwarding no$/}
+    end
+
+end
+
+describe 'check ssh_config' do
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^AddressFamily inet|any$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^Host/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^Port [0-9]?/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^Protocol 2$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^BatchMode no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^CheckHostIP yes$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^StrictHostKeyChecking ask$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^Ciphers (aes128-ctr,aes256-ctr,aes192-ctr)|(aes128-ctr,aes256-ctr,aes192-ctr,aes128-cbc,aes256-cbc,aes192-cbc)$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^MACs (hmac-sha2-256,hmac-sha2-512,hmac-ripemd160)|(hmac-sha2-256,hmac-sha2-512,hmac-ripemd160,hmac-sha1)|(hmac-ripemd160$)/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^KexAlgorithms (ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256)|(ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1)$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^ForwardAgent no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^ForwardX11 no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^HostbasedAuthentication no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^RhostsRSAAuthentication no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^RSAAuthentication yes$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^PasswordAuthentication no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^GSSAPIAuthentication no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^GSSAPIDelegateCredentials no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^Tunnel no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^PermitLocalCommand no$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^Compression yes$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^#EscapeChar ~$/}
+    end
+
+    describe file('/etc/ssh/ssh_config') do
+        its(:content) { should match /^#VisualHostKey yes$/}
     end
 
 end
