@@ -65,7 +65,7 @@ Configure attributes:
       "listen_to" : "10.2.3.4"
     }
 
-Under `listen` you can define a number of accept-rules, comprised of at least the field `proto`, which designates one or more protocols/services. `to` and `from` may take one or more ip addresses (including bitmasks) upon which the rule will act. **The default value for `listen_to` is `0.0.0.0`. It is highly recommended to change the value.**
+**The default value for `listen_to` is `0.0.0.0`. It is highly recommended to change the value.**
 
 ## Local Testing
 
