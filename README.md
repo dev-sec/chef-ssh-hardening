@@ -103,6 +103,9 @@ This cookbook is mostly based on guides by:
 
 Thanks to all of you!!
 
+## Contributing
+
+See [contributor guideline](CONTRIBUTING.md).
 
 ## License and Author
 
