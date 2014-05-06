@@ -71,7 +71,7 @@ describe 'check sshd_config' do
     end
 
     describe file('/etc/ssh/sshd_config') do
-        its(:content) { should match /^Ciphers (aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes128-ctr,aes256-ctr,aes192-ctr)|(aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes128-ctr,aes256-ctr,aes192-ctr,aes128-cbc,aes256-cbc,aes192-cbc)$/}
+        its(:content) { should match /^Ciphers (aes128-ctr,aes256-ctr,aes192-ctr)|(aes128-ctr,aes256-ctr,aes192-ctr,aes128-cbc,aes256-cbc,aes192-cbc)$/}
     end
 
     describe file('/etc/ssh/sshd_config') do
