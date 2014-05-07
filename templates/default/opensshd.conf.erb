@@ -58,7 +58,7 @@ LogLevel VERBOSE
 # eg ruby Net::SSH::Transport::CipherFactory requires cbc-versions of the given openssh ciphers to work
 # -- see: (http://net-ssh.github.com/net-ssh/classes/Net/SSH/Transport/CipherFactory.html)
 # 
-Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes128-ctr,aes256-ctr,aes192-ctr<% if @node['ssh']['cbc_required'] == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
+Ciphers aes128-ctr,aes256-ctr,aes192-ctr<% if @node['ssh']['cbc_required'] == true %>,aes128-cbc,aes256-cbc,aes192-cbc<% end %>
 
 # **Hash algorithms** -- Make sure not to use SHA1 for hashing, unless it is really necessary.
 # Weak HMAC is sometimes required if older package versions are used 
