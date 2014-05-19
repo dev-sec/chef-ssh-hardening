@@ -5,6 +5,7 @@ driver:
 
 provisioner:
   name: chef_solo
+  test_repo_uri: "https://github.com/TelekomLabs/tests-ssh-hardening.git"
 
 platforms:
 - name: ubuntu-12.04
@@ -40,4 +41,4 @@ platforms:
 suites:
 - name: default
   run_list:
-    - role[ssh]
+    - ['recipe[ssh-hardening]','recipe[chef-solo-search]']
