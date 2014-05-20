@@ -17,7 +17,7 @@ See reference documentation [here](http://www.telekom.com/static/-/155996/7/tech
 | 3.04-6      | active by default                                         |
 | 3.04-7      | active by default                                         |
 | 3.04-8      | active by default                                         |
-| 3.04-9      | ToDO                                                      |
+| 3.04-9      | active by default                                         |
 | 3.04-10     | active by default                                         |
 | 3.04-11     |                                                           |
 | 3.04-12     | active by default                                         |
