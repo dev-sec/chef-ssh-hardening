@@ -140,7 +140,11 @@ PermitTunnel no
 
 # Disable forwarding tcp connections.
 # no real advantage without denied shell access
+<% if @node['ssh']['allow_tcp_forwarding'] %>
 AllowTcpForwarding yes
+<% else %>
+AllowTcpForwarding no
+<% end %>
 
 # Disable agent formwarding, since local agent could be accessed through forwarded connection.
 # no real advantage without denied shell access
