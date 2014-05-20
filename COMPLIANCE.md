@@ -14,7 +14,7 @@ See reference documentation [here](http://www.telekom.com/static/-/155996/7/tech
 | 3.04-3      | `['ssh']['listen_to'] = <ip-address>`                     |
 | 3.04-4      |                                                           |
 | 3.04-5      |                                                           |
-| 3.04-6      | ToDo                                                      |
+| 3.04-6      | active by default                                         |
 | 3.04-7      | active by default                                         |
 | 3.04-8      | active by default                                         |
 | 3.04-9      | ToDO                                                      |
