@@ -61,7 +61,7 @@ template '/root/.ssh/authorized_keys' do
   variables(
     :keys => keys
   )
-  only_if{ not keys.empty? }
+  only_if { !keys.empty? }
 end
 
 execute 'unlock root account if it is locked' do
