@@ -19,7 +19,7 @@
 
 # Define the client package name
 case platform
-when "redhat", "centos", "fedora", "amazon", "oracle"
+when "redhat", "centos", "fedora", "amazon", "oracle", "scientific"
     default['sslclient']['package'] = "openssh-clients"
 when "debian", "ubuntu"
     default['sslclient']['package'] = "openssh-client"
