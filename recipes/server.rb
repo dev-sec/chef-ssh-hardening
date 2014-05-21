@@ -18,22 +18,22 @@
 # limitations under the License.
 #
 
-package "openssh-server" do
+package 'openssh-server' do
   package_name node['sslserver']['package']
 end
 
-directory "/etc/ssh" do
+directory '/etc/ssh' do
   mode 0555
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
   action :create
 end
 
-template "/etc/ssh/sshd_config" do
-  source "opensshd.conf.erb"
+template '/etc/ssh/sshd_config' do
+  source 'opensshd.conf.erb'
   mode 0400
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
 end
 
 def get_key_from field
@@ -44,27 +44,27 @@ def get_key_from field
 end
 
 keys = get_key_from('ssh_rootkey') + get_key_from('ssh_rootkeys')
-Chef::Log.info "ssh_server: not setting up any ssh keys" if keys.empty?
+Chef::Log.info 'ssh_server: not setting up any ssh keys' if keys.empty?
 
-directory "/root/.ssh" do
+directory '/root/.ssh' do
   mode 0500
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
   action :create
 end
 
-template "/root/.ssh/authorized_keys" do
-  source "authorized_keys.erb"
+template '/root/.ssh/authorized_keys' do
+  source 'authorized_keys.erb'
   mode 0400
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
   variables(
     :keys => keys
   )
   only_if{ not keys.empty? }
 end
 
-execute "unlock root account if it is locked" do
+execute 'unlock root account if it is locked' do
   command "sed 's/^root:\!/root:*/' /etc/shadow -i"
   only_if{ node['ssh']['allow_root_with_key'] }
 end
