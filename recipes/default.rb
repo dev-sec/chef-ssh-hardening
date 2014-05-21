@@ -18,5 +18,5 @@
 # limitations under the License.
 #
 
-include_recipe "ssh-hardening::server"
-include_recipe "ssh-hardening::client"
+include_recipe 'ssh-hardening::server'
+include_recipe 'ssh-hardening::client'

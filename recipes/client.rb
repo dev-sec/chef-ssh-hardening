@@ -18,20 +18,20 @@
 # limitations under the License.
 #
 
-package "openssh-client" do
+package 'openssh-client' do
   package_name node['sslclient']['package']
 end
 
-directory "/etc/ssh" do
+directory '/etc/ssh' do
   mode 0555
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
   action :create
 end
 
-template "/etc/ssh/ssh_config" do
-  source "openssh.conf.erb"
+template '/etc/ssh/ssh_config' do
+  source 'openssh.conf.erb'
   mode 0444
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
 end
