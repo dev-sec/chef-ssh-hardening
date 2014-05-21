@@ -36,8 +36,8 @@ template '/etc/ssh/sshd_config' do
   group 'root'
 end
 
-def get_key_from field
-  search("users","#{field}:*").map do |v| # ~FC003 ignore footcritic violation
+def get_key_from(field)
+  search('users', "#{field}:*").map do |v| # ~FC003 ignore footcritic violation
     Chef::Log.info "ssh_server: installing ssh-keys for root access of user #{v['id']}"
     v[field]
   end.flatten
