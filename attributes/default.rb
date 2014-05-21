@@ -20,13 +20,13 @@
 # Define the client package name
 case platform
 when 'redhat', 'centos', 'fedora', 'amazon', 'oracle', 'scientific'
-    default['sslclient']['package'] = 'openssh-clients'
+  default['sslclient']['package'] = 'openssh-clients'
 when 'debian', 'ubuntu'
-    default['sslclient']['package'] = 'openssh-client'
+  default['sslclient']['package'] = 'openssh-client'
 when 'arch'
-    default['sslclient']['package'] = 'openssh'
+  default['sslclient']['package'] = 'openssh'
 else
-    default['sslclient']['package'] = 'openssh-client'
+  default['sslclient']['package'] = 'openssh-client'
 end
 
 # Define the server package name
