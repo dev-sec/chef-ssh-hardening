@@ -2,6 +2,7 @@ AllCops:
   Excludes:
     - vendor/**
     - metadata.rb
+    - test/integration/**
 
 AlignParameters:
   Enabled: false
