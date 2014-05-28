@@ -47,7 +47,7 @@ Example for `data_bags/users/dada.json`
 
 You can then access
 
-    ssh root@yourmachines
+    ssh dada@yourmachines
 
 
 ## Usage
