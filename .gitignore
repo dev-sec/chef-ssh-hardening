@@ -4,3 +4,5 @@ shared_test_repo/
 test/integration
 .kitchen
 
+Gemfile.lock
+Berksfile.lock
