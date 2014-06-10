@@ -1,3 +1,4 @@
+# encoding: utf-8
 #
 # Cookbook Name:: ssh-hardening
 # Recipe:: ssh_server.rb
@@ -59,7 +60,7 @@ template '/root/.ssh/authorized_keys' do
   owner 'root'
   group 'root'
   variables(
-    :keys => keys
+    keys: keys
   )
   only_if { !keys.empty? }
 end
