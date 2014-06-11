@@ -46,3 +46,4 @@ default['ssh']['remote_hosts']            = []     # ssh
 default['ssh']['allow_root_with_key']     = false   # sshd
 default['ssh']['allow_tcp_forwarding']    = false   # sshd
 default['ssh']['allow_agent_forwarding']  = false   # sshd
+default['ssh']['use_pam']                 = false   # sshd

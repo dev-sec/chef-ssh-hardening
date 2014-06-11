@@ -103,7 +103,7 @@ RhostsRSAAuthentication no
 HostbasedAuthentication no
 
 # Enable PAM to enforce system wide rules
-UsePAM yes
+UsePAM <%= ((@node['ssh']['use_pam']) ? "yes" : "no" ) %>
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
 PasswordAuthentication no
 PermitEmptyPasswords no
