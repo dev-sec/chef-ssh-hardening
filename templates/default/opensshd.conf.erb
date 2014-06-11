@@ -102,8 +102,9 @@ IgnoreUserKnownHosts yes
 RhostsRSAAuthentication no
 HostbasedAuthentication no
 
+# Enable PAM to enforce system wide rules
+UsePAM yes
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
-UsePAM no
 PasswordAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
