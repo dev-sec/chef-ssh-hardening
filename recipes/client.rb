@@ -24,7 +24,7 @@ package 'openssh-client' do
 end
 
 directory '/etc/ssh' do
-  mode 0555
+  mode 0755
   owner 'root'
   group 'root'
   action :create
@@ -32,7 +32,7 @@ end
 
 template '/etc/ssh/ssh_config' do
   source 'openssh.conf.erb'
-  mode 0444
+  mode 0644
   owner 'root'
   group 'root'
 end
