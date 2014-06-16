@@ -20,7 +20,7 @@
 #
 
 package 'openssh-client' do
-  package_name node['sslclient']['package']
+  package_name node['sshclient']['package']
 end
 
 directory '/etc/ssh' do
