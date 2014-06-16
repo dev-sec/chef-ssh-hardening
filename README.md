@@ -75,21 +75,22 @@ For local testing you can use vagrant and Virtualbox of VMWare to run tests loca
 
 Next install test-kitchen:
 
-    gem install test-kitchen kitchen-vagrant
+```bash
+gem install bundler
+bundle install
 
-Next install berkshelf for dependency management
+# Do lint checks
+bundle exec rake lint
 
-    gem install berkshelf
+# Fetch tests
+thor kitchen:fetch-remote-tests
 
-Create a local kitchen configuration:
+# Kitchen test
+bundle exec kitchen list
+bundle exec kitchen test default-ubuntu-1204
+```
 
-    cp .kitchen.local.yml{.example,}
-
-You should now be able to run tests:
-
-    kitchen test
-
-http://kitchen.ci/docs/getting-started
+For more information see [test-kitchen](http://kitchen.ci/docs/getting-started)
 
 ## Contributors + Kudos
 
