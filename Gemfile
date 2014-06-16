@@ -21,3 +21,7 @@ group :integration do
   gem 'kitchen-vagrant'
   gem 'kitchen-sharedtests', '~> 0.2.0'
 end
+
+group :openstack do
+  gem 'kitchen-openstack'
+end
