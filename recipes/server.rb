@@ -35,6 +35,11 @@ template '/etc/ssh/sshd_config' do
   mode 0600
   owner 'root'
   group 'root'
+  variables(
+    :mac => SshMac.getMacs(node, node['ssh']['weak_hmac']),
+    :kex => SshKex.getKexs(node, node['ssh']['weak_kex']),
+    :cipher => SshCipher.getCiphers(node, node['ssh']['cbc_required'])
+  )
 end
 
 def get_key_from(field)

@@ -35,4 +35,9 @@ template '/etc/ssh/ssh_config' do
   mode 0644
   owner 'root'
   group 'root'
+  variables(
+    :mac => SshMac.getMacs(node, node['ssh']['weak_hmac']),
+    :kex => SshKex.getKexs(node, node['ssh']['weak_kex']),
+    :cipher => SshCipher.getCiphers(node, node['ssh']['cbc_required'])
+  )
 end
