@@ -20,3 +20,5 @@ MethodLength:
   Max: 30
 NumericLiterals:
   MinDigits: 10
+Style/CyclomaticComplexity:
+  Max: 10
