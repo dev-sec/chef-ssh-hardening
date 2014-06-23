@@ -20,36 +20,38 @@
 # limitations under the License.
 #
 
-class Chef::Recipe::SshKex
-  def self.getKexs(node, weak_kex)
+class Chef
+  class Recipe
+    class SshKex
+      def self.get_kexs(node, weak_kex)
+        weak_kex = weak_kex ? 'weak' : 'default'
 
-    weak_kex = weak_kex ? 'weak' : 'default'
+        kex_59 = {}
+        kex_59.default = 'diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1'
+        kex_59['weak'] = kex_59['default'] + ',diffie-hellman-group1-sha1'
 
-    kex_59 = {}
-    kex_59.default = 'diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1'
-    kex_59['weak'] = kex_59['default'] + ',diffie-hellman-group1-sha1'
+        kex_66 = {}
+        kex_66.default = 'curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1'
+        kex_66['weak'] = kex_66['default'] + ',diffie-hellman-group1-sha1'
 
-    kex_66 = {}
-    kex_66.default = 'curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1'
-    kex_66['weak'] = kex_66['default'] + ',diffie-hellman-group1-sha1'
+        # determine the kex for the operating system
+        kex = kex_59
 
-    # determine the kex for the operating system
-    kex = kex_59
+        # use newer kex on ubuntu 14.04
+        if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
+          Chef::Log.info('Detected Ubuntu 14.04 or newer, use new key exchange algorithms')
+          kex = kex_66
 
-    # use newer kex on ubuntu 14.04
-    if (node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04)
-      Chef::Log.info('Detected Ubuntu 14.04 or newer, use new key exchange algorithms')
-      kex = kex_66
+        # deactivate kex on redhat
+        elsif node['platform_family'] == 'rhel'
+          kex = {}
+          kex.default = nil
+          kex['weak'] = nil
+        end
+
+        Chef::Log.info("Choose kex: #{kex[weak_kex]}")
+        kex[weak_kex]
+      end
     end
-
-    # deactivate kex on redhat
-    if (node['platform_family'] == 'rhel')
-      kex = {}
-      kex.default = nil
-      kex['weak'] = nil
-    end
-
-    Chef::Log.info("Choose kex: #{kex[weak_kex]}")
-    kex[weak_kex]
   end
 end
