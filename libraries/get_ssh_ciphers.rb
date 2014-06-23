@@ -20,30 +20,33 @@
 # limitations under the License.
 #
 
-class Chef::Recipe::SshCipher
-  def self.getCiphers(node, cbc_required)
+class Chef
+  class Recipe
+    class SshCipher
+      def self.get_ciphers(node, cbc_required)
+        weak_ciphers = cbc_required ? 'weak' : 'default'
 
-    weak_ciphers = cbc_required ? 'weak' : 'default'
+        # define cipher set
+        ciphers_53 = {}
+        ciphers_53.default = 'aes256-ctr,aes192-ctr,aes128-ctr'
+        ciphers_53['weak'] = ciphers_53['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
 
-    # define cipher set
-    ciphers_53 = {}
-    ciphers_53.default = 'aes256-ctr,aes192-ctr,aes128-ctr'
-    ciphers_53['weak'] = ciphers_53['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
+        ciphers_66 = {}
+        ciphers_66.default = 'chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
+        ciphers_66['weak'] = ciphers_66['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
 
-    ciphers_66 = {}
-    ciphers_66.default = 'chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
-    ciphers_66['weak'] = ciphers_66['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
+        # determine the cipher for the operating system
+        cipher = ciphers_53
 
-    # determine the cipher for the operating system
-    cipher = ciphers_53
+        # use newer ciphers on ubuntu
+        if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
+          Chef::Log.info('Detected Ubuntu 14.04 or newer, use new ciphers')
+          cipher = ciphers_66
+        end
 
-    # use newer ciphers on ubuntu
-    if (node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04)
-      Chef::Log.info('Detected Ubuntu 14.04 or newer, use new ciphers')
-      cipher = ciphers_66
+        Chef::Log.info("Choose cipher: #{cipher[weak_ciphers]}")
+        cipher[weak_ciphers]
+      end
     end
-
-    Chef::Log.info("Choose cipher: #{cipher[weak_ciphers]}")
-    cipher[weak_ciphers]
   end
 end

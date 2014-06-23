@@ -36,8 +36,8 @@ template '/etc/ssh/ssh_config' do
   owner 'root'
   group 'root'
   variables(
-    :mac => SshMac.getMacs(node, node['ssh']['weak_hmac']),
-    :kex => SshKex.getKexs(node, node['ssh']['weak_kex']),
-    :cipher => SshCipher.getCiphers(node, node['ssh']['cbc_required'])
+    mac: SshMac.get_macs(node, node['ssh']['weak_hmac']),
+    kex: SshKex.get_kexs(node, node['ssh']['weak_kex']),
+    cipher: SshCipher.get_ciphers(node, node['ssh']['cbc_required'])
   )
 end
