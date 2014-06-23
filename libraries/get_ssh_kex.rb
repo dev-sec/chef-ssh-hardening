@@ -42,6 +42,13 @@ class Chef::Recipe::SshKex
       kex = kex_66
     end
 
+    # deactivate kex on redhat
+    if (node['platform_family'] == 'rhel')
+      kex = {}
+      kex.default = nil
+      kex['weak'] = nil
+    end
+
     Chef::Log.info("Choose kex: #{kex[weak_kex]}")
     kex[weak_kex]
   end
