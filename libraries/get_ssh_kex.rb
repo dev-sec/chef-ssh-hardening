@@ -46,7 +46,6 @@ class Chef
         elsif node['platform_family'] == 'rhel'
           kex = {}
           kex.default = nil
-        end
 
         # deactivate kex on debian 6
         elsif node['platform'] == 'debian' && node['platform_version'].to_f <= 6
