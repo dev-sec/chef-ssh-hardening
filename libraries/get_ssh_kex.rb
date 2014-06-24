@@ -46,7 +46,6 @@ class Chef
         elsif node['platform_family'] == 'rhel'
           kex = {}
           kex.default = nil
-          kex['weak'] = nil
         end
 
         # deactivate kex on debian 6
@@ -54,7 +53,6 @@ class Chef
           Chef::Log.info('Detected Debian 6 or earlier, disable KEX')
           kex = {}
           kex.default = nil
-          kex['weak'] = nil
         end
 
         Chef::Log.info("Choose kex: #{kex[weak_kex]}")
