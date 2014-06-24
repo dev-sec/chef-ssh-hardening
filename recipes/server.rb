@@ -24,7 +24,7 @@ package 'openssh-server' do
 end
 
 directory '/etc/ssh' do
-  mode 0555
+  mode 0755
   owner 'root'
   group 'root'
   action :create
@@ -32,9 +32,14 @@ end
 
 template '/etc/ssh/sshd_config' do
   source 'opensshd.conf.erb'
-  mode 0400
+  mode 0600
   owner 'root'
   group 'root'
+  variables(
+    mac: SshMac.get_macs(node, node['ssh']['weak_hmac']),
+    kex: SshKex.get_kexs(node, node['ssh']['weak_kex']),
+    cipher: SshCipher.get_ciphers(node, node['ssh']['cbc_required'])
+  )
 end
 
 def get_key_from(field)
