@@ -19,8 +19,36 @@
 # limitations under the License.
 #
 
+# installs package name
 package 'openssh-server' do
   package_name node['sshserver']['package']
+end
+
+# defines the sshd service
+service 'sshd' do
+  # use upstart for ubuntu, otherwise chef uses init
+  # @see http://docs.opscode.com/resource_service.html#providers
+  case node["platform"]
+  when "ubuntu"
+    if node["platform_version"].to_f >= 12.04
+      provider Chef::Provider::Service::Upstart
+    end
+  end
+  service_name node['sshserver']['service_name']
+  supports value_for_platform(
+    'centos' => { 'default' => [:restart, :reload, :status] },
+    'redhat' => { 'default' => [:restart, :reload, :status] },
+    'fedora' => { 'default' => [:restart, :reload, :status] },
+    'scientific' => { 'default' => [:restart, :reload, :status] },
+    'arch' => { 'default' => [:restart] },
+    'debian' => { 'default' => [:restart, :reload, :status] },
+    'ubuntu' => {
+      '8.04' => [:restart, :reload],
+      'default' => [:restart, :reload, :status]
+    },
+    'default' => { 'default' => [:restart, :reload] }
+  )
+  action [:enable, :start]
 end
 
 directory '/etc/ssh' do
@@ -40,6 +68,7 @@ template '/etc/ssh/sshd_config' do
     kex: SshKex.get_kexs(node, node['ssh']['weak_kex']),
     cipher: SshCipher.get_ciphers(node, node['ssh']['cbc_required'])
   )
+  notifies :restart, 'service[sshd]'
 end
 
 def get_key_from(field)
