@@ -28,9 +28,9 @@ end
 service 'sshd' do
   # use upstart for ubuntu, otherwise chef uses init
   # @see http://docs.opscode.com/resource_service.html#providers
-  case node["platform"]
-  when "ubuntu"
-    if node["platform_version"].to_f >= 12.04
+  case node['platform']
+  when 'ubuntu'
+    if node['platform_version'].to_f >= 12.04
       provider Chef::Provider::Service::Upstart
     end
   end
