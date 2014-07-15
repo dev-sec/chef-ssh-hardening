@@ -20,6 +20,7 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['remote_hosts']` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
 * `['ssh']['allow_tcp_forwarding']` - `false` to disable TCP Forwarding. Set to `true` to allow TCP Forwarding
 * `['ssh']['allow_agent_forwarding']` - `false` to disable Agent Forwarding. Set to `true` to allow Agent Forwarding
+* `['ssh']['use_pam']` - `false` to disable pam authentication
 
 ## Data Bags
 
