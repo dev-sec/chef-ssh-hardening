@@ -31,7 +31,12 @@ platforms:
 - name: oracle-6.4
   driver_config:
     box: oracle-6.4
-    box_url: https://dl.dropbox.com/sh/yim9oyqajopoiqs/G-XIEmQJMb/oracle64-64.box
+    box_url: https://storage.us2.oraclecloud.com/v1/istoilis-istoilis/vagrant/oel64-64.box
+
+- name: oracle-6.5
+  driver_config:
+    box: oracle-6.5
+    box_url: https://storage.us2.oraclecloud.com/v1/istoilis-istoilis/vagrant/oel65-64.box
 
 - name: debian-6
   driver_config:
