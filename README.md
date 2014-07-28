@@ -77,6 +77,7 @@ For local testing you can use vagrant and Virtualbox of VMWare to run tests loca
 Next install test-kitchen:
 
 ```bash
+# Install dependencies
 gem install bundler
 bundle install
 
