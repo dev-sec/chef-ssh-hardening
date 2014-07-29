@@ -112,6 +112,15 @@ The proper way to solve this is to unlock the account (`passwd -u myuser`). If t
 
 Alternatively, if you intend to use PAM, you enabled it via `['ssh']['use_pam'] = true`. PAM will allow locked users to get in with keys.
 
+
+**Why doesn't my application connect via SSH anymore?**
+
+Always look into log files first and if possible look at the negotation between client and server that is completed when connecting.
+
+We have seen some issues in applications (based on python and ruby) that are due to their use of an outdated crypto set. This collides with this hardening module, which reduced the list of ciphers, message authentication codes (MACs) and key exchange (KEX) algorithms to a more secure selection.
+
+If you find this isn't enough, feel free to activate `['ssh']['cbc_required']` for ciphers, `['ssh']['weak_hmac']` for MACs, and `['ssh']['weak_kex']` for KEX.
+
 ## Contributors + Kudos
 
 * Dominik Richter
