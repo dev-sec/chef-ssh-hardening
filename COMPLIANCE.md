@@ -8,7 +8,7 @@ See reference documentation [here](http://www.telekom.com/static/-/155996/7/tech
 #### 3.04 Unix Requirements v1.0
 
 | Requirement |                       Configuration                       |
-+-------------+-----------------------------------------------------------+
+|-------------|-----------------------------------------------------------|
 | 3.04-1      | active by default                                         |
 | 3.04-2      | active by default                                         |
 | 3.04-3      | `['ssh']['listen_to'] = <ip-address>`                     |
