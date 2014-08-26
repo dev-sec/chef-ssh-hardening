@@ -85,11 +85,17 @@ bundle install
 bundle exec rake lint
 
 # Fetch tests
-thor kitchen:fetch-remote-tests
+bundle exec thor kitchen:fetch-remote-tests
 
-# Kitchen test
-bundle exec kitchen list
+# fast test on one machine
 bundle exec kitchen test default-ubuntu-1204
+
+# test on all machines
+bundle exec kitchen test
+
+# for development
+bundle exec kitchen create default-ubuntu-1204
+bundle exec kitchen converge default-ubuntu-1204
 ```
 
 For more information see [test-kitchen](http://kitchen.ci/docs/getting-started)
