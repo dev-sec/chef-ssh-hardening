@@ -17,8 +17,10 @@ HashSyntax:
 LineLength:
   Enabled: false
 MethodLength:
-  Max: 30
+  Max: 40
 NumericLiterals:
   MinDigits: 10
 Style/CyclomaticComplexity:
+  Max: 10
+Metrics/PerceivedComplexity:
   Max: 10
