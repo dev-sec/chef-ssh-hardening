@@ -1,9 +1,5 @@
-# encoding: utf-8
+# encoding: UTF-8
 #
-# Cookbook Name:: ssh-hardening
-# Recipe:: client.rb
-#
-# Copyright 2012, Dominik Richter
 # Copyright 2014, Deutsche Telekom AG
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,25 +15,21 @@
 # limitations under the License.
 #
 
-package 'openssh-client' do
-  package_name node['sshclient']['package']
-end
+require_relative '../spec_helper'
 
-directory '/etc/ssh' do
-  mode '0755'
-  owner 'root'
-  group 'root'
-  action :create
-end
+describe 'ssh-hardening::client' do
 
-template '/etc/ssh/ssh_config' do
-  source 'openssh.conf.erb'
-  mode '0644'
-  owner 'root'
-  group 'root'
-  variables(
-    mac: SshMac.get_macs(node, node['ssh']['weak_hmac']),
-    kex: SshKex.get_kexs(node, node['ssh']['weak_kex']),
-    cipher: SshCipher.get_ciphers(node, node['ssh']['cbc_required'])
-  )
+  # converge
+  let(:chef_run) do
+    ChefSpec::Runner.new.converge(described_recipe)
+  end
+
+  it 'creates /etc/ssh/ssh_config' do
+    expect(chef_run).to create_template('/etc/ssh/ssh_config').with(
+      user:   'root',
+      group:  'root',
+      mode: '0644'
+    )
+  end
+
 end
