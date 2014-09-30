@@ -24,7 +24,7 @@ describe 'ssh-hardening::default' do
     ChefSpec::Runner.new.converge(described_recipe)
   end
 
-  # check that the recipres are executed
+  # check that the recipes are executed
   it 'default should include ssh-hardening recipes for server and client' do
     ChefSpec::Server.create_data_bag(
       'users',
