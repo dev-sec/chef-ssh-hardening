@@ -32,12 +32,11 @@ describe 'ssh-hardening::server' do
     expect(chef_run).to install_package('openssh-server')
   end
 
-    expect(chef_run).to create_template('/etc/ssh/sshd_config').with(
-      user:   'root',
-      group:  'root',
-      mode: '0600'
-    )
   it 'creates /etc/ssh/sshd_config' do
+    expect(chef_run).to create_template('/etc/ssh/sshd_config')
+      .with(mode: '0600')
+      .with(owner: 'root')
+      .with(group: 'root')
   end
 
 end
