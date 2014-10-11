@@ -20,7 +20,7 @@ MethodLength:
   Max: 40
 NumericLiterals:
   MinDigits: 10
-Style/CyclomaticComplexity:
+Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
   Max: 10
