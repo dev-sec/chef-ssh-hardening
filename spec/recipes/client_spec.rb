@@ -25,11 +25,10 @@ describe 'ssh-hardening::client' do
   end
 
   it 'creates /etc/ssh/ssh_config' do
-    expect(chef_run).to create_template('/etc/ssh/ssh_config').with(
-      user:   'root',
-      group:  'root',
-      mode: '0644'
-    )
+    expect(chef_run).to create_template('/etc/ssh/ssh_config')
+      .with(owner: 'root')
+      .with(group: 'root')
+      .with(mode: '0644')
   end
 
 end
