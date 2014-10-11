@@ -15,27 +15,26 @@
 # limitations under the License.
 #
 
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe 'ssh-hardening::default' do
 
+  before(:each) do
+    ChefSpec::Server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+  end
+
   # converge
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::Runner.new.converge(described_recipe)
   end
 
   # check that the recipes are executed
-  it 'default should include ssh-hardening recipes for server and client' do
-    ChefSpec::Server.create_data_bag(
-      'users',
-      'root' => {
-        'id' => 'root',
-        'ssh_rootkeys' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDSBlQNUoWqzhOcsyJczKWtA8b2iSKYPl+KcuHlFmrroA6OVu5LrwS3PTy5Ff4d7B4KW0A85StqwtGv9GGnTdI2urCl4eS4PUJifV1pTBh9BWMyStnZoXEy+com5YLcmMBcuDZAwfI9OnPAbfozA1/WB5CP+eXeVuniLoL90U2+xc3KjRyfvCSnK2e6v5K7lYbvmGKUBskG0EYtpX6i9/oiCvaVFLKE5s/Xk9NGjuz0QQPylFFZ9npqKzqmfotEAMbDQxMrNV2ML//9ezVVFWBjI+zyty5QYmhr/bnY7vSqNpGw+czSTGvu3w0z9i2hnVle2WeW0TCkLUNqcu32LM7BCDpXhcsWAGL/ARp0ls8YfPk4nx6mb2Kz877AzhsX0QsiGFtgbcKPMHwdkfeHkBpcEI0X3H9pfA5V9mIqrIZ3bfcV7U0fuwqgAzvfoZYBbBkYiwOhJleW4zg7vIRbFCr5hH7zJmu0fId8ceCnPqX5tXN6qupf/FODaSox/PV/RiMrBHFV2U4/hy8DRKWfifccH9YwwXvl6mLkwz0kbRc6fOf+zdkUS31ip9trUQNjjg2AweNKpG3hN8PAGeGIiEjHlrhRJ4jKJvc4LxupDkuZlBgiNBUxJwf4EYhDC81vqfKgSil9GfTncEW9I/P5rE1qRFtcfdwJFrU4i8/kHN2u8Q== root@bt'
-      }
-    )
+  it 'includes server recipe' do
+    expect(chef_run).to include_recipe('ssh-hardening::server')
+  end
 
-    chef_run.should include_recipe 'ssh-hardening::server'
-    chef_run.should include_recipe 'ssh-hardening::client'
+  it 'includes client recipe' do
+    expect(chef_run).to include_recipe('ssh-hardening::client')
   end
 
 end

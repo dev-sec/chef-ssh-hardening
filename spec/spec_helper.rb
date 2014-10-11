@@ -17,7 +17,8 @@
 
 require 'chefspec'
 require 'chefspec/berkshelf'
+require 'chefspec/cacher'
 require 'chefspec/server'
 
 # coverage report
-ChefSpec::Coverage.start!
+at_exit { ChefSpec::Coverage.report! }
