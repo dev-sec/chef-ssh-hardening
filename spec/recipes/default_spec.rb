@@ -20,7 +20,7 @@ require_relative '../spec_helper'
 describe 'ssh-hardening::default' do
 
   # converge
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::Runner.new.converge(described_recipe)
   end
 
