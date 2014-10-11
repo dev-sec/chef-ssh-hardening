@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Cookbook Name:: ssh-hardening
-# Recipe:: ssh_client.rb
+# Recipe:: client.rb
 #
 # Copyright 2012, Dominik Richter
 # Copyright 2014, Deutsche Telekom AG
