@@ -4,11 +4,14 @@ source 'https://rubygems.org'
 
 gem 'berkshelf',  '~> 3.0'
 gem 'chef',       '~> 11.12'
-gem 'chefspec',   '~> 3.4'
-gem 'foodcritic', '~> 3.0'
-gem 'thor-foodcritic'
-gem 'rake'
-gem 'rubocop',    '~> 0.26.1'
+
+group :test do
+  gem 'rake'
+  gem 'chefspec', '~> 4.0'
+  gem 'foodcritic', '~> 3.0'
+  gem 'thor-foodcritic'
+  gem 'rubocop',    '~> 0.26.1'
+end
 
 group :development do
   gem 'guard'

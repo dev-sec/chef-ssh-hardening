@@ -52,7 +52,7 @@ service 'sshd' do
 end
 
 directory '/etc/ssh' do
-  mode 0755
+  mode '0755'
   owner 'root'
   group 'root'
   action :create
@@ -60,7 +60,7 @@ end
 
 template '/etc/ssh/sshd_config' do
   source 'opensshd.conf.erb'
-  mode 0600
+  mode '0600'
   owner 'root'
   group 'root'
   variables(
@@ -82,7 +82,7 @@ keys = get_key_from('ssh_rootkey') + get_key_from('ssh_rootkeys')
 Chef::Log.info 'ssh_server: not setting up any ssh keys' if keys.empty?
 
 directory '/root/.ssh' do
-  mode 0500
+  mode '0500'
   owner 'root'
   group 'root'
   action :create
@@ -90,7 +90,7 @@ end
 
 template '/root/.ssh/authorized_keys' do
   source 'authorized_keys.erb'
-  mode 0400
+  mode '0400'
   owner 'root'
   group 'root'
   variables(

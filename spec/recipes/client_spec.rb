@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: UTF-8
 #
 # Copyright 2014, Deutsche Telekom AG
 #
@@ -15,9 +15,21 @@
 # limitations under the License.
 #
 
-require 'chefspec'
-require 'chefspec/berkshelf'
-require 'chefspec/server'
+require_relative '../spec_helper'
 
-# coverage report
-ChefSpec::Coverage.start!
+describe 'ssh-hardening::client' do
+
+  # converge
+  let(:chef_run) do
+    ChefSpec::Runner.new.converge(described_recipe)
+  end
+
+  it 'creates /etc/ssh/ssh_config' do
+    expect(chef_run).to create_template('/etc/ssh/ssh_config').with(
+      user:   'root',
+      group:  'root',
+      mode: '0644'
+    )
+  end
+
+end
