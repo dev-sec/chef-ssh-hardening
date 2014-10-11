@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Cookbook Name:: ssh-hardening
-# Library:: get_ssh_macs
+# Library:: get_ssh_ciphers
 #
 # Copyright 2012, Dominik Richter
 # Copyright 2014, Christoph Hartmann
