@@ -29,9 +29,12 @@ describe 'ssh-hardening::default' do
   end
 
   # check that the recipes are executed
-  it 'default should include ssh-hardening recipes for server and client' do
-    chef_run.should include_recipe 'ssh-hardening::server'
-    chef_run.should include_recipe 'ssh-hardening::client'
+  it 'includes server recipe' do
+    expect(chef_run).to include_recipe('ssh-hardening::server')
+  end
+
+  it 'includes client recipe' do
+    expect(chef_run).to include_recipe('ssh-hardening::client')
   end
 
 end
