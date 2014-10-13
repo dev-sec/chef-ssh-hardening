@@ -1,5 +1,7 @@
 # ssh-hardening (Chef cookbook)
 
+![Build Status](http://img.shields.io/travis/TelekomLabs/chef-ssh-hardening.svg)
+
 ## Description
 
 This cookbook provides secure ssh-client and ssh-server configurations.
