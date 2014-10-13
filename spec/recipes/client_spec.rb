@@ -21,7 +21,7 @@ describe 'ssh-hardening::client' do
 
   # converge
   cached(:chef_run) do
-    ChefSpec::Runner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'installs openssh-client' do
@@ -66,7 +66,7 @@ describe 'ssh-hardening::client' do
 
   context 'with weak hmacs enabled' do
     cached(:chef_run) do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['weak_hmac'] = true
       end.converge(described_recipe)
     end
@@ -89,7 +89,7 @@ describe 'ssh-hardening::client' do
 
   context 'with weak kexs enabled' do
     cached(:chef_run) do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['weak_kex'] = true
       end.converge(described_recipe)
     end
@@ -112,7 +112,7 @@ describe 'ssh-hardening::client' do
 
   context 'with cbc required' do
     cached(:chef_run) do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['cbc_required'] = true
       end.converge(described_recipe)
     end

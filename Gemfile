@@ -3,11 +3,11 @@
 source 'https://rubygems.org'
 
 gem 'berkshelf',  '~> 3.0'
-gem 'chef',       '~> 11.12'
+gem 'chef',       '>= 11.14'
 
 group :test do
   gem 'rake'
-  gem 'chefspec',   '~> 4.0.2'
+  gem 'chefspec',   '~> 4.1.1'
   gem 'foodcritic', '~> 3.0'
   gem 'thor-foodcritic'
   gem 'rubocop',    '~> 0.26.1'
