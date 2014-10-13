@@ -11,6 +11,7 @@ group :test do
   gem 'foodcritic', '~> 3.0'
   gem 'thor-foodcritic'
   gem 'rubocop',    '~> 0.26.1'
+  gem 'coveralls',  require: false
 end
 
 group :development do
