@@ -1,5 +1,6 @@
 # ssh-hardening (Chef cookbook)
 
+![Release](http://img.shields.io/github/release/TelekomLabs/chef-ssh-hardening.svg)
 ![Supermarket](http://img.shields.io/cookbook/v/ssh-hardening.svg)
 ![Build Status](http://img.shields.io/travis/TelekomLabs/chef-ssh-hardening.svg)
 ![Code Coverage](http://img.shields.io/coveralls/TelekomLabs/chef-ssh-hardening.svg)
