@@ -72,10 +72,10 @@ describe 'ssh-hardening::server' do
       .with_content(/Ciphers [^#]*\baes256-ctr\b/)
   end
 
-  context 'with weak hmacs enabled' do
+  context 'with weak hmacs enabled for the server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['weak_hmac'] = true
+        node.set['ssh']['server']['weak_hmac'] = true
       end.converge(described_recipe)
     end
 
@@ -84,69 +84,226 @@ describe 'ssh-hardening::server' do
         .with_content(/MACs [^#]*\bhmac-sha1\b/)
     end
 
-    it 'still does not allow weak kexs' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-    end
-
-    it 'still doss not allow cbc ciphers' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/Ciphers [^#]*-cbc\b/)
+    it 'does not warn about depreciation' do
+      expect(chef_run).not_to write_log('deprecated-ssh/weak_hmac_server')
     end
   end
 
-  context 'with weak kexs enabled' do
+  context 'with weak hmacs enabled for only the client' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['weak_kex'] = true
+      ChefSpec::ServerRunner.new do |node, server|
+        node.set['ssh']['server']['client']['weak_hmac'] = true
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
-    it 'allows weak kexs' do
+    it 'weak hmacs on the server are not enabled' do
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+        .with_content(/MACs [^#]*\bhmac-sha1\b/)
+    end
+  end
+
+  context 'weak_kex enabled for only the server' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['server']['weak_kex'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'enables weak kexs on the server' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config')
         .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
     end
 
-    it 'still does not allow weak macs' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/MACs [^#]*\bhmac-sha1\b/)
-    end
-
-    it 'still does not allow cbc ciphers' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/Ciphers [^#]*-cbc\b/)
+    it 'does not warn about depreciation' do
+      expect(chef_run).not_to write_log('deprecated-ssh/weak_kex_server')
     end
   end
 
-  context 'with cbc required' do
+  context 'weak_kex enabled for only the client' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['cbc_required'] = true
+      ChefSpec::ServerRunner.new do |node, server|
+        node.set['ssh']['client']['weak_kex'] = true
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
-    it 'allows cbc ciphers' do
+    it 'does not enable weak kexs on the server' do
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+    end
+  end
+
+  context 'cbc_required for the server only' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['server']['cbc_required'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'enables cbc ciphers for the server' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config')
         .with_content(/Ciphers [^#]*\baes256-cbc\b/)
         .with_content(/Ciphers [^#]*\baes192-cbc\b/)
         .with_content(/Ciphers [^#]*\baes128-cbc\b/)
     end
 
-    it 'still does not allow weak macs' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/MACs [^#]*\bhmac-sha1\b/)
+    it 'does not warn about depreciation' do
+      expect(chef_run).not_to write_log('deprecated-ssh/weak_kex_server')
+    end
+  end
+
+  context 'cbc_required for the client only' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node, server|
+        node.set['ssh']['client']['cbc_required'] = true
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+      end.converge(described_recipe)
     end
 
-    it 'still does not allow weak kexs' do
+    it 'does not enable cbc ciphers for the server' do
       expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+        .with_content(/Ciphers [^#]*\b.*-cbc\b/)
+    end
+  end
+
+  describe 'backward compatibility' do
+    context 'legacy attribute weak hmac set' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new do |node, server|
+          server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+          node.set['ssh']['weak_hmac'] = true
+        end.converge(described_recipe)
+      end
+
+      it 'allows weak hmacs' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content(/MACs [^#]*\bhmac-sha1\b/)
+      end
+
+      it 'still does not allow weak kexs' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+      end
+
+      it 'still does not allow cbc ciphers' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/Ciphers [^#]*-cbc\b/)
+      end
+
+      it 'warns about depreciation' do
+        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_server')
+          .with(message: /deprecated/)
+          .with(level: :warn)
+      end
     end
 
-    it 'still enables ctr ciphers' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/Ciphers [^#]*\baes128-ctr\b/)
-        .with_content(/Ciphers [^#]*\baes192-ctr\b/)
-        .with_content(/Ciphers [^#]*\baes256-ctr\b/)
+    context 'legacy attribute weak_kex set' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new do |node, server|
+          node.set['ssh']['weak_kex'] = true
+          server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+        end.converge(described_recipe)
+      end
+
+      it 'allows weak kexs' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+      end
+
+      it 'still does not allow weak macs' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/MACs [^#]*\bhmac-sha1\b/)
+      end
+
+      it 'still does not allow cbc ciphers' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/Ciphers [^#]*-cbc\b/)
+      end
+
+      it 'warns about depreciation' do
+        expect(chef_run).to write_log('deprecated-ssh/weak_kex_server')
+          .with(message: /deprecated/)
+          .with(level: :warn)
+      end
+    end
+
+    context 'legacy attribute cbc_required set' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new do |node, server|
+          node.set['ssh']['cbc_required'] = true
+          server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+        end.converge(described_recipe)
+      end
+
+      it 'allows cbc ciphers' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content(/Ciphers [^#]*\baes256-cbc\b/)
+          .with_content(/Ciphers [^#]*\baes192-cbc\b/)
+          .with_content(/Ciphers [^#]*\baes128-cbc\b/)
+      end
+
+      it 'still does not allow weak macs' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/MACs [^#]*\bhmac-sha1\b/)
+      end
+
+      it 'still does not allow weak kexs' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+      end
+
+      it 'still enables ctr ciphers' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content(/Ciphers [^#]*\baes128-ctr\b/)
+          .with_content(/Ciphers [^#]*\baes192-ctr\b/)
+          .with_content(/Ciphers [^#]*\baes256-ctr\b/)
+      end
+
+      it 'warns about depreciation' do
+        expect(chef_run).to write_log('deprecated-ssh/cbc_required_server')
+          .with(message: /deprecated/)
+          .with(level: :warn)
+      end
+    end
+
+    %w(weak_hmac weak_kex cbc_required).each do |attr|
+      describe "transition logic for #{attr}" do
+        context "global #{attr} true, client true and server false" do
+          # don't use cache, log persists
+          let(:chef_run) do
+            ChefSpec::ServerRunner.new do |node, server|
+              node.set['ssh'][attr] = true
+              node.set['ssh']['client'][attr] = true
+              node.set['ssh']['server'][attr] = false
+              server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+            end.converge(described_recipe)
+          end
+
+          it "warns about ignoring the global #{attr} value for the server" do
+            expect(chef_run).to write_log("ignored-ssh/#{attr}_server")
+              .with(message: "Ignoring ssh/#{attr}:true for server")
+              .with(level: :warn)
+          end
+        end
+
+        context "global #{attr} true, client false and server true" do
+          # don't use cache, log persists
+          let(:chef_run) do
+            ChefSpec::ServerRunner.new do |node, server|
+              node.set['ssh'][attr] = true
+              node.set['ssh']['client'][attr] = false
+              node.set['ssh']['server'][attr] = true
+              server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+            end.converge(described_recipe)
+          end
+
+          it "does not warn about ignoring the global #{attr}" do
+            expect(chef_run).not_to write_log("ignored-ssh/#{attr}_server")
+              .with_level(:warn)
+          end
+        end
+      end
     end
   end
 
@@ -209,7 +366,6 @@ describe 'ssh-hardening::server' do
         .with_content(/^key2-user3$/)
         .with_content(/^key1-user4$/)
     end
-
   end
 
   context 'without users data bag' do
