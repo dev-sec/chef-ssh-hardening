@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'berkshelf',  '~> 3.0'
-gem 'chef',       '~> 11.14'
+gem 'chef',       '>= 11.14'
 
 group :test do
   gem 'rake'
