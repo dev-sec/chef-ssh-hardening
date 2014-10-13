@@ -1,5 +1,13 @@
 # Changelog
 
+## unreleased
+
+* new attributes node['ssh']['client']['cbc_required'] and node['ssh']['server']['cbc_required'] replace node['ssh']['cbc_required'], which has been deprecated.
+
+* new attributes node['ssh']['client']['weak_hmac'] and node['ssh']['server']['weak_hmac'] replace node['ssh']['weak_hmac'], which has been deprecated.
+
+* new attributes node['ssh']['client']['weak_kex'] and node['ssh']['server']['weak_kex'] replace node['ssh']['weak_kex'], which has been deprecated.
+
 ## 1.0.1
 
 * feature: cipher, macs and key exchange algorithms are now correctly detected on

@@ -16,9 +16,9 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 ## Attributes
 
 * `['network']['ipv6']['enable']` - true if IPv6 is needed
-* `['ssh']['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
-* `['ssh']['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
-* `['ssh']['weak_kex']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled.
+* `['ssh'][{'client', 'server'}]['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
+* `['ssh'][{'client', 'server'}]['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
+* `['ssh'][{'client', 'server'}]['weak_kex']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled.
 * `['ssh']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism.
 * `['ssh']['ports']` - ports to which ssh-server should listen to and ssh-client should connect to
 * `['ssh']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
@@ -130,7 +130,17 @@ Always look into log files first and if possible look at the negotation between 
 
 We have seen some issues in applications (based on python and ruby) that are due to their use of an outdated crypto set. This collides with this hardening module, which reduced the list of ciphers, message authentication codes (MACs) and key exchange (KEX) algorithms to a more secure selection.
 
-If you find this isn't enough, feel free to activate `['ssh']['cbc_required']` for ciphers, `['ssh']['weak_hmac']` for MACs, and `['ssh']['weak_kex']` for KEX.
+If you find this isn't enough, feel free to activate the attributes `cbc_requires` for ciphers, `weak_hmac` for MACs and `weak_kex`for KEX in the namespaces `['ssh']['client']` or `['ssh']['server']` based on where you want to support them.
+
+## Deprecation Notices
+
+* `node['ssh']['cbc_required']` has been deprecated in favour of `node['ssh']['client']['cbc_required']` and `node['ssh']['server']['cbc_required']`.
+
+* `node['ssh']['weak_hmac']` has been deprecated in favour of `node['ssh']['client']['weak_hmac']` and `node['ssh']['server']['weak_hmac']`.
+
+* `node['ssh']['weak_kex']` has been deprecated in favour of `node['ssh']['client']['weak_kex']` and `node['ssh']['server']['weak_kex']`.
+
+* The old attributes are still supported but will be removed in the future. In case one of the legacy attributes is set, it still precedes the newly added attributes to allow for backward compatibility.
 
 ## Contributors + Kudos
 
