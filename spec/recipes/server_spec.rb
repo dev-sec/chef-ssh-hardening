@@ -19,13 +19,10 @@ require 'spec_helper'
 
 describe 'ssh-hardening::server' do
 
-  before(:each) do
-    ChefSpec::Server.create_data_bag('users', 'someuser' => { id: 'someuser' })
-  end
-
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new do |_node, server|
+      server.create_data_bag('users', 'someuser' => { id: 'someuser' })
     end.converge(described_recipe)
   end
 
@@ -80,6 +77,7 @@ describe 'ssh-hardening::server' do
   context 'with weak hmacs enabled' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node, server|
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
         node.set['ssh']['weak_hmac'] = true
       end.converge(described_recipe)
     end
@@ -104,6 +102,7 @@ describe 'ssh-hardening::server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node, server|
         node.set['ssh']['weak_kex'] = true
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -127,6 +126,7 @@ describe 'ssh-hardening::server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node, server|
         node.set['ssh']['cbc_required'] = true
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -183,6 +183,7 @@ describe 'ssh-hardening::server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node, server|
         node.set['ssh']['allow_root_with_key'] = true
+        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -193,18 +194,15 @@ describe 'ssh-hardening::server' do
   end
 
   context 'with users data bag' do
-    before(:each) do
-      ChefSpec::Server.create_data_bag(
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |_node, server|
+        server.create_data_bag(
         'users',
         'user1' => { id: 'user1', ssh_rootkey: 'key-user1' },
         'user2' => { id: 'user2', ssh_rootkey: 'key-user2' },
         'user3' => { id: 'user3', ssh_rootkeys: %w(key1-user3 key2-user3) },
         'user4' => { id: 'user4', ssh_rootkeys: %w(key1-user4) }
       )
-    end
-
-    cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |_node, server|
       end.converge(described_recipe)
     end
 

@@ -19,13 +19,10 @@ require 'spec_helper'
 
 describe 'ssh-hardening::default' do
 
-  before(:each) do
-    ChefSpec::Server.create_data_bag('users', 'someuser' => { id: 'someuser' })
-  end
-
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new do |_node, server|
+      server.create_data_bag('users', 'someuser' => { id: 'someuser' })
     end.converge(described_recipe)
   end
 
