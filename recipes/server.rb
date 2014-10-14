@@ -58,15 +58,41 @@ directory '/etc/ssh' do
   action :create
 end
 
+# warn about cipher depreciations and support legacy attributes
+%w(weak_hmac weak_kex cbc_required).each do |setting|
+  next unless node['ssh'][setting]
+  # If at least one of the specific client/server attributes was used,
+  # we assume the global attribute to be a leftover from previous runs and
+  # just ignore it.
+  #
+  # If both client and server settings are default (false) we use the global
+  # value for both client and server for backward compatibility - the user may
+  # not have noticed the new attributes yet and did request the weak settings
+  # in the past. We don't want to break too many things.
+  if !node['ssh']['server'][setting] && !node['ssh']['client'][setting]
+    log "deprecated-ssh/#{setting}_server" do
+      message "ssh/server/#{setting} set from deprecated ssh/#{setting}"
+      level :warn
+    end
+    node.set['ssh']['server'][setting] = node['ssh'][setting]
+  else
+    log "ignored-ssh/#{setting}_server" do
+      message "Ignoring ssh/#{setting}:true for server"
+      only_if { !node['ssh']['server'][setting] }
+      level :warn
+    end
+  end
+end
+
 template '/etc/ssh/sshd_config' do
   source 'opensshd.conf.erb'
   mode '0600'
   owner 'root'
   group 'root'
   variables(
-    mac: SshMac.get_macs(node, node['ssh']['weak_hmac']),
-    kex: SshKex.get_kexs(node, node['ssh']['weak_kex']),
-    cipher: SshCipher.get_ciphers(node, node['ssh']['cbc_required'])
+    mac: SshMac.get_macs(node, node['ssh']['server']['weak_hmac']),
+    kex: SshKex.get_kexs(node, node['ssh']['server']['weak_kex']),
+    cipher: SshCipher.get_ciphers(node, node['ssh']['server']['cbc_required'])
   )
   notifies :restart, 'service[sshd]'
 end
