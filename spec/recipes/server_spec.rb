@@ -162,12 +162,6 @@ describe 'ssh-hardening::server' do
       .with(group: 'root')
   end
 
-  context 'without users data bag' do
-    it 'does not touch authorized_keys by root' do
-      expect(chef_run).to_not create_template('/root/.ssh/authorized_keys')
-    end
-  end
-
   context 'without attribute allow_root_with_key' do
     it 'does not unlock root account' do
       expect(chef_run).to_not run_execute('unlock root account if it is locked')
@@ -225,6 +219,10 @@ describe 'ssh-hardening::server' do
 
     it 'does not raise an error' do
       expect { chef_run }.not_to raise_error
+    end
+
+    it 'does not touch authorized_keys by root' do
+      expect(chef_run).to_not create_template('/root/.ssh/authorized_keys')
     end
   end
 end
