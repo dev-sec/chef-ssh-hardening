@@ -97,6 +97,7 @@ template '/etc/ssh/sshd_config' do
   notifies :restart, 'service[sshd]'
 end
 
+# authorized_key management will be deprecated in the next major release:
 def get_key_from(field)
   return [] unless Chef::DataBag.list.key?('users')
   search('users', "#{field}:*").map do |v| # ~FC003 ignore footcritic violation
@@ -106,7 +107,6 @@ def get_key_from(field)
 end
 
 keys = get_key_from('ssh_rootkey') + get_key_from('ssh_rootkeys')
-Chef::Log.info 'ssh_server: not setting up any ssh keys' if keys.empty?
 
 directory '/root/.ssh' do
   mode '0500'
@@ -115,15 +115,24 @@ directory '/root/.ssh' do
   action :create
 end
 
-template '/root/.ssh/authorized_keys' do
-  source 'authorized_keys.erb'
-  mode '0400'
-  owner 'root'
-  group 'root'
-  variables(
-    keys: keys
-  )
-  only_if { !keys.empty? }
+unless keys.empty?
+  log 'deprecated-databag' do
+    message 'Use of deprecated key ssh_rootkey(s) found in users data bag. ' \
+      'Managing authorized_keys from users data bag will be removed ' \
+      'from the ssh-hardening cookbook in the next major release. ' \
+      'Please transition to alternative approaches.'
+    level :warn
+  end
+
+  template '/root/.ssh/authorized_keys' do
+    source 'authorized_keys.erb'
+    mode '0400'
+    owner 'root'
+    group 'root'
+    variables(
+      keys: keys
+    )
+  end
 end
 
 execute 'unlock root account if it is locked' do

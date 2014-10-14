@@ -366,6 +366,12 @@ describe 'ssh-hardening::server' do
         .with_content(/^key2-user3$/)
         .with_content(/^key1-user4$/)
     end
+
+    it 'warns about deprecation of data bag use' do
+      expect(chef_run).to write_log('deprecated-databag')
+        .with(message: /deprecated/)
+        .with(level: :warn)
+    end
   end
 
   context 'without users data bag' do
@@ -379,6 +385,10 @@ describe 'ssh-hardening::server' do
 
     it 'does not touch authorized_keys by root' do
       expect(chef_run).to_not create_template('/root/.ssh/authorized_keys')
+    end
+
+    it 'does not warn about deprecation of data bag use' do
+      expect(chef_run).not_to write_log('deprecated-databag')
     end
   end
 end
