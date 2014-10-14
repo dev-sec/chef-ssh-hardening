@@ -8,6 +8,8 @@
 
 * new attributes node['ssh']['client']['weak_kex'] and node['ssh']['server']['weak_kex'] replace node['ssh']['weak_kex'], which has been deprecated.
 
+* deprecated: Manging authorized_keys for root via attributes `ssh_rootkey` and  `ssh_rootkeys` in the `users` data bag has been deprecated and emits a waning when used. Support will be removed in 2.x.
+
 ## 1.0.1
 
 * feature: cipher, macs and key exchange algorithms are now correctly detected on

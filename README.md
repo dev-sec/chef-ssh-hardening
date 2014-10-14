@@ -29,7 +29,11 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 
 ## Data Bags
 
-This cookbook handles authorized keys for the root user. Use other cookbooks to set up your users.
+**DEPRECATION WARNING**: Support for managing authorized_keys for the root account will be removed from this cookbook in the next major release. Please use alternative cookbooks for that.
+
+This cookbook used to handle authorized keys for the root user, but that support will be removed in the next major release. Use other cookbooks to set up your users.
+
+### Old behaviour:
 
 Have users in your `data_bag/users/` directory. This cookbook looks for users inside this folder with a `ssh_rootkey`.
 
