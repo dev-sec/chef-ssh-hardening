@@ -97,8 +97,16 @@ template '/etc/ssh/sshd_config' do
   notifies :restart, 'service[sshd]'
 end
 
+def chef_solo_search_installed?
+  klass = ::Search.const_get('Helper')
+  return klass.is_a?(Class)
+rescue NameError
+  return false
+end
+
 # authorized_key management will be deprecated in the next major release:
 def get_key_from(field)
+  return [] if Chef::Config[:solo] && !chef_solo_search_installed?
   return [] unless Chef::DataBag.list.key?('users')
   search('users', "#{field}:*").map do |v| # ~FC003 ignore footcritic violation
     Chef::Log.info "ssh_server: installing ssh-keys for root access of user #{v['id']}"

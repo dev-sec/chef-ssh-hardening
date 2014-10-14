@@ -290,4 +290,14 @@ describe 'ssh-hardening::client' do
       end
     end
   end
+
+  context 'chef-solo' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new.converge(described_recipe)
+    end
+
+    it 'does not raise an error' do
+      expect { chef_run }.not_to raise_error
+    end
+  end
 end
