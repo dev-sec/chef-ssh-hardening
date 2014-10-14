@@ -21,9 +21,7 @@ describe 'ssh-hardening::default' do
 
   # converge
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new do |_node, server|
-      server.create_data_bag('users', 'someuser' => { id: 'someuser' })
-    end.converge(described_recipe)
+    ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   # check that the recipes are executed

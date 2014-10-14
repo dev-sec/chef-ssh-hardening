@@ -21,9 +21,7 @@ describe 'ssh-hardening::server' do
 
   # converge
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new do |_node, server|
-      server.create_data_bag('users', 'someuser' => { id: 'someuser' })
-    end.converge(described_recipe)
+    ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'installs openssh-server' do
@@ -76,8 +74,7 @@ describe 'ssh-hardening::server' do
 
   context 'with weak hmacs enabled' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['weak_hmac'] = true
       end.converge(described_recipe)
     end
@@ -100,9 +97,8 @@ describe 'ssh-hardening::server' do
 
   context 'with weak kexs enabled' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['weak_kex'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -124,9 +120,8 @@ describe 'ssh-hardening::server' do
 
   context 'with cbc required' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['cbc_required'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -181,9 +176,8 @@ describe 'ssh-hardening::server' do
 
   context 'with attribute allow_root_with_key' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['allow_root_with_key'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
