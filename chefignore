@@ -1,0 +1,19 @@
+# os generated
+.DS_Store
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# artefacts
+*/coverage
+
+# tests
+*/*file
+*/*file.lock
+*/spec
+*/test
+*/bundle
+*/vendor
+
+# self
+*/chefignore
