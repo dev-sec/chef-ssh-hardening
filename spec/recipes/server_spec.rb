@@ -224,4 +224,13 @@ describe 'ssh-hardening::server' do
 
   end
 
+  context 'without users data bag' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new.converge(described_recipe)
+    end
+
+    it 'does not raise an error' do
+      expect { chef_run }.not_to raise_error
+    end
+  end
 end
