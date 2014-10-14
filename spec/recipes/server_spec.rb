@@ -201,7 +201,7 @@ describe 'ssh-hardening::server' do
         .with(group: 'root')
     end
 
-    it 'authorizes files from the user data bag for root access' do
+    it 'authorizes keys from the user data bag for root access' do
       expect(chef_run).to render_file('/root/.ssh/authorized_keys')
         .with_content(/^key-user1$/)
         .with_content(/^key-user2$/)
