@@ -31,21 +31,13 @@
         git clone https://github.com/edelight/chef-solo-search
         cd ..
 
-7. Add a public key to the root user `data_bags/users/root.json`
+7. Create `solo.rb`
 
-        {
-          "id" : "root",
-          "ssh_rootkeys" : "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TCCCCCCjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qPasgCgzUFtdOKLv6IedplqoPasdasd0aYet2PkEDo3MlTBckFXPITAMzF8dJSICCCCFo9D8HfdOV0IAdx4O7dETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIUc9c9WhQ== vagrant insecure public key"
-        }
-
-8. Create `solo.rb`
-
-    This file is used to specify the configuration details for chef-solo. So create a `solo.rb` that include the `cookbook_path` and the `data_bags`.
+    This file is used to specify the configuration details for chef-solo. So create a `solo.rb` that includes the `cookbook_path`.
 
         cookbook_path "cookbooks"
-        data_bag_path "data_bags
 
-9. Create `solo.json`
+8. Create `solo.json`
 
     Chef-solo does not interact with the Chef Server. Consequently, node-specific attributes must be located in a JSON file on the target system. Create the following `solo.json`.
 
@@ -60,7 +52,7 @@
             ]
         }
 
-10. Run chef-solo
+9. Run chef-solo
 
         chef-solo -c solo.rb -j solo.json
 
