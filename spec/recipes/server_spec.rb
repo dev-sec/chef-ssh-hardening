@@ -21,9 +21,7 @@ describe 'ssh-hardening::server' do
 
   # converge
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new do |_node, server|
-      server.create_data_bag('users', 'someuser' => { id: 'someuser' })
-    end.converge(described_recipe)
+    ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'installs openssh-server' do
@@ -76,8 +74,7 @@ describe 'ssh-hardening::server' do
 
   context 'with weak hmacs enabled' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['weak_hmac'] = true
       end.converge(described_recipe)
     end
@@ -100,9 +97,8 @@ describe 'ssh-hardening::server' do
 
   context 'with weak kexs enabled' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['weak_kex'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -124,9 +120,8 @@ describe 'ssh-hardening::server' do
 
   context 'with cbc required' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['cbc_required'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -167,12 +162,6 @@ describe 'ssh-hardening::server' do
       .with(group: 'root')
   end
 
-  context 'without users data bag' do
-    it 'does not touch authorized_keys by root' do
-      expect(chef_run).to_not create_template('/root/.ssh/authorized_keys')
-    end
-  end
-
   context 'without attribute allow_root_with_key' do
     it 'does not unlock root account' do
       expect(chef_run).to_not run_execute('unlock root account if it is locked')
@@ -181,9 +170,8 @@ describe 'ssh-hardening::server' do
 
   context 'with attribute allow_root_with_key' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['allow_root_with_key'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -213,7 +201,7 @@ describe 'ssh-hardening::server' do
         .with(group: 'root')
     end
 
-    it 'authorizes files from the user data bag for root access' do
+    it 'authorizes keys from the user data bag for root access' do
       expect(chef_run).to render_file('/root/.ssh/authorized_keys')
         .with_content(/^key-user1$/)
         .with_content(/^key-user2$/)
@@ -224,4 +212,17 @@ describe 'ssh-hardening::server' do
 
   end
 
+  context 'without users data bag' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new.converge(described_recipe)
+    end
+
+    it 'does not raise an error' do
+      expect { chef_run }.not_to raise_error
+    end
+
+    it 'does not touch authorized_keys by root' do
+      expect(chef_run).to_not create_template('/root/.ssh/authorized_keys')
+    end
+  end
 end

@@ -72,6 +72,7 @@ template '/etc/ssh/sshd_config' do
 end
 
 def get_key_from(field)
+  return [] unless Chef::DataBag.list.key?('users')
   search('users', "#{field}:*").map do |v| # ~FC003 ignore footcritic violation
     Chef::Log.info "ssh_server: installing ssh-keys for root access of user #{v['id']}"
     v[field]
