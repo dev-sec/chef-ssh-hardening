@@ -81,10 +81,6 @@ MACs <%= @mac %>
 KexAlgorithms <%= @kex %>
 <% end %>
 
-# Lifetime and size of ephemeral version 1 server key
-KeyRegenerationInterval 1h
-ServerKeyBits 2048
-
 # Authentication
 # --------------
 
@@ -98,13 +94,11 @@ MaxSessions 10
 MaxStartups 10:30:100
 
 # Enable public key authentication
-RSAAuthentication yes
 PubkeyAuthentication yes
 
 # Never use host-based authentication. It can be exploited.
 IgnoreRhosts yes
 IgnoreUserKnownHosts yes
-RhostsRSAAuthentication no
 HostbasedAuthentication no
 
 # Enable PAM to enforce system wide rules
