@@ -32,7 +32,7 @@ class Chef
         ciphers_53['weak'] = ciphers_53['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
 
         ciphers_66 = {}
-        ciphers_66.default = 'chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
+        ciphers_66.default = 'chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
         ciphers_66['weak'] = ciphers_66['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
 
         # determine the cipher for the operating system
