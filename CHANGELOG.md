@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2
+
+* feature: separate options for server and client configuration
+* feature: add back GCM-based ciphers
+* feature: remove legacy SSHv1 options
+* improvement: add more spec tests
+* bugfix: restart ssh service on changes
+
 ## unreleased
 
 * new attributes node['ssh']['client']['cbc_required'] and node['ssh']['server']['cbc_required'] replace node['ssh']['cbc_required'], which has been deprecated.
