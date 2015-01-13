@@ -34,7 +34,7 @@ class Chef
         macs_59['weak'] = macs_59['default'] + ',hmac-sha1'
 
         macs_66 = {}
-        macs_66.default = 'hmac-sha2-512-etm@openssh.com,hmac-sha2-512,hmac-sha2-256-etm@openssh.com,hmac-sha2-256,umac-128-etm@openssh.com,hmac-ripemd160-etm@openssh.com,hmac-ripemd160'
+        macs_66.default = 'hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160'
         macs_66['weak'] = macs_66['default'] + ',hmac-sha1'
 
         # determine the mac for the operating system
