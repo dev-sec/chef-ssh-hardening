@@ -49,6 +49,10 @@ describe 'ssh-hardening::client' do
 
   it 'disables weak kexs' do
     expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+      .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+      .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
       .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
   end
 
@@ -103,6 +107,10 @@ describe 'ssh-hardening::client' do
 
     it 'allows weak kexs on the client' do
       expect(chef_run).to render_file('/etc/ssh/ssh_config')
+        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+      expect(chef_run).to render_file('/etc/ssh/ssh_config')
+        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+      expect(chef_run).to render_file('/etc/ssh/ssh_config')
         .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
     end
 
@@ -119,6 +127,10 @@ describe 'ssh-hardening::client' do
     end
 
     it 'does not allow weak kexs on the client' do
+      expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+      expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
       expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
         .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
     end
@@ -171,6 +183,10 @@ describe 'ssh-hardening::client' do
 
       it 'still does not allow weak kexs' do
         expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
           .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
       end
 
@@ -194,6 +210,10 @@ describe 'ssh-hardening::client' do
       end
 
       it 'allows weak kexs on the client' do
+        expect(chef_run).to render_file('/etc/ssh/ssh_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+        expect(chef_run).to render_file('/etc/ssh/ssh_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
         expect(chef_run).to render_file('/etc/ssh/ssh_config')
           .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
       end
@@ -235,6 +255,10 @@ describe 'ssh-hardening::client' do
       end
 
       it 'still does not allow weak kexs' do
+        expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
         expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
           .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
       end
