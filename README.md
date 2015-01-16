@@ -148,10 +148,14 @@ If you find this isn't enough, feel free to activate the attributes `cbc_require
 
 ## Contributors + Kudos
 
-* Dominik Richter
-* Christoph Hartmann
-* Patrick Meier
-* Bernhard K. Weisshuhn
+* Dominik Richter [arlimus](https://github.com/arlimus)
+* Christoph Hartmann [chris-rock](https://github.com/chris-rock)
+* Bernhard Weisshuhn (a.k.a. bernhorst) [bkw](https://github.com/bkw)
+* Patrick Meier [atomic111](https://github.com/atomic111)
+* Edmund Haselwanter [ehaselwanter](https://github.com/ehaselwanter)
+* Jan Klare [jklare](https://github.com/jklare)
+* Petri Sirkkala [sirkkalap](https://github.com/sirkkalap)
+* [stribika](https://github.com/stribika)
 
 This cookbook is mostly based on guides by:
 
