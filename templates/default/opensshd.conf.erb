@@ -166,8 +166,8 @@ X11UseLocalhost yes
 # ===================
 
 
-PrintMotd no
-PrintLastLog no
+PrintMotd <%= ((@node['ssh']['print_motd']) ? 'yes' : 'no' ) %>
+PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
 #Banner /etc/ssh/banner.txt
 #UseDNS yes
 #PidFile /var/run/sshd.pid

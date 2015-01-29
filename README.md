@@ -26,6 +26,8 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['allow_tcp_forwarding']` - `false` to disable TCP Forwarding. Set to `true` to allow TCP Forwarding
 * `['ssh']['allow_agent_forwarding']` - `false` to disable Agent Forwarding. Set to `true` to allow Agent Forwarding
 * `['ssh']['use_pam']` - `false` to disable pam authentication
+* `['ssh']['print_motd']` - `false` to disable printing of the MOTD
+* `['ssh']['print_last_log']` - `false` to disable display of last login information
 
 ## Data Bags
 
