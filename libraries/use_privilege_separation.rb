@@ -23,8 +23,8 @@ class Chef
     class UsePrivilegeSeparation
       def self.get(node)
         # define cipher set
-        ps53 = "yes"
-        ps59 = "sandbox"
+        ps53 = 'yes'
+        ps59 = 'sandbox'
         ps = ps59
 
         # ubuntu 12.04 and newer has ssh 5.9+
