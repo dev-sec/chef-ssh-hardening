@@ -2,8 +2,15 @@ rvm:
 - 1.9.3
 - 2.0.0
 - 2.1.3
+gemfile:
+- Gemfile
+- gemfile.chef-11
 language: ruby
 bundler_args: "--without development integration openstack"
 notifications:
   slack:
     secure: bOxdT8KjXuWpBaNvMsf1zGcBRS5Ua3ESYcBWUEXXKE+f+AatmATCdynHq1QJBzE6NtWcGvxlacF4oA3FMmMhJZW9PF3igmYK2TC/aF8TXQ+nE8uzibkj+BphI6/so6TnXCPxoCp6TQ8gZm9cWyj1M4gnFJiZx9eYMVKCIOSRU/0=
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: Gemfile
