@@ -10,7 +10,7 @@ group :test do
   gem 'chefspec',   '~> 4.1.1'
   gem 'foodcritic', '~> 3.0'
   gem 'thor-foodcritic'
-  gem 'rubocop',    '~> 0.27.0'
+  gem 'rubocop',    '~> 0.28.0'
   gem 'coveralls',  require: false
 end
 
