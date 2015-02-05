@@ -86,7 +86,7 @@ KexAlgorithms <%= @kex %>
 
 # Secure Login directives.
 UseLogin no
-UsePrivilegeSeparation <%= @node['ssh']['use_privilege_separation'] %>
+UsePrivilegeSeparation <%= @use_priv_sep %>
 PermitUserEnvironment no
 LoginGraceTime 30s
 MaxAuthTries 2
