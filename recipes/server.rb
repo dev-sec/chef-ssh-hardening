@@ -84,6 +84,11 @@ end
   end
 end
 
+# detect the default privilege separation
+if node['ssh']['use_privilege_separation'].nil?
+  node['ssh']['use_privilege_separation'] = UsePrivilegeSeparation.get
+end
+
 template '/etc/ssh/sshd_config' do
   source 'opensshd.conf.erb'
   mode '0600'
