@@ -92,7 +92,8 @@ template '/etc/ssh/sshd_config' do
   variables(
     mac: SshMac.get_macs(node, node['ssh']['server']['weak_hmac']),
     kex: SshKex.get_kexs(node, node['ssh']['server']['weak_kex']),
-    cipher: SshCipher.get_ciphers(node, node['ssh']['server']['cbc_required'])
+    cipher: SshCipher.get_ciphers(node, node['ssh']['server']['cbc_required']),
+    use_priv_sep: node['ssh']['use_privilege_separation'] || UsePrivilegeSeparation.get(node)
   )
   notifies :restart, 'service[sshd]'
 end

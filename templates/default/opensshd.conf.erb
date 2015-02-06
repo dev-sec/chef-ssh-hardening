@@ -86,7 +86,7 @@ KexAlgorithms <%= @kex %>
 
 # Secure Login directives.
 UseLogin no
-UsePrivilegeSeparation yes
+UsePrivilegeSeparation <%= @use_priv_sep %>
 PermitUserEnvironment no
 LoginGraceTime 30s
 MaxAuthTries 2
