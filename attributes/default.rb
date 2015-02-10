@@ -63,4 +63,3 @@ default['ssh']['print_motd']              = false   # sshd
 default['ssh']['print_last_log']          = false   # sshd
 # set this to nil to let us detect the attribute based on the node platform
 default['ssh']['use_privilege_separation'] = nil
-
