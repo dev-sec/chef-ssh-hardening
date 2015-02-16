@@ -59,5 +59,7 @@ default['ssh']['allow_root_with_key']     = false   # sshd
 default['ssh']['allow_tcp_forwarding']    = false   # sshd
 default['ssh']['allow_agent_forwarding']  = false   # sshd
 default['ssh']['use_pam']                 = false   # sshd
+default['ssh']['print_motd']              = false   # sshd
+default['ssh']['print_last_log']          = false   # sshd
 # set this to nil to let us detect the attribute based on the node platform
 default['ssh']['use_privilege_separation'] = nil
