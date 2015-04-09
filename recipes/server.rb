@@ -93,7 +93,11 @@ template '/etc/ssh/sshd_config' do
     mac: SshMac.get_macs(node, node['ssh']['server']['weak_hmac']),
     kex: SshKex.get_kexs(node, node['ssh']['server']['weak_kex']),
     cipher: SshCipher.get_ciphers(node, node['ssh']['server']['cbc_required']),
-    use_priv_sep: node['ssh']['use_privilege_separation'] || UsePrivilegeSeparation.get(node)
+    use_priv_sep: node['ssh']['use_privilege_separation'] || UsePrivilegeSeparation.get(node),
+    deny_users: node['ssh']['deny_users'],
+    allow_users: node['ssh']['allow_users'],
+    deny_groups: node['ssh']['deny_groups'],
+    allow_groups: node['ssh']['allow_groups']
   )
   notifies :restart, 'service[sshd]'
 end

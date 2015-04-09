@@ -425,4 +425,50 @@ describe 'ssh-hardening::server' do
       expect { chef_run }.not_to raise_error
     end
   end
+
+  it 'leaves deny users commented' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#DenyUsers */)
+  end
+
+  it 'leaves allow users commented' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#AllowUsers user1/)
+  end
+
+  it 'leaves deny groups commented' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#DenyGroups */)
+  end
+
+  it 'leaves allow groups commented' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#AllowGroups group1/)
+  end
+
+  context 'with attribute deny_users' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['deny_users'] = %w(someuser)
+      end.converge(described_recipe)
+    end
+
+    it 'adds user to deny list' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/DenyUsers [^#]*\bsomeuser\b/)
+    end
+  end
+
+  context 'with attribute deny_users mutiple' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['deny_users'] = %w(someuser otheruser)
+      end.converge(described_recipe)
+    end
+
+    it 'adds users to deny list' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/DenyUsers [^#]*\bsomeuser otheruser\b/)
+    end
+  end
 end
