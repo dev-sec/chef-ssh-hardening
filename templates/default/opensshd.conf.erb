@@ -119,10 +119,26 @@ GSSAPIAuthentication no
 GSSAPICleanupCredentials yes
 
 # In case you don't use PAM (`UsePAM no`), you can alternatively restrict users and groups here. For key-based authentication this is not necessary, since all keys must be explicitely enabled.
+<% unless @node['ssh']['deny_users'].empty? %>
+DenyUsers <%= @node['ssh']['deny_users'].join(' ') %>
+<% else %>
 #DenyUsers *
+<% end %>
+<% unless @node['ssh']['allow_users'].empty? %>
+AllowUsers <%= @node['ssh']['allow_users'].join(' ') %>
+<% else %>
 #AllowUsers user1
+<% end %>
+<% unless @node['ssh']['deny_groups'].empty? %>
+DenyGroups <%= @node['ssh']['deny_groups'].join(' ') %>
+<% else %>
 #DenyGroups *
+<% end %>
+<% unless @node['ssh']['allow_groups'].empty? %>
+AllowGroups <%= @node['ssh']['allow_groups'].join(' ') %>
+<% else %>
 #AllowGroups group1
+<% end %>
 
 
 # Network
