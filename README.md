@@ -189,7 +189,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
+
 [1]: https://supermarket.getchef.com/cookbooks/ssh-hardening
-[2]: http://travis-ci.org/TelekomLabs/chef-ssh-hardening
-[3]: https://coveralls.io/r/TelekomLabs/chef-ssh-hardening
-[4]: https://gemnasium.com/TelekomLabs/chef-ssh-hardening
+[2]: http://travis-ci.org/hardening-io/chef-ssh-hardening
+[3]: https://coveralls.io/r/hardening-io/chef-ssh-hardening
+[4]: https://gemnasium.com/hardening-io/chef-ssh-hardening
+[5]: https://gitter.im/hardening-io
