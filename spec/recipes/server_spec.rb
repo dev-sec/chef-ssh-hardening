@@ -471,4 +471,24 @@ describe 'ssh-hardening::server' do
         .with_content(/DenyUsers [^#]*\bsomeuser otheruser\b/)
     end
   end
+
+  context 'without attribute use_dns' do
+    it 'sets UseDNS to the default' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/UseDNS yes/)
+    end
+  end
+
+  context 'with attribute use_dns' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['use_dns'] = false
+      end.converge(described_recipe)
+    end
+
+    it 'sets UseDNS correctly' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/UseDNS no/)
+    end
+  end
 end

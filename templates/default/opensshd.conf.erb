@@ -185,7 +185,7 @@ X11UseLocalhost yes
 PrintMotd <%= ((@node['ssh']['print_motd']) ? 'yes' : 'no' ) %>
 PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
 #Banner /etc/ssh/banner.txt
-#UseDNS yes
+UseDNS <%= ((@node['ssh']['use_dns']) ? 'yes' : 'no' ) %>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #ChrootDirectory none
@@ -205,5 +205,3 @@ PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
 #PasswordAuthentication no
 #PermitRootLogin no
 #X11Forwarding no
-
-
