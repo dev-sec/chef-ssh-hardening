@@ -14,6 +14,14 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 
 * Opscode chef
 
+### Platform
+
+- Debian 6, 7
+- Ubuntu 12.04, 14.04
+- RHEL 6.4, 6.5, 6.6
+- CentOS 6.4, 6.5, 6.6
+- OracleLinux 6.4, 6.5, 6.6
+
 ## Attributes
 
 * `['network']['ipv6']['enable']` - true if IPv6 is needed
