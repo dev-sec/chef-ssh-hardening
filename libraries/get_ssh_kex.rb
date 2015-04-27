@@ -42,6 +42,10 @@ class Chef
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new key exchange algorithms')
           kex = kex_66
 
+        elsif node['platform'] == 'debian' && node['platform_version'].to_f >= 8
+          Chef::Log.info('Detected Debian 8 or newer, use new key exchange algorithms')
+          kex = kex_66
+
         # deactivate kex on redhat
         elsif node['platform_family'] == 'rhel'
           kex = {}
