@@ -45,6 +45,10 @@ class Chef
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new macs')
           macs = macs_66
 
+        elsif node['platform'] == 'debian' && node['platform_version'].to_f >= 8
+          Chef::Log.info('Detected Debian 8 or newer, use new macs')
+          macs = macs_66
+
         # stick to 53 for rhel <= 6, verify for rhel >= 7
         elsif node['platform_family'] == 'rhel'
           Chef::Log.info('Detected RedHat Family, use old macs')

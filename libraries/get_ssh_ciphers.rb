@@ -42,6 +42,10 @@ class Chef
         if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new ciphers')
           cipher = ciphers_66
+
+        elsif node['platform'] == 'debian' && node['platform_version'].to_f >= 8
+          Chef::Log.info('Detected Debian 8 or newer, use new ciphers')
+          cipher = ciphers_66
         end
 
         Chef::Log.info("Choose cipher: #{cipher[weak_ciphers]}")
