@@ -18,7 +18,7 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 
 * `['network']['ipv6']['enable']` - true if IPv6 is needed
 * `['ssh'][{'client', 'server'}]['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
-* `['ssh'][{'client', 'server'}]['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled. 
+* `['ssh'][{'client', 'server'}]['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled.
 * `['ssh'][{'client', 'server'}]['weak_kex']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled.
 * `['ssh']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism.
 * `['ssh']['ports']` - ports to which ssh-server should listen to and ssh-client should connect to
@@ -29,6 +29,11 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['use_pam']` - `false` to disable pam authentication
 * `['ssh']['print_motd']` - `false` to disable printing of the MOTD
 * `['ssh']['print_last_log']` - `false` to disable display of last login information
+* `default['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
+* `default['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
+* `default['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
+* `default['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
+* `default['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
 
 ## Data Bags
 
@@ -40,7 +45,7 @@ This cookbook used to handle authorized keys for the root user, but that support
 
 Have users in your `data_bag/users/` directory. This cookbook looks for users inside this folder with a `ssh_rootkey`.
 
-Example: 
+Example:
 
 First you have to find out the ssh-key of the user you want to allow. A typical example for this is
 
@@ -66,7 +71,7 @@ You can then access
 ## Usage
 
 Add the recipes to the run_list:
-    
+
     "recipe[ssh]"
 
 This will install ssh-server and ssh-client. You can alternatively choose only one via:
