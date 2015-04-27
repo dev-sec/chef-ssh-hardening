@@ -185,7 +185,12 @@ X11UseLocalhost yes
 PrintMotd <%= ((@node['ssh']['print_motd']) ? 'yes' : 'no' ) %>
 PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
 #Banner /etc/ssh/banner.txt
+<% if @node['ssh']['use_dns'].nil? %>
+# Since OpenSSH 6.8, this value defaults to 'no'
+#UseDNS no
+<% else %>
 UseDNS <%= ((@node['ssh']['use_dns']) ? 'yes' : 'no' ) %>
+<% end %>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #ChrootDirectory none
