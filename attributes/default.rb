@@ -65,5 +65,6 @@ default['ssh']['deny_groups']             = []      # sshd
 default['ssh']['allow_groups']            = []      # sshd
 default['ssh']['print_motd']              = false   # sshd
 default['ssh']['print_last_log']          = false   # sshd
+default['ssh']['use_dns']                 = true    # sshd
 # set this to nil to let us detect the attribute based on the node platform
 default['ssh']['use_privilege_separation'] = nil
