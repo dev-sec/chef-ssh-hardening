@@ -473,13 +473,13 @@ describe 'ssh-hardening::server' do
   end
 
   context 'without attribute use_dns' do
-    it 'sets UseDNS to the default' do
+    it 'leaves UseDNS commented' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/UseDNS yes/)
+        .with_content(/#UseDNS no/)
     end
   end
 
-  context 'with attribute use_dns' do
+  context 'with attribute use_dns set to false' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['use_dns'] = false
@@ -489,6 +489,19 @@ describe 'ssh-hardening::server' do
     it 'sets UseDNS correctly' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config')
         .with_content(/UseDNS no/)
+    end
+  end
+
+  context 'with attribute use_dns set to true' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['use_dns'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'sets UseDNS correctly' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/UseDNS yes/)
     end
   end
 end
