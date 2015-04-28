@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0
+
+* feature: UsePrivilegeSeparation = sandbox for ssh >= 5.9
+* feature: Debian 8 support
+* feature: UseDNS configuration option
+* feature: allow/deny users/groups configuration options
+* feature: MOTD configuration option
+* bugfix: adjust travis to work with chef12/ruby2
+
 ## 1.0.3
 
 * improvement: reprioritize EtM-based MACs

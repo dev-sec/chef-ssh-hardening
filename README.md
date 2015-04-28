@@ -169,7 +169,12 @@ If you find this isn't enough, feel free to activate the attributes `cbc_require
 * Bernhard Weisshuhn (a.k.a. bernhorst) [bkw](https://github.com/bkw)
 * Patrick Meier [atomic111](https://github.com/atomic111)
 * Edmund Haselwanter [ehaselwanter](https://github.com/ehaselwanter)
+* Dana Merrick [dmerrick](https://github.com/dmerrick)
+* Anton Rieder [aried3r](https://github.com/aried3r)
+* Trent Petersen [Rockstar04](https://github.com/Rockstar04)
+* Petri Sirkkala [sirkkalap](https://github.com/sirkkalap)
 * Jan Klare [jklare](https://github.com/jklare)
+* Zac Hallett [zhallett](https://github.com/zhallett)
 * Petri Sirkkala [sirkkalap](https://github.com/sirkkalap)
 * [stribika](https://github.com/stribika)
 
