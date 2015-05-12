@@ -29,10 +29,10 @@ describe 'ssh-hardening::server' do
   end
 
   it 'creates /etc/ssh/sshd_config' do
-    expect(chef_run).to create_template('/etc/ssh/sshd_config')
-      .with(mode: '0600')
-      .with(owner: 'root')
-      .with(group: 'root')
+    expect(chef_run).to create_template('/etc/ssh/sshd_config').
+      with(mode: '0600').
+      with(owner: 'root').
+      with(group: 'root')
   end
 
   it 'enables the ssh server' do
@@ -44,36 +44,36 @@ describe 'ssh-hardening::server' do
   end
 
   it 'creates the directory /etc/ssh' do
-    expect(chef_run).to create_directory('/etc/ssh')
-      .with(mode: '0755')
-      .with(owner: 'root')
-      .with(group: 'root')
+    expect(chef_run).to create_directory('/etc/ssh').
+      with(mode: '0755').
+      with(owner: 'root').
+      with(group: 'root')
   end
 
   it 'disables weak hmacs' do
-    expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-      .with_content(/MACs [^#]*\bhmac-sha1\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+      with_content(/MACs [^#]*\bhmac-sha1\b/)
   end
 
   it 'disables weak kexs' do
-    expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-      .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-    expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-      .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-    expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-      .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+      with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+      with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+      with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
   end
 
   it 'disables cbc ciphers' do
-    expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-      .with_content(/Ciphers [^#]*-cbc\b/)
+    expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+      with_content(/Ciphers [^#]*-cbc\b/)
   end
 
   it 'enables ctr ciphers' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config')
-      .with_content(/Ciphers [^#]*\baes128-ctr\b/)
-      .with_content(/Ciphers [^#]*\baes192-ctr\b/)
-      .with_content(/Ciphers [^#]*\baes256-ctr\b/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/Ciphers [^#]*\baes128-ctr\b/).
+      with_content(/Ciphers [^#]*\baes192-ctr\b/).
+      with_content(/Ciphers [^#]*\baes256-ctr\b/)
   end
 
   context 'with weak hmacs enabled for the server' do
@@ -84,8 +84,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'allows weak hmacs' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/MACs [^#]*\bhmac-sha1\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/MACs [^#]*\bhmac-sha1\b/)
     end
 
     it 'does not warn about depreciation' do
@@ -102,8 +102,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'weak hmacs on the server are not enabled' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/MACs [^#]*\bhmac-sha1\b/)
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+        with_content(/MACs [^#]*\bhmac-sha1\b/)
     end
   end
 
@@ -115,12 +115,12 @@ describe 'ssh-hardening::server' do
     end
 
     it 'enables weak kexs on the server' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
     end
 
     it 'does not warn about depreciation' do
@@ -137,12 +137,12 @@ describe 'ssh-hardening::server' do
     end
 
     it 'does not enable weak kexs on the server' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
     end
   end
 
@@ -154,10 +154,10 @@ describe 'ssh-hardening::server' do
     end
 
     it 'enables cbc ciphers for the server' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/Ciphers [^#]*\baes256-cbc\b/)
-        .with_content(/Ciphers [^#]*\baes192-cbc\b/)
-        .with_content(/Ciphers [^#]*\baes128-cbc\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/Ciphers [^#]*\baes256-cbc\b/).
+        with_content(/Ciphers [^#]*\baes192-cbc\b/).
+        with_content(/Ciphers [^#]*\baes128-cbc\b/)
     end
 
     it 'does not warn about depreciation' do
@@ -174,8 +174,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'does not enable cbc ciphers for the server' do
-      expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-        .with_content(/Ciphers [^#]*\b.*-cbc\b/)
+      expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+        with_content(/Ciphers [^#]*\b.*-cbc\b/)
     end
   end
 
@@ -189,28 +189,28 @@ describe 'ssh-hardening::server' do
       end
 
       it 'allows weak hmacs' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config')
-          .with_content(/MACs [^#]*\bhmac-sha1\b/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/MACs [^#]*\bhmac-sha1\b/)
       end
 
       it 'still does not allow weak kexs' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
       end
 
       it 'still does not allow cbc ciphers' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/Ciphers [^#]*-cbc\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/Ciphers [^#]*-cbc\b/)
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_server')
-          .with(message: /deprecated/)
-          .with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_server').
+          with(message: /deprecated/).
+          with(level: :warn)
       end
     end
 
@@ -223,28 +223,28 @@ describe 'ssh-hardening::server' do
       end
 
       it 'allows weak kexs' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-        expect(chef_run).to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-        expect(chef_run).to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
       end
 
       it 'still does not allow weak macs' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/MACs [^#]*\bhmac-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/MACs [^#]*\bhmac-sha1\b/)
       end
 
       it 'still does not allow cbc ciphers' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/Ciphers [^#]*-cbc\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/Ciphers [^#]*-cbc\b/)
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_kex_server')
-          .with(message: /deprecated/)
-          .with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/weak_kex_server').
+          with(message: /deprecated/).
+          with(level: :warn)
       end
     end
 
@@ -257,37 +257,37 @@ describe 'ssh-hardening::server' do
       end
 
       it 'allows cbc ciphers' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config')
-          .with_content(/Ciphers [^#]*\baes256-cbc\b/)
-          .with_content(/Ciphers [^#]*\baes192-cbc\b/)
-          .with_content(/Ciphers [^#]*\baes128-cbc\b/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/Ciphers [^#]*\baes256-cbc\b/).
+          with_content(/Ciphers [^#]*\baes192-cbc\b/).
+          with_content(/Ciphers [^#]*\baes128-cbc\b/)
       end
 
       it 'still does not allow weak macs' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/MACs [^#]*\bhmac-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/MACs [^#]*\bhmac-sha1\b/)
       end
 
       it 'still does not allow weak kexs' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
-          .with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
       end
 
       it 'still enables ctr ciphers' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config')
-          .with_content(/Ciphers [^#]*\baes128-ctr\b/)
-          .with_content(/Ciphers [^#]*\baes192-ctr\b/)
-          .with_content(/Ciphers [^#]*\baes256-ctr\b/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/Ciphers [^#]*\baes128-ctr\b/).
+          with_content(/Ciphers [^#]*\baes192-ctr\b/).
+          with_content(/Ciphers [^#]*\baes256-ctr\b/)
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/cbc_required_server')
-          .with(message: /deprecated/)
-          .with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/cbc_required_server').
+          with(message: /deprecated/).
+          with(level: :warn)
       end
     end
 
@@ -305,9 +305,9 @@ describe 'ssh-hardening::server' do
           end
 
           it "warns about ignoring the global #{attr} value for the server" do
-            expect(chef_run).to write_log("ignored-ssh/#{attr}_server")
-              .with(message: "Ignoring ssh/#{attr}:true for server")
-              .with(level: :warn)
+            expect(chef_run).to write_log("ignored-ssh/#{attr}_server").
+              with(message: "Ignoring ssh/#{attr}:true for server").
+              with(level: :warn)
           end
         end
 
@@ -323,8 +323,8 @@ describe 'ssh-hardening::server' do
           end
 
           it "does not warn about ignoring the global #{attr}" do
-            expect(chef_run).not_to write_log("ignored-ssh/#{attr}_server")
-              .with_level(:warn)
+            expect(chef_run).not_to write_log("ignored-ssh/#{attr}_server").
+              with_level(:warn)
           end
         end
       end
@@ -337,10 +337,10 @@ describe 'ssh-hardening::server' do
   end
 
   it 'creates .ssh directory for user root' do
-    expect(chef_run).to create_directory('/root/.ssh')
-      .with(mode: '0500')
-      .with(owner: 'root')
-      .with(group: 'root')
+    expect(chef_run).to create_directory('/root/.ssh').
+      with(mode: '0500').
+      with(owner: 'root').
+      with(group: 'root')
   end
 
   context 'without attribute allow_root_with_key' do
@@ -357,8 +357,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'unlocks root account' do
-      expect(chef_run).to run_execute('unlock root account if it is locked')
-        .with(command: "sed 's/^root:\!/root:*/' /etc/shadow -i")
+      expect(chef_run).to run_execute('unlock root account if it is locked').
+        with(command: "sed 's/^root:\!/root:*/' /etc/shadow -i")
     end
   end
 
@@ -376,25 +376,25 @@ describe 'ssh-hardening::server' do
     end
 
     it 'creates authorized_keys for root' do
-      expect(chef_run).to create_template('/root/.ssh/authorized_keys')
-        .with(mode: '0400')
-        .with(owner: 'root')
-        .with(group: 'root')
+      expect(chef_run).to create_template('/root/.ssh/authorized_keys').
+        with(mode: '0400').
+        with(owner: 'root').
+        with(group: 'root')
     end
 
     it 'authorizes keys from the user data bag for root access' do
-      expect(chef_run).to render_file('/root/.ssh/authorized_keys')
-        .with_content(/^key-user1$/)
-        .with_content(/^key-user2$/)
-        .with_content(/^key1-user3$/)
-        .with_content(/^key2-user3$/)
-        .with_content(/^key1-user4$/)
+      expect(chef_run).to render_file('/root/.ssh/authorized_keys').
+        with_content(/^key-user1$/).
+        with_content(/^key-user2$/).
+        with_content(/^key1-user3$/).
+        with_content(/^key2-user3$/).
+        with_content(/^key1-user4$/)
     end
 
     it 'warns about deprecation of data bag use' do
-      expect(chef_run).to write_log('deprecated-databag')
-        .with(message: /deprecated/)
-        .with(level: :warn)
+      expect(chef_run).to write_log('deprecated-databag').
+        with(message: /deprecated/).
+        with(level: :warn)
     end
   end
 
@@ -427,23 +427,23 @@ describe 'ssh-hardening::server' do
   end
 
   it 'leaves deny users commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config')
-      .with_content(/#DenyUsers */)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/#DenyUsers */)
   end
 
   it 'leaves allow users commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config')
-      .with_content(/#AllowUsers user1/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/#AllowUsers user1/)
   end
 
   it 'leaves deny groups commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config')
-      .with_content(/#DenyGroups */)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/#DenyGroups */)
   end
 
   it 'leaves allow groups commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config')
-      .with_content(/#AllowGroups group1/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/#AllowGroups group1/)
   end
 
   context 'with attribute deny_users' do
@@ -454,8 +454,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'adds user to deny list' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/DenyUsers [^#]*\bsomeuser\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/DenyUsers [^#]*\bsomeuser\b/)
     end
   end
 
@@ -467,15 +467,15 @@ describe 'ssh-hardening::server' do
     end
 
     it 'adds users to deny list' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/DenyUsers [^#]*\bsomeuser otheruser\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/DenyUsers [^#]*\bsomeuser otheruser\b/)
     end
   end
 
   context 'without attribute use_dns' do
     it 'leaves UseDNS commented' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/#UseDNS no/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/#UseDNS no/)
     end
   end
 
@@ -487,8 +487,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets UseDNS correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/UseDNS no/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/UseDNS no/)
     end
   end
 
@@ -500,8 +500,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets UseDNS correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        .with_content(/UseDNS yes/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/UseDNS yes/)
     end
   end
 end
