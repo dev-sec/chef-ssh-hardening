@@ -80,12 +80,12 @@ You can then access
 
 Add the recipes to the run_list:
 
-    "recipe[ssh]"
+    "recipe[ssh-hardening]"
 
 This will install ssh-server and ssh-client. You can alternatively choose only one via:
 
-    "recipe[ssh::server]"
-    "recipe[ssh::client]"
+    "recipe[ssh-hardening::server]"
+    "recipe[ssh-hardening::client]"
 
 Configure attributes:
 
