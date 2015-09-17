@@ -174,7 +174,11 @@ AllowAgentForwarding no
 GatewayPorts no
 
 # Disable X11 forwarding, since local X11 display could be accessed through forwarded connection.
+<% if @node['ssh']['allow_x11_forwarding'] %>
+X11Forwarding yes
+<% else %>
 X11Forwarding no
+<% end %>
 X11UseLocalhost yes
 
 
