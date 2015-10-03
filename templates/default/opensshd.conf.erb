@@ -104,7 +104,7 @@ HostbasedAuthentication no
 # Enable PAM to enforce system wide rules
 UsePAM <%= ((@node['ssh']['use_pam']) ? "yes" : "no" ) %>
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
-PasswordAuthentication <%= @node['ssh']['password_authentication'] %>
+PasswordAuthentication <%= ((@node['ssh']['password_authentication']) ? "yes" : "no" ) %>
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
