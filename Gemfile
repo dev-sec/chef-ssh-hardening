@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'berkshelf',  '~> 3.0'
+gem 'berkshelf',  '~> 4.0'
 gem 'chef',       '>= 12.0'
 
 group :test do
@@ -30,4 +30,8 @@ end
 
 group :openstack do
   gem 'kitchen-openstack'
+end
+
+group :tools do
+  gem 'github_changelog_generator', '~> 1'
 end
