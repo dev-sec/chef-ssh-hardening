@@ -89,8 +89,8 @@ UseLogin no
 UsePrivilegeSeparation <%= @use_priv_sep %>
 PermitUserEnvironment no
 LoginGraceTime 30s
-MaxAuthTries 2
-MaxSessions 10
+MaxAuthTries <%= @node['ssh']['max_auth_tries'] %>
+MaxSessions <%= @node['ssh']['max_sessions'] %>
 MaxStartups 10:30:100
 
 # Enable public key authentication

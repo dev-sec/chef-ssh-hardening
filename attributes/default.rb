@@ -71,3 +71,5 @@ default['ssh']['password_authentication'] = false    # sshd
 default['ssh']['use_dns']                 = nil     # sshd
 # set this to nil to let us detect the attribute based on the node platform
 default['ssh']['use_privilege_separation'] = nil
+default['ssh']['max_auth_tries']           = 2      # sshd
+default['ssh']['max_sessions']             = 10     # sshd
