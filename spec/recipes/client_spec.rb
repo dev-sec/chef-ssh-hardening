@@ -61,6 +61,11 @@ describe 'ssh-hardening::client' do
       with_content(/Ciphers [^#]*-cbc\b/)
   end
 
+  it 'disables client roaming' do
+    expect(chef_run).to render_file('/etc/ssh/ssh_config').
+      with_content(/UseRoaming no/)
+  end
+
   it 'enables ctr ciphers' do
     expect(chef_run).to render_file('/etc/ssh/ssh_config').
       with_content(/Ciphers [^#]*\baes128-ctr\b/).
