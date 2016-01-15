@@ -88,7 +88,7 @@ RhostsRSAAuthentication no
 RSAAuthentication yes
 
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
-PasswordAuthentication no
+PasswordAuthentication <%= ((@node['ssh']['client']['password_authentication']) ? "yes" : "no" ) %>
 
 # Only use GSSAPIAuthentication if implemented on the network.
 GSSAPIAuthentication no

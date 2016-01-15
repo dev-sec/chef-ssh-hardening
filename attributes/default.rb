@@ -66,10 +66,11 @@ default['ssh']['deny_groups']             = []      # sshd
 default['ssh']['allow_groups']            = []      # sshd
 default['ssh']['print_motd']              = false   # sshd
 default['ssh']['print_last_log']          = false   # sshd
-default['ssh']['password_authentication'] = false    # sshd
 # set this to nil to let us use the default OpenSSH in case it's not set by the user
 default['ssh']['use_dns']                 = nil     # sshd
 # set this to nil to let us detect the attribute based on the node platform
 default['ssh']['use_privilege_separation'] = nil
 default['ssh']['max_auth_tries']           = 2      # sshd
 default['ssh']['max_sessions']             = 10     # sshd
+default['ssh']['client']['password_authentication'] = false   # ssh
+default['ssh']['server']['password_authentication'] = false   # sshd
