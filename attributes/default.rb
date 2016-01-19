@@ -74,3 +74,5 @@ default['ssh']['max_auth_tries']           = 2      # sshd
 default['ssh']['max_sessions']             = 10     # sshd
 default['ssh']['client']['password_authentication'] = false   # ssh
 default['ssh']['server']['password_authentication'] = false   # sshd
+# http://undeadly.org/cgi?action=article&sid=20160114142733
+default['ssh']['client']['roaming']        = false

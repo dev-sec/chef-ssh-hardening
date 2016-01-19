@@ -26,4 +26,3 @@ version          "1.1.0"
 recipe 'ssh-hardening::default', 'installs and configures ssh client and server'
 recipe 'ssh-hardening::client', 'install and apply security hardening for ssh client'
 recipe 'ssh-hardening::server', 'install and apply security hardening for ssh server'
-

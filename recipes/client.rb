@@ -64,6 +64,7 @@ template '/etc/ssh/ssh_config' do
   variables(
     mac: SshMac.get_macs(node, node['ssh']['client']['weak_hmac']),
     kex: SshKex.get_kexs(node, node['ssh']['client']['weak_kex']),
-    cipher: SshCipher.get_ciphers(node, node['ssh']['client']['cbc_required'])
+    cipher: SshCipher.get_ciphers(node, node['ssh']['client']['cbc_required']),
+    roaming: node['ssh']['client']['roaming']
   )
 end
