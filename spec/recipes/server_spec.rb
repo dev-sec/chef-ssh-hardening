@@ -505,8 +505,6 @@ describe 'ssh-hardening::server' do
     end
   end
 
-
-
   context 'without attribute ["sftp"]["enable"]' do
     it 'leaves SFTP Subsystem commented' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config').
