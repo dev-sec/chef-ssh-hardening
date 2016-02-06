@@ -504,4 +504,55 @@ describe 'ssh-hardening::server' do
         with_content(/UseDNS yes/)
     end
   end
+
+
+
+  context 'without attribute ["sftp"]["enable"]' do
+    it 'leaves SFTP Subsystem commented' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/^#Subsystem sftp/)
+    end
+  end
+
+  context 'with attribute ["sftp"]["enable"] set to true' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['sftp']['enable'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'sets SFTP Subsystem correctly' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/^Subsystem sftp/)
+    end
+  end
+
+  context 'with attribute ["sftp"]["enable"] set to true and ["sftp"]["group"] set to "testgroup"' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['sftp']['enable'] = true
+        node.set['ssh']['sftp']['group'] = "testgroup"
+      end.converge(described_recipe)
+    end
+
+    it 'sets the SFTP Group correctly' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/^Match Group testgroup$/)
+    end
+  end
+
+  context 'with attribute ["sftp"]["enable"] set to true and ["sftp"]["chroot"] set to "/export/home/%u"' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.set['ssh']['sftp']['enable'] = true
+        node.set['ssh']['sftp']['chroot'] = "/export/home/%u"
+      end.converge(described_recipe)
+    end
+
+    it 'sets the SFTP chroot correctly' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/^ChrootDirectory \/export\/home\/%u$/)
+    end
+  end
+
 end
