@@ -529,7 +529,7 @@ describe 'ssh-hardening::server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['sftp']['enable'] = true
-        node.set['ssh']['sftp']['group'] = "testgroup"
+        node.set['ssh']['sftp']['group'] = 'testgroup'
       end.converge(described_recipe)
     end
 
@@ -543,13 +543,13 @@ describe 'ssh-hardening::server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
         node.set['ssh']['sftp']['enable'] = true
-        node.set['ssh']['sftp']['chroot'] = "/export/home/%u"
+        node.set['ssh']['sftp']['chroot'] = 'test_home_dir'
       end.converge(described_recipe)
     end
 
     it 'sets the SFTP chroot correctly' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/^ChrootDirectory \/export\/home\/%u$/)
+        with_content(/^ChrootDirectory test_home_dir$/)
     end
   end
 
