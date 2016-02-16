@@ -39,11 +39,14 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['use_pam']` - `false` to disable pam authentication
 * `['ssh']['print_motd']` - `false` to disable printing of the MOTD
 * `['ssh']['print_last_log']` - `false` to disable display of last login information
-* `default['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
-* `default['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
-* `default['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
-* `default['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
-* `default['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
+* `['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
+* `['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
+* `['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
+* `['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
+* `['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
+* `['ssh']['sftp']['enable']` - `false` to disable the SFTP feature of OpenSSHd. Set to `true` to enable SFTP.
+* `['ssh']['sftp']['group']` - `sftponly` to configure the `Match Group` option of SFTP to allow SFTP only for dedicated users
+* `['ssh']['sftp']['chroot']` - `/home/%u` to configure the directory where the SFTP user should be chrooted
 
 ## Data Bags
 
@@ -96,6 +99,26 @@ Configure attributes:
     }
 
 **The default value for `listen_to` is `0.0.0.0`. It is highly recommended to change the value.**
+
+## SFTP
+
+To enable the SFTP configuration add one of the following recipes to the run_list:
+
+    "recipe[ssh-hardening]"
+    or
+    "recipe[ssh-hardening::server]"
+
+Configure attributes:
+
+    "ssh" : {
+      "sftp" : {
+        "enable" : true,
+        "chroot" : "/home/sftp/%u",
+        "group"  : "sftusers"
+      }
+    }
+
+This will enable the SFTP Server and chroot every user in the `sftpusers` group to the `/home/sftp/%u` directory. 
 
 ## Local Testing
 
@@ -153,6 +176,12 @@ Always look into log files first and if possible look at the negotation between 
 We have seen some issues in applications (based on python and ruby) that are due to their use of an outdated crypto set. This collides with this hardening module, which reduced the list of ciphers, message authentication codes (MACs) and key exchange (KEX) algorithms to a more secure selection.
 
 If you find this isn't enough, feel free to activate the attributes `cbc_requires` for ciphers, `weak_hmac` for MACs and `weak_kex`for KEX in the namespaces `['ssh']['client']` or `['ssh']['server']` based on where you want to support them.
+
+**Why can't I log to the SFTP server after I added a user to my SFTP group?**
+
+This is a ChrootDirectory ownership problem. sshd will reject SFTP connections to accounts that are set to chroot into any directory that has ownership/permissions that sshd considers insecure. sshd's strict ownership/permissions requirements dictate that every directory in the chroot path must be owned by root and only writable by the owner. So, for example, if the chroot environment is /home must be owned by root.
+
+See [https://wiki.archlinux.org/index.php/SFTP_chroot](https://wiki.archlinux.org/index.php/SFTP_chroot)
 
 ## Deprecation Notices
 

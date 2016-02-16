@@ -189,6 +189,22 @@ UseDNS <%= ((@node['ssh']['use_dns']) ? 'yes' : 'no' ) %>
 #ChrootDirectory none
 #ChrootDirectory /home/%u
 
+<% if @node['ssh']['sftp']['enable'] %>
+# Configuration, in case SFTP is used
+## override default of no subsystems
+## Subsystem sftp /opt/app/openssh5/libexec/sftp-server
+Subsystem sftp internal-sftp -l VERBOSE
+
+## These lines must appear at the *end* of sshd_config
+Match Group <%= @node['ssh']['sftp']['group'] %>
+ForceCommand internal-sftp -l VERBOSE
+ChrootDirectory <%= @node['ssh']['sftp']['chroot'] %>
+AllowTcpForwarding no
+AllowAgentForwarding no
+PasswordAuthentication no
+PermitRootLogin no
+X11Forwarding no
+<% else %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
 ## Subsystem sftp /opt/app/openssh5/libexec/sftp-server
@@ -203,3 +219,4 @@ UseDNS <%= ((@node['ssh']['use_dns']) ? 'yes' : 'no' ) %>
 #PasswordAuthentication no
 #PermitRootLogin no
 #X11Forwarding no
+<% end %>

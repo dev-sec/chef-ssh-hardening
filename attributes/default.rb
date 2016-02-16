@@ -76,3 +76,8 @@ default['ssh']['client']['password_authentication'] = false   # ssh
 default['ssh']['server']['password_authentication'] = false   # sshd
 # http://undeadly.org/cgi?action=article&sid=20160114142733
 default['ssh']['client']['roaming']        = false
+
+# Define SFTP options
+default['ssh']['sftp']['enable']        = false
+default['ssh']['sftp']['group']         = 'sftponly'
+default['ssh']['sftp']['chroot']        = '/home/%u'
