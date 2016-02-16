@@ -39,11 +39,11 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['use_pam']` - `false` to disable pam authentication
 * `['ssh']['print_motd']` - `false` to disable printing of the MOTD
 * `['ssh']['print_last_log']` - `false` to disable display of last login information
-* `default['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
-* `default['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
-* `default['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
-* `default['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
-* `default['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
+* `['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
+* `['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
+* `['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
+* `['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
+* `['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
 * `['ssh']['sftp']['enable']` - `false` to disable the SFTP feature of OpenSSHd. Set to `true` to enable SFTP.
 * `['ssh']['sftp']['group']` - `sftponly` to configure the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh']['sftp']['chroot']` - `/home/%u` to configure the directory where the SFTP user should be chrooted
