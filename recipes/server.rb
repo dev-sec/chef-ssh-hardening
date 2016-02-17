@@ -30,7 +30,9 @@ service 'sshd' do
   # @see http://docs.opscode.com/resource_service.html#providers
   case node['platform']
   when 'ubuntu'
-    if node['platform_version'].to_f >= 12.04
+    if node['platform_version'].to_f >= 15.04
+      provider Chef::Provider::Service::Systemd
+    elsif node['platform_version'].to_f >= 12.04
       provider Chef::Provider::Service::Upstart
     end
   end
