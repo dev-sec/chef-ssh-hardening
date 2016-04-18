@@ -4,14 +4,14 @@ source 'https://rubygems.org'
 
 gem 'berkshelf',  '~> 4.0'
 gem 'chef',       '>= 12.0'
-gem 'inspec', '~> 0.9'
+gem 'inspec', '~> 0'
 
 group :test do
   gem 'rake'
   gem 'chefspec',   '~> 4.2.0'
   gem 'foodcritic', '~> 4.0'
   gem 'thor-foodcritic'
-  gem 'rubocop',    '~> 0.28.0'
+  gem 'rubocop',    '~> 0.31.0'
   gem 'coveralls',  require: false
   gem 'bundler', '~> 1.5'
   gem 'minitest', '~> 5.5'
@@ -39,5 +39,5 @@ group :openstack do
 end
 
 group :tools do
-  gem 'github_changelog_generator', '~> 1'
+  gem 'github_changelog_generator', '~> 1.12.0'
 end
