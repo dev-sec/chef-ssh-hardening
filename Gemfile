@@ -32,6 +32,7 @@ group :integration do
   gem 'kitchen-inspec', '~> 0.9'
   gem 'kitchen-sharedtests', '~> 0.2.0'
   gem 'concurrent-ruby', '~> 0.9'
+  gem 'kitchen-dokken'
 end
 
 group :openstack do
