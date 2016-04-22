@@ -29,7 +29,7 @@ end
 group :integration do
   gem 'test-kitchen', '~> 1.0'
   gem 'kitchen-vagrant'
-  gem 'kitchen-inspec', '~> 0.9'
+  gem 'kitchen-inspec', '~> 0'
   gem 'kitchen-sharedtests', '~> 0.2.0'
   gem 'concurrent-ruby', '~> 0.9'
   gem 'kitchen-dokken'
