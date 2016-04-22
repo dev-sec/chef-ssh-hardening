@@ -28,6 +28,8 @@ platforms:
 - name: ubuntu-16.04
   driver:
     image: ubuntu:16.04
+    intermediate_instructions:
+    - RUN /usr/bin/apt-get update
     pid_one_command: /bin/systemd
 - name: centos-6.6
   driver:
