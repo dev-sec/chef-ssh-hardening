@@ -9,6 +9,7 @@ transport:
 
 provisioner:
   name: dokken
+  test_repo_uri: https://github.com/dev-sec/tests-ssh-hardening.git
 
 verifier:
   name: inspec
