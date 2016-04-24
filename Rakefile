@@ -70,3 +70,11 @@ begin
 rescue LoadError
   puts '>>>>> GitHub Changelog Generator not loaded, omitting tasks'
 end
+
+namespace :test do
+  task :integration do
+    concurrency = ENV['CONCURRENCY'] || 1
+    path = File.join(File.dirname(__FILE__), 'test', 'integration')
+    sh('sh', '-c', "bundle exec kitchen test -c #{concurrency}")
+  end
+end
