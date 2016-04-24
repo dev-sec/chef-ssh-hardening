@@ -5,5 +5,22 @@ rvm:
 gemfile:
 - Gemfile
 - gemfile.chef-11
+sudo: required
 language: ruby
-bundler_args: "--without development integration openstack"
+cache: bundler
+dist: trusty
+services:
+- docker
+bundler_args: "--without integration guard tools"
+before_install:
+- gem install bundler
+- gem --version
+matrix:
+  include:
+  - rvm: 1.9.3
+  - rvm: 2.0
+  - rvm: 2.1
+  - rvm: ruby-head
+  - rvm: 2.2
+    bundler_args: "--without guard tools"
+    script: bundle exec rake test:integration
