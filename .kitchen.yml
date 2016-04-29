@@ -9,7 +9,6 @@ transport:
 
 provisioner:
   name: dokken
-  test_repo_uri: https://github.com/dev-sec/tests-ssh-hardening.git
 
 verifier:
   name: inspec
@@ -72,3 +71,6 @@ suites:
 - name: default
   run_list:
   - recipe[ssh-hardening::default]
+  verifier:
+    inspec_tests:
+      - https://github.com/dev-sec/tests-ssh-hardening
