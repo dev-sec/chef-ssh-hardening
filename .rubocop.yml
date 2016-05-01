@@ -5,6 +5,7 @@ AllCops:
   - test/**/*
   - metadata.rb
   - Berksfile
+  - Guardfile
 Documentation:
   Enabled: false
 AlignParameters:
