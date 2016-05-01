@@ -45,9 +45,15 @@ platforms:
   driver_config:
     box: debian/jessie64
     box_url: https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.1.0/providers/virtualbox.box
+
 verifier:
   name: inspec
+  sudo: true
+
 suites:
 - name: default
   run_list:
-  - - role[ssh]
+  - recipe[ssh-hardening]
+  verifier:
+    inspec_tests:
+      - https://github.com/dev-sec/tests-ssh-hardening
