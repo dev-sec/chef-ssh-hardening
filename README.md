@@ -39,6 +39,8 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['use_pam']` - `false` to disable pam authentication
 * `['ssh']['print_motd']` - `false` to disable printing of the MOTD
 * `['ssh']['print_last_log']` - `false` to disable display of last login information
+* `['ssh']['max_auth_tries']` - controls `MaxAuthTries`; the number of authentication attempts per connection.
+* `['ssh']['max_sessions']` - controls `MaxSessions`; the number of sessions per connection.
 * `['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
 * `['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
 * `['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
