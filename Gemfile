@@ -39,10 +39,6 @@ group :integration do
   gem 'kitchen-dokken'
 end
 
-group :openstack do
-  gem 'kitchen-openstack'
-end
-
 group :tools do
   gem 'github_changelog_generator', '~> 1.12.0'
 end

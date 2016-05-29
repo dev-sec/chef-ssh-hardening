@@ -1,9 +1,10 @@
 ---
 driver:
   name: vagrant
+
 provisioner:
   name: chef_solo
-  test_repo_uri: https://github.com/TelekomLabs/tests-ssh-hardening.git
+
 platforms:
 - name: ubuntu-12.04
   driver_config:
