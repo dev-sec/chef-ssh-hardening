@@ -366,12 +366,12 @@ describe 'ssh-hardening::server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |_node, server|
         server.create_data_bag(
-        'users',
-        'user1' => { id: 'user1', ssh_rootkey: 'key-user1' },
-        'user2' => { id: 'user2', ssh_rootkey: 'key-user2' },
-        'user3' => { id: 'user3', ssh_rootkeys: %w(key1-user3 key2-user3) },
-        'user4' => { id: 'user4', ssh_rootkeys: %w(key1-user4) }
-      )
+          'users',
+          'user1' => { id: 'user1', ssh_rootkey: 'key-user1' },
+          'user2' => { id: 'user2', ssh_rootkey: 'key-user2' },
+          'user3' => { id: 'user3', ssh_rootkeys: %w(key1-user3 key2-user3) },
+          'user4' => { id: 'user4', ssh_rootkeys: %w(key1-user4) }
+        )
       end.converge(described_recipe)
     end
 

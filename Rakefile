@@ -9,16 +9,11 @@ require 'rubocop/rake_task'
 
 # Rubocop before rspec so we don't lint vendored cookbooks
 desc 'Run all tests except Kitchen (default task)'
-task integration: %w(rubocop foodcritic spec)
-task default: [:integration]
-
-# Lint the cookbook
-desc 'Run linters'
-task lint: [:rubocop, :foodcritic]
+task default: [:lint, :spec]
 
 # Lint the cookbook
 desc 'Run all linters: rubocop and foodcritic'
-task run_all_linters: [:rubocop, :foodcritic]
+task lint: [:rubocop, :foodcritic]
 
 # Run the whole shebang
 desc 'Run all tests'
@@ -51,17 +46,6 @@ task :rubocop do
   RuboCop::RakeTask.new
 end
 
-begin
-  require 'kitchen/rake_tasks'
-  Kitchen::RakeTasks.new
-
-  desc 'Alias for kitchen:all'
-  task acceptance: 'kitchen:all'
-
-rescue LoadError
-  puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
-end
-
 # Automatically generate a changelog for this project. Only loaded if
 # the necessary gem is installed.
 begin
@@ -69,4 +53,12 @@ begin
   GitHubChangelogGenerator::RakeTask.new :changelog
 rescue LoadError
   puts '>>>>> GitHub Changelog Generator not loaded, omitting tasks'
+end
+
+namespace :test do
+  task :integration do
+    concurrency = ENV['CONCURRENCY'] || 1
+    os = ENV['OS'] || ''
+    sh('sh', '-c', "bundle exec kitchen test -c #{concurrency} #{os}")
+  end
 end

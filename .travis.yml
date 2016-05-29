@@ -1,9 +1,28 @@
 ---
-rvm:
-- 2.0.0
-- 2.1.3
-gemfile:
-- Gemfile
-- gemfile.chef-11
+sudo: required
 language: ruby
-bundler_args: "--without development integration openstack"
+cache: bundler
+dist: trusty
+
+services:
+- docker
+
+before_install:
+- gem --version
+- bundle version
+
+matrix:
+  include:
+  # verify lint and unit
+  - rvm: 2.3.1
+    gemfile: Gemfile
+    bundler_args: "--without integration guard tools"
+  # integration tests
+  - rvm: 2.3.1
+    bundler_args: "--without guard tools"
+    script: bundle exec rake test:integration OS='centos oracle'
+    gemfile: Gemfile
+  - rvm: 2.3.1
+    bundler_args: "--without guard tools"
+    script: bundle exec rake test:integration OS='ubuntu debian'
+    gemfile: Gemfile
