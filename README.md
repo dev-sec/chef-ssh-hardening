@@ -1,8 +1,8 @@
 # ssh-hardening (Chef cookbook)
 
 [![Supermarket](http://img.shields.io/cookbook/v/ssh-hardening.svg)][1]
-[![Build Status](http://img.shields.io/travis/hardening-io/chef-ssh-hardening.svg)][2]
-[![Code Coverage](http://img.shields.io/coveralls/hardening-io/chef-ssh-hardening.svg)][3]
+[![Build Status](http://img.shields.io/travis/dev-sec/chef-ssh-hardening.svg)][2]
+[![Code Coverage](http://img.shields.io/coveralls/dev-sec/chef-ssh-hardening.svg)][3]
 [![Dependencies](http://img.shields.io/gemnasium/hardening-io/chef-ssh-hardening.svg)][4]
 [![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)][5]
 
@@ -120,7 +120,7 @@ Configure attributes:
       }
     }
 
-This will enable the SFTP Server and chroot every user in the `sftpusers` group to the `/home/sftp/%u` directory. 
+This will enable the SFTP Server and chroot every user in the `sftpusers` group to the `/home/sftp/%u` directory.
 
 ## Local Testing
 
