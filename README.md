@@ -1,8 +1,8 @@
 # ssh-hardening (Chef cookbook)
 
 [![Supermarket](http://img.shields.io/cookbook/v/ssh-hardening.svg)][1]
-[![Build Status](http://img.shields.io/travis/hardening-io/chef-ssh-hardening.svg)][2]
-[![Code Coverage](http://img.shields.io/coveralls/hardening-io/chef-ssh-hardening.svg)][3]
+[![Build Status](http://img.shields.io/travis/dev-sec/chef-ssh-hardening.svg)][2]
+[![Code Coverage](http://img.shields.io/coveralls/dev-sec/chef-ssh-hardening.svg)][3]
 [![Dependencies](http://img.shields.io/gemnasium/hardening-io/chef-ssh-hardening.svg)][4]
 [![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)][5]
 
@@ -16,11 +16,11 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 
 ### Platform
 
-- Debian 6, 7
-- Ubuntu 12.04, 14.04
-- RHEL 6.4, 6.5, 6.6
-- CentOS 6.4, 6.5, 6.6
-- OracleLinux 6.4, 6.5, 6.6
+- Debian 7, 8
+- Ubuntu 12.04, 14.04, 16.04
+- RHEL 6.6, 6.7, 7
+- CentOS 6.6, 6.7, 7
+- OracleLinux 6.6, 6.7, 7
 
 ## Attributes
 
@@ -120,11 +120,11 @@ Configure attributes:
       }
     }
 
-This will enable the SFTP Server and chroot every user in the `sftpusers` group to the `/home/sftp/%u` directory. 
+This will enable the SFTP Server and chroot every user in the `sftpusers` group to the `/home/sftp/%u` directory.
 
 ## Local Testing
 
-For local testing you can use vagrant and Virtualbox of VMWare to run tests locally. You will have to install Virtualbox and Vagrant on your system. See [Vagrant Downloads](http://downloads.vagrantup.com/) for a vagrant package suitable for your system. For all our tests we use `test-kitchen`. If you are not familiar with `test-kitchen` please have a look at [their guide](http://kitchen.ci/docs/getting-started).
+For local testing you can use vagrant and Virtualbox of VMWare to run tests locally. You will have to install Virtualbox and Vagrant on your system. See [Vagrant Downloads](http://downloads.vagrantup.com/) for a vagrant package suitable for your system. For all our tests we use `test-kitchen`. If you are not familiar with `test-kitchen` please have a look at [their guide](http://kitchen.ci/docs/getting-started). We are writing our test with [InSpec](https://github.com/chef/inspec).
 
 Next install test-kitchen:
 
@@ -135,9 +135,6 @@ bundle install
 
 # Do lint checks
 bundle exec rake lint
-
-# Fetch tests
-bundle exec thor kitchen:fetch-remote-tests
 
 # fast test on one machine
 bundle exec kitchen test default-ubuntu-1204
@@ -200,7 +197,7 @@ See [https://wiki.archlinux.org/index.php/SFTP_chroot](https://wiki.archlinux.or
 * Dominik Richter [arlimus](https://github.com/arlimus)
 * Christoph Hartmann [chris-rock](https://github.com/chris-rock)
 * Bernhard Weisshuhn (a.k.a. bernhorst) [bkw](https://github.com/bkw)
-* Patrick Meier [atomic111](https://github.com/atomic111)
+* Patrick Munch [atomic111](https://github.com/atomic111)
 * Edmund Haselwanter [ehaselwanter](https://github.com/ehaselwanter)
 * Dana Merrick [dmerrick](https://github.com/dmerrick)
 * Anton Rieder [aried3r](https://github.com/aried3r)
@@ -240,7 +237,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 [1]: https://supermarket.getchef.com/cookbooks/ssh-hardening
-[2]: http://travis-ci.org/hardening-io/chef-ssh-hardening
-[3]: https://coveralls.io/r/hardening-io/chef-ssh-hardening
+[2]: http://travis-ci.org/dev-sec/chef-ssh-hardening
+[3]: https://coveralls.io/r/dev-sec/chef-ssh-hardening
 [4]: https://gemnasium.com/hardening-io/chef-ssh-hardening
-[5]: https://gitter.im/hardening-io/general
+[5]: https://gitter.im/dev-sec/general
