@@ -24,7 +24,7 @@ class Chef
   class Recipe
     class SshMac
       # rubocop:disable AbcSize
-      def self.get_macs(node, weak_hmac)
+      def self.get_macs(node, weak_hmac) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
         weak_macs = weak_hmac ? 'weak' : 'default'
 
         macs_53 = {}

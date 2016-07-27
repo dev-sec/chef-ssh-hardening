@@ -24,7 +24,7 @@ class Chef
   class Recipe
     class SshKex
       # rubocop:disable AbcSize
-      def self.get_kexs(node, weak_kex)
+      def self.get_kexs(node, weak_kex) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
         weak_kex = weak_kex ? 'weak' : 'default'
 
         kex_59 = {}
