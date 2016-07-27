@@ -30,7 +30,11 @@ class Chef
         # ubuntu 12.04 and newer has ssh 5.9+
 
         # redhat/centos/oracle 6.x has ssh 5.3
-        if node['platform_family'] == 'rhel'
+        if node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
+          ps = ps59
+
+        # redhat/centos/oracle 6.x has ssh 5.3
+        elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f < 7
           ps = ps53
 
         # debian 7.x and newer has ssh 5.9+

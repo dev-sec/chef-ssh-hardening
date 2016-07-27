@@ -24,7 +24,7 @@ class Chef
   class Recipe
     class SshKex
       # rubocop:disable AbcSize
-      def self.get_kexs(node, weak_kex)
+      def self.get_kexs(node, weak_kex) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
         weak_kex = weak_kex ? 'weak' : 'default'
 
         kex_59 = {}
@@ -47,8 +47,14 @@ class Chef
           Chef::Log.info('Detected Debian 8 or newer, use new key exchange algorithms')
           kex = kex_66
 
-        # deactivate kex on redhat
-        elsif node['platform_family'] == 'rhel'
+        # use newer kex for redhat version 7 or newer
+        elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
+          Chef::Log.info('Detected Redhat 7 or newer, use new key exchange algorithms')
+          kex = kex_66
+
+        # deactivate kex on redhat version 6
+        elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f < 7
+          Chef::Log.info('Detected Redhat 6 or earlier, disable KEX')
           kex = {}
           kex.default = nil
 
