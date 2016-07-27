@@ -41,7 +41,7 @@ class Chef
         # determine the mac for the operating system
         macs = macs_59
 
-        # use newer ciphers on ubuntu 14.04
+        # use newer macs on ubuntu 14.04
         if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new macs')
           macs = macs_66
@@ -50,8 +50,13 @@ class Chef
           Chef::Log.info('Detected Debian 8 or newer, use new macs')
           macs = macs_66
 
-        # stick to 53 for rhel <= 6, verify for rhel >= 7
-        elsif node['platform_family'] == 'rhel'
+        # use newer macs for rhel >= 7
+        elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
+          Chef::Log.info('Detected RedHat Family with version 7 or newer, use new macs')
+          macs = macs_66
+
+        # stick to 53 for rhel <= 6
+        elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f < 7
           Chef::Log.info('Detected RedHat Family, use old macs')
           macs = macs_53
 
