@@ -20,9 +20,21 @@ matrix:
   # integration tests
   - rvm: 2.3.1
     bundler_args: "--without guard tools"
-    script: bundle exec rake test:integration OS='centos oracle'
-    gemfile: Gemfile
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='centos'
   - rvm: 2.3.1
     bundler_args: "--without guard tools"
-    script: bundle exec rake test:integration OS='ubuntu debian'
-    gemfile: Gemfile
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='oracle'
+  - rvm: 2.3.1
+    bundler_args: "--without guard tools"
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='ubuntu'
+  - rvm: 2.3.1
+    bundler_args: "--without guard tools"
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='debian'
+  - rvm: 2.3.1
+    bundler_args: "--without guard tools"
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='fedora'
