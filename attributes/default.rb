@@ -19,7 +19,7 @@
 #
 
 # Define the client package name
-case platform
+case node['platform']
 when 'redhat', 'centos', 'fedora', 'amazon', 'oracle', 'scientific'
   default['sshclient']['package'] = 'openssh-clients'
 when 'debian', 'ubuntu'
