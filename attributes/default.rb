@@ -24,14 +24,19 @@ when 'redhat', 'centos', 'fedora', 'amazon', 'oracle', 'scientific'
   default['sshclient']['package'] = 'openssh-clients'
 when 'debian', 'ubuntu'
   default['sshclient']['package'] = 'openssh-client'
-when 'arch'
+when 'arch', 'suse', 'opensuse'
   default['sshclient']['package'] = 'openssh'
 else
   default['sshclient']['package'] = 'openssh-client'
 end
 
 # Define the server package name
-default['sshserver']['package'] = 'openssh-server'
+case node['platform']
+when 'suse', 'opensuse'
+  default['sshserver']['package'] = 'openssh'
+else
+  default['sshserver']['package'] = 'openssh-server'
+end
 
 # Define the service name for sshd
 case node['platform_family']

@@ -75,6 +75,14 @@ platforms:
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
     - RUN dnf install -y yum
+- name: opensuse-42
+  driver:
+    image: opensuse:42.1
+    pid_one_command: /usr/lib/systemd/systemd
+- name: opensuse-13
+  driver:
+    image: opensuse:13.2
+    pid_one_command: /usr/lib/systemd/systemd
 
 suites:
 - name: default
