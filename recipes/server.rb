@@ -76,7 +76,7 @@ end
       message "ssh/server/#{setting} set from deprecated ssh/#{setting}"
       level :warn
     end
-    node.set['ssh']['server'][setting] = node['ssh'][setting]
+    node.default['ssh']['server'][setting] = node['ssh'][setting]
   else
     log "ignored-ssh/#{setting}_server" do
       message "Ignoring ssh/#{setting}:true for server"
