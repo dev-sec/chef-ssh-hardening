@@ -76,7 +76,7 @@ describe 'ssh-hardening::client' do
   context 'weak_hmac enabled only for the client' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['client']['weak_hmac'] = true
+        node.normal['ssh']['client']['weak_hmac'] = true
       end.converge(described_recipe)
     end
 
@@ -93,7 +93,7 @@ describe 'ssh-hardening::client' do
   context 'weak_hmac enabled only for the server' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['server']['weak_hmac'] = true
+        node.normal['ssh']['server']['weak_hmac'] = true
       end.converge(described_recipe)
     end
 
@@ -106,7 +106,7 @@ describe 'ssh-hardening::client' do
   context 'weak_kex enabled for the client only' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['client']['weak_kex'] = true
+        node.normal['ssh']['client']['weak_kex'] = true
       end.converge(described_recipe)
     end
 
@@ -127,7 +127,7 @@ describe 'ssh-hardening::client' do
   context 'weak_kexs enabled for the server only' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['server']['weak_kex'] = true
+        node.normal['ssh']['server']['weak_kex'] = true
       end.converge(described_recipe)
     end
 
@@ -144,7 +144,7 @@ describe 'ssh-hardening::client' do
   context 'cbc_required set for the client only' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['client']['cbc_required'] = true
+        node.normal['ssh']['client']['cbc_required'] = true
       end.converge(described_recipe)
     end
 
@@ -163,7 +163,7 @@ describe 'ssh-hardening::client' do
   context 'cbc_required set for the server only' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ssh']['server']['cbc_required'] = true
+        node.normal['ssh']['server']['cbc_required'] = true
       end.converge(described_recipe)
     end
 
@@ -177,7 +177,7 @@ describe 'ssh-hardening::client' do
     context 'legacy attribute ssl/weak_hmac set' do
       cached(:chef_run) do
         ChefSpec::ServerRunner.new do |node|
-          node.set['ssh']['weak_hmac'] = true
+          node.normal['ssh']['weak_hmac'] = true
         end.converge(described_recipe)
       end
 
@@ -210,7 +210,7 @@ describe 'ssh-hardening::client' do
     context 'legacy attribute weak_kex set' do
       cached(:chef_run) do
         ChefSpec::ServerRunner.new do |node|
-          node.set['ssh']['weak_kex'] = true
+          node.normal['ssh']['weak_kex'] = true
         end.converge(described_recipe)
       end
 
@@ -243,7 +243,7 @@ describe 'ssh-hardening::client' do
     context 'legacy attribute cbc_required set' do
       cached(:chef_run) do
         ChefSpec::ServerRunner.new do |node|
-          node.set['ssh']['cbc_required'] = true
+          node.normal['ssh']['cbc_required'] = true
         end.converge(described_recipe)
       end
 
@@ -289,9 +289,9 @@ describe 'ssh-hardening::client' do
         # don't use cache, log persists
         let(:chef_run) do
           ChefSpec::ServerRunner.new do |node|
-            node.set['ssh'][attr] = true
-            node.set['ssh']['client'][attr] = false
-            node.set['ssh']['server'][attr] = true
+            node.normal['ssh'][attr] = true
+            node.normal['ssh']['client'][attr] = false
+            node.normal['ssh']['server'][attr] = true
           end.converge(described_recipe)
         end
 
@@ -306,9 +306,9 @@ describe 'ssh-hardening::client' do
         # don't use cache, log persists
         let(:chef_run) do
           ChefSpec::ServerRunner.new do |node|
-            node.set['ssh'][attr] = true
-            node.set['ssh']['client'][attr] = true
-            node.set['ssh']['server'][attr] = false
+            node.normal['ssh'][attr] = true
+            node.normal['ssh']['client'][attr] = true
+            node.normal['ssh']['server'][attr] = false
           end.converge(described_recipe)
         end
 
