@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.2.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.2.1) (2016-09-25)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.2.0...v1.2.1)
+
+**Implemented enhancements:**
+
+- add suse and opensuse support [\#122](https://github.com/dev-sec/chef-ssh-hardening/pull/122) ([chris-rock](https://github.com/chris-rock))
+- activate fedora integration tests in travis [\#120](https://github.com/dev-sec/chef-ssh-hardening/pull/120) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- Fix deprecation warnings [\#123](https://github.com/dev-sec/chef-ssh-hardening/pull/123) ([operatingops](https://github.com/operatingops))
+- Use bracket syntax in attributes/default.rb [\#121](https://github.com/dev-sec/chef-ssh-hardening/pull/121) ([aried3r](https://github.com/aried3r))
+- Use new ciphers, kex, macs and priv separation sandbox for redhat family 7 [\#119](https://github.com/dev-sec/chef-ssh-hardening/pull/119) ([atomic111](https://github.com/atomic111))
+- change hardening-io to dev-sec domain for build status and code coverage [\#118](https://github.com/dev-sec/chef-ssh-hardening/pull/118) ([atomic111](https://github.com/atomic111))
+
 ## [v1.2.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.2.0) (2016-05-29)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.1.0...v1.2.0)
 
@@ -23,7 +38,7 @@
 - Made MaxAuthTries and MaxSessions configurable [\#107](https://github.com/dev-sec/chef-ssh-hardening/pull/107) ([runningman84](https://github.com/runningman84))
 - added inspec support \(kitchen.yml and Gemfile\) [\#106](https://github.com/dev-sec/chef-ssh-hardening/pull/106) ([atomic111](https://github.com/atomic111))
 - Apply PasswordAuthentication attribute to SSH [\#105](https://github.com/dev-sec/chef-ssh-hardening/pull/105) ([SteveLowe](https://github.com/SteveLowe))
-- Configurable PasswordAuthentication  [\#102](https://github.com/dev-sec/chef-ssh-hardening/pull/102) ([sumit-goel](https://github.com/sumit-goel))
+- Configurable PasswordAuthentication  [\#102](https://github.com/dev-sec/chef-ssh-hardening/pull/102) ([sumitgoelpw](https://github.com/sumitgoelpw))
 - x11 forwarding should be configurable like tcp and agent forwarding [\#99](https://github.com/dev-sec/chef-ssh-hardening/pull/99) ([patcon](https://github.com/patcon))
 - Correct recipe names in the README [\#98](https://github.com/dev-sec/chef-ssh-hardening/pull/98) ([michaelklishin](https://github.com/michaelklishin))
 - update common kitchen.yml platforms [\#97](https://github.com/dev-sec/chef-ssh-hardening/pull/97) ([chris-rock](https://github.com/chris-rock))
