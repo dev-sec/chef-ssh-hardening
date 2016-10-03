@@ -6,7 +6,6 @@ AllCops:
   - test/**/*
   - metadata.rb
   - Berksfile
-  - Guardfile
 Style/Documentation:
   Enabled: false
 Style/DotPosition:
@@ -28,6 +27,8 @@ Metrics/MethodLength:
   Max: 40
 Metrics/PerceivedComplexity:
   Max: 10
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
 Style/SpaceAroundOperators:
   Exclude:
     - attributes/default.rb
