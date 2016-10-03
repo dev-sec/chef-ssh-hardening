@@ -23,7 +23,6 @@
 class Chef
   class Recipe
     class SshCipher
-      # rubocop:disable AbcSize
       def self.get_ciphers(node, cbc_required)
         weak_ciphers = cbc_required ? 'weak' : 'default'
 
