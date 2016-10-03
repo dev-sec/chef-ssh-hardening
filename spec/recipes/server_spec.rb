@@ -18,7 +18,6 @@
 require 'spec_helper'
 
 describe 'ssh-hardening::server' do
-
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
@@ -552,5 +551,4 @@ describe 'ssh-hardening::server' do
         with_content(/^ChrootDirectory test_home_dir$/)
     end
   end
-
 end

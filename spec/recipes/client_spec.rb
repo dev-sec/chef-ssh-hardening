@@ -18,7 +18,6 @@
 require 'spec_helper'
 
 describe 'ssh-hardening::client' do
-
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
