@@ -4,7 +4,6 @@ AllCops:
   Exclude:
   - vendor/**/*
   - test/**/*
-  - metadata.rb
 Style/Documentation:
   Enabled: false
 Style/DotPosition:
