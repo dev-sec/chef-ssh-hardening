@@ -4,6 +4,16 @@ AllCops:
   Exclude:
   - vendor/**/*
   - test/**/*
+Metrics/AbcSize:
+  Max: 29
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 40
+Metrics/PerceivedComplexity:
+  Max: 10
 Style/Documentation:
   Enabled: false
 Style/DotPosition:
@@ -15,16 +25,6 @@ Style/Encoding:
 Style/ExtraSpacing:
   Exclude:
     - attributes/default.rb
-Metrics/AbcSize:
-  Max: 29
-Metrics/CyclomaticComplexity:
-  Max: 10
-Metrics/LineLength:
-  Enabled: false
-Metrics/MethodLength:
-  Max: 40
-Metrics/PerceivedComplexity:
-  Max: 10
 Style/RegexpLiteral:
   AllowInnerSlashes: true
 Style/SpaceAroundOperators:
