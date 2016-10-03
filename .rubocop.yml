@@ -7,8 +7,6 @@ AllCops:
   - metadata.rb
   - Berksfile
   - Guardfile
-Style/AlignParameters:
-  Enabled: true
 Style/Documentation:
   Enabled: false
 Style/DotPosition:
@@ -22,10 +20,6 @@ Style/Encoding:
 Style/ExtraSpacing:
   Exclude:
     - attributes/default.rb
-Style/HashSyntax:
-  Enabled: true
-Style/NumericLiterals:
-  MinDigits: 10
 Metrics/AbcSize:
   Max: 29
 Metrics/CyclomaticComplexity:
