@@ -1,33 +1,34 @@
 ---
 AllCops:
+  DisplayCopNames: true
   Exclude:
   - vendor/**/*
   - test/**/*
   - metadata.rb
   - Berksfile
   - Guardfile
-Documentation:
-  Enabled: false
-AlignParameters:
+Style/AlignParameters:
   Enabled: true
-Encoding:
-  Enabled: true
-HashSyntax:
-  Enabled: true
-LineLength:
+Style/Documentation:
   Enabled: false
-EmptyLinesAroundBlockBody:
-  Enabled: false
-MethodLength:
-  Max: 40
-NumericLiterals:
-  MinDigits: 10
-Metrics/CyclomaticComplexity:
-  Max: 10
-Metrics/PerceivedComplexity:
-  Max: 10
-Metrics/AbcSize:
-  Max: 29
 Style/DotPosition:
   EnforcedStyle: trailing
   Enabled: true
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+Style/Encoding:
+  Enabled: true
+Style/HashSyntax:
+  Enabled: true
+Style/NumericLiterals:
+  MinDigits: 10
+Metrics/AbcSize:
+  Max: 29
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 40
+Metrics/PerceivedComplexity:
+  Max: 10

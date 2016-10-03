@@ -16,7 +16,7 @@ group :test do
   gem 'chefspec',   '~> 4.2.0'
   gem 'foodcritic', '~> 4.0'
   gem 'thor-foodcritic'
-  gem 'rubocop',    '~> 0.31.0'
+  gem 'rubocop',    '~> 0.43.0'
   gem 'coveralls',  require: false
   gem 'minitest', '~> 5.5'
   gem 'simplecov', '~> 0.10'
