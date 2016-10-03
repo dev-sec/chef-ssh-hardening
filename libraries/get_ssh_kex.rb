@@ -27,30 +27,30 @@ class Chef
       def self.get_kexs(node, weak_kex) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
         weak_kex = weak_kex ? 'weak' : 'default'
 
-        kex_59 = {}
-        kex_59.default = 'diffie-hellman-group-exchange-sha256'
-        kex_59['weak'] = kex_59['default'] + ',diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1'
+        kex59 = {}
+        kex59.default = 'diffie-hellman-group-exchange-sha256'
+        kex59['weak'] = kex59['default'] + ',diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1'
 
-        kex_66 = {}
-        kex_66.default = 'curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256'
-        kex_66['weak'] = kex_66['default'] + ',diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1'
+        kex66 = {}
+        kex66.default = 'curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256'
+        kex66['weak'] = kex66['default'] + ',diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1'
 
         # determine the kex for the operating system
-        kex = kex_59
+        kex = kex59
 
         # use newer kex on ubuntu 14.04
         if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new key exchange algorithms')
-          kex = kex_66
+          kex = kex66
 
         elsif node['platform'] == 'debian' && node['platform_version'].to_f >= 8
           Chef::Log.info('Detected Debian 8 or newer, use new key exchange algorithms')
-          kex = kex_66
+          kex = kex66
 
         # use newer kex for redhat version 7 or newer
         elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
           Chef::Log.info('Detected Redhat 7 or newer, use new key exchange algorithms')
-          kex = kex_66
+          kex = kex66
 
         # deactivate kex on redhat version 6
         elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f < 7
