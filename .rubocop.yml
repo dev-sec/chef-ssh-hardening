@@ -19,6 +19,9 @@ Style/EmptyLinesAroundBlockBody:
 Style/Encoding:
   EnforcedStyle: always
   Enabled: true
+Style/ExtraSpacing:
+  Exclude:
+    - attributes/default.rb
 Style/HashSyntax:
   Enabled: true
 Style/NumericLiterals:
@@ -33,3 +36,6 @@ Metrics/MethodLength:
   Max: 40
 Metrics/PerceivedComplexity:
   Max: 10
+Style/SpaceAroundOperators:
+  Exclude:
+    - attributes/default.rb
