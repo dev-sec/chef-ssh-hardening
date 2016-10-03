@@ -28,10 +28,11 @@ describe 'ssh-hardening::server' do
   end
 
   it 'creates /etc/ssh/sshd_config' do
-    expect(chef_run).to create_template('/etc/ssh/sshd_config').
-      with(mode: '0600').
-      with(owner: 'root').
-      with(group: 'root')
+    expect(chef_run).to create_template('/etc/ssh/sshd_config').with(
+      mode: '0600',
+      owner: 'root',
+      group: 'root'
+    )
   end
 
   it 'enables the ssh server' do
@@ -43,10 +44,11 @@ describe 'ssh-hardening::server' do
   end
 
   it 'creates the directory /etc/ssh' do
-    expect(chef_run).to create_directory('/etc/ssh').
-      with(mode: '0755').
-      with(owner: 'root').
-      with(group: 'root')
+    expect(chef_run).to create_directory('/etc/ssh').with(
+      mode: '0755',
+      owner: 'root',
+      group: 'root'
+    )
   end
 
   it 'disables weak hmacs' do
@@ -207,9 +209,10 @@ describe 'ssh-hardening::server' do
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_server').
-          with(message: /deprecated/).
-          with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_server').with(
+          message: 'ssh/server/weak_hmac set from deprecated ssh/weak_hmac',
+          level: :warn
+        )
       end
     end
 
@@ -241,9 +244,10 @@ describe 'ssh-hardening::server' do
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_kex_server').
-          with(message: /deprecated/).
-          with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/weak_kex_server').with(
+          message: 'ssh/server/weak_kex set from deprecated ssh/weak_kex',
+          level: :warn
+        )
       end
     end
 
@@ -284,9 +288,10 @@ describe 'ssh-hardening::server' do
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/cbc_required_server').
-          with(message: /deprecated/).
-          with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/cbc_required_server').with(
+          message: 'ssh/server/cbc_required set from deprecated ssh/cbc_required',
+          level: :warn
+        )
       end
     end
 
@@ -304,9 +309,10 @@ describe 'ssh-hardening::server' do
           end
 
           it "warns about ignoring the global #{attr} value for the server" do
-            expect(chef_run).to write_log("ignored-ssh/#{attr}_server").
-              with(message: "Ignoring ssh/#{attr}:true for server").
-              with(level: :warn)
+            expect(chef_run).to write_log("ignored-ssh/#{attr}_server").with(
+              message: "Ignoring ssh/#{attr}:true for server",
+              level: :warn
+            )
           end
         end
 
@@ -322,8 +328,9 @@ describe 'ssh-hardening::server' do
           end
 
           it "does not warn about ignoring the global #{attr}" do
-            expect(chef_run).not_to write_log("ignored-ssh/#{attr}_server").
-              with_level(:warn)
+            expect(chef_run).not_to write_log("ignored-ssh/#{attr}_server").with(
+              level: :warn
+            )
           end
         end
       end
@@ -336,10 +343,11 @@ describe 'ssh-hardening::server' do
   end
 
   it 'creates .ssh directory for user root' do
-    expect(chef_run).to create_directory('/root/.ssh').
-      with(mode: '0500').
-      with(owner: 'root').
-      with(group: 'root')
+    expect(chef_run).to create_directory('/root/.ssh').with(
+      mode: '0500',
+      owner: 'root',
+      group: 'root'
+    )
   end
 
   context 'without attribute allow_root_with_key' do
@@ -375,10 +383,11 @@ describe 'ssh-hardening::server' do
     end
 
     it 'creates authorized_keys for root' do
-      expect(chef_run).to create_template('/root/.ssh/authorized_keys').
-        with(mode: '0400').
-        with(owner: 'root').
-        with(group: 'root')
+      expect(chef_run).to create_template('/root/.ssh/authorized_keys').with(
+        mode: '0400',
+        owner: 'root',
+        group: 'root'
+      )
     end
 
     it 'authorizes keys from the user data bag for root access' do
@@ -391,9 +400,13 @@ describe 'ssh-hardening::server' do
     end
 
     it 'warns about deprecation of data bag use' do
-      expect(chef_run).to write_log('deprecated-databag').
-        with(message: /deprecated/).
-        with(level: :warn)
+      expect(chef_run).to write_log('deprecated-databag').with(
+        message: 'Use of deprecated key ssh_rootkey(s) found in users data bag. ' \
+         'Managing authorized_keys from users data bag will be removed ' \
+         'from the ssh-hardening cookbook in the next major release. ' \
+         'Please transition to alternative approaches.',
+        level: :warn
+      )
     end
   end
 
