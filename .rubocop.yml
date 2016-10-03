@@ -5,7 +5,6 @@ AllCops:
   - vendor/**/*
   - test/**/*
   - metadata.rb
-  - Berksfile
 Style/Documentation:
   Enabled: false
 Style/DotPosition:
