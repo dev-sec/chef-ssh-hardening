@@ -17,28 +17,16 @@
 
 require 'spec_helper'
 
-describe 'ssh-hardening::default' do
+describe 'ssh-hardening::unlock' do
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   # check that the recipes are executed
-  it 'includes server recipe' do
-    expect(chef_run).to include_recipe('ssh-hardening::server')
-  end
-
-  it 'includes client recipe' do
-    expect(chef_run).to include_recipe('ssh-hardening::client')
-  end
-
-  context 'chef-solo' do
-    cached(:chef_run) do
-      ChefSpec::SoloRunner.new.converge(described_recipe)
-    end
-
-    it 'does not raise an error' do
-      expect { chef_run }.not_to raise_error
-    end
+  it 'runs unlock users command' do
+    expect(chef_run).to run_execute('unlock users').with(
+      command: "/bin/sed 's/^\\([^:]*:\\)\\!/\\1*/' -i /etc/shadow"
+    )
   end
 end

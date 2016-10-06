@@ -23,34 +23,33 @@
 class Chef
   class Recipe
     class SshCipher
-      # rubocop:disable AbcSize
       def self.get_ciphers(node, cbc_required)
         weak_ciphers = cbc_required ? 'weak' : 'default'
 
         # define cipher set
-        ciphers_53 = {}
-        ciphers_53.default = 'aes256-ctr,aes192-ctr,aes128-ctr'
-        ciphers_53['weak'] = ciphers_53['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
+        ciphers53 = {}
+        ciphers53.default = 'aes256-ctr,aes192-ctr,aes128-ctr'
+        ciphers53['weak'] = ciphers53['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
 
-        ciphers_66 = {}
-        ciphers_66.default = 'chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
-        ciphers_66['weak'] = ciphers_66['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
+        ciphers66 = {}
+        ciphers66.default = 'chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
+        ciphers66['weak'] = ciphers66['default'] + ',aes256-cbc,aes192-cbc,aes128-cbc'
 
         # determine the cipher for the operating system
-        cipher = ciphers_53
+        cipher = ciphers53
 
         # use newer ciphers on ubuntu
         if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new ciphers')
-          cipher = ciphers_66
+          cipher = ciphers66
 
         elsif node['platform'] == 'debian' && node['platform_version'].to_f >= 8
           Chef::Log.info('Detected Debian 8 or newer, use new ciphers')
-          cipher = ciphers_66
+          cipher = ciphers66
 
         elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
           Chef::Log.info('Detected RedHat Family with version 7 or newer, use new ciphers')
-          cipher = ciphers_66
+          cipher = ciphers66
         end
 
         Chef::Log.info("Choose cipher: #{cipher[weak_ciphers]}")

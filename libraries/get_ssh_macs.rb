@@ -27,43 +27,43 @@ class Chef
       def self.get_macs(node, weak_hmac) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
         weak_macs = weak_hmac ? 'weak' : 'default'
 
-        macs_53 = {}
-        macs_53.default = 'hmac-ripemd160,hmac-sha1'
+        macs53 = {}
+        macs53.default = 'hmac-ripemd160,hmac-sha1'
 
-        macs_59 = {}
-        macs_59.default = 'hmac-sha2-512,hmac-sha2-256,hmac-ripemd160'
-        macs_59['weak'] = macs_59['default'] + ',hmac-sha1'
+        macs59 = {}
+        macs59.default = 'hmac-sha2-512,hmac-sha2-256,hmac-ripemd160'
+        macs59['weak'] = macs59['default'] + ',hmac-sha1'
 
-        macs_66 = {}
-        macs_66.default = 'hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160'
-        macs_66['weak'] = macs_66['default'] + ',hmac-sha1'
+        macs66 = {}
+        macs66.default = 'hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160'
+        macs66['weak'] = macs66['default'] + ',hmac-sha1'
 
         # determine the mac for the operating system
-        macs = macs_59
+        macs = macs59
 
         # use newer macs on ubuntu 14.04
         if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 14.04
           Chef::Log.info('Detected Ubuntu 14.04 or newer, use new macs')
-          macs = macs_66
+          macs = macs66
 
         elsif node['platform'] == 'debian' && node['platform_version'].to_f >= 8
           Chef::Log.info('Detected Debian 8 or newer, use new macs')
-          macs = macs_66
+          macs = macs66
 
         # use newer macs for rhel >= 7
         elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7
           Chef::Log.info('Detected RedHat Family with version 7 or newer, use new macs')
-          macs = macs_66
+          macs = macs66
 
         # stick to 53 for rhel <= 6
         elsif node['platform_family'] == 'rhel' && node['platform_version'].to_f < 7
           Chef::Log.info('Detected RedHat Family, use old macs')
-          macs = macs_53
+          macs = macs53
 
         # use older mac for debian <= 6
         elsif node['platform'] == 'debian' && node['platform_version'].to_f <= 6
           Chef::Log.info('Detected Debian 6 or earlier, use old macs')
-          macs = macs_53
+          macs = macs53
         end
 
         Chef::Log.info("Choose macs: #{macs[weak_macs]}")

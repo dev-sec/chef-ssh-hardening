@@ -18,28 +18,32 @@
 require 'spec_helper'
 
 describe 'ssh-hardening::client' do
-
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'installs openssh-client' do
-    expect(chef_run).to install_package('openssh-client')
+    expect(chef_run).to install_package('openssh-client').with(
+      package_name: 'openssh-client'
+    )
   end
 
   it 'creates the directory /etc/ssh' do
-    expect(chef_run).to create_directory('/etc/ssh').
-      with(mode: '0755').
-      with(owner: 'root').
-      with(group: 'root')
+    expect(chef_run).to create_directory('/etc/ssh').with(
+      mode: '0755',
+      owner: 'root',
+      group: 'root'
+    )
   end
 
   it 'creates /etc/ssh/ssh_config' do
-    expect(chef_run).to create_template('/etc/ssh/ssh_config').
-      with(owner: 'root').
-      with(group: 'root').
-      with(mode: '0644')
+    expect(chef_run).to create_template('/etc/ssh/ssh_config').with(
+      source: 'openssh.conf.erb',
+      mode: '0644',
+      owner: 'root',
+      group: 'root'
+    )
   end
 
   it 'disables weak hmacs' do
@@ -201,9 +205,10 @@ describe 'ssh-hardening::client' do
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_client').
-          with(message: /deprecated/).
-          with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_client').with(
+          message: 'ssh/client/weak_hmac set from deprecated ssh/weak_hmac',
+          level: :warn
+        )
       end
     end
 
@@ -234,9 +239,10 @@ describe 'ssh-hardening::client' do
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_kex_client').
-          with(message: /deprecated/).
-          with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/weak_kex_client').with(
+          message: 'ssh/client/weak_kex set from deprecated ssh/weak_kex',
+          level: :warn
+        )
       end
     end
 
@@ -276,9 +282,10 @@ describe 'ssh-hardening::client' do
       end
 
       it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/cbc_required_client').
-          with(message: /deprecated/).
-          with(level: :warn)
+        expect(chef_run).to write_log('deprecated-ssh/cbc_required_client').with(
+          message: 'ssh/client/cbc_required set from deprecated ssh/cbc_required',
+          level: :warn
+        )
       end
     end
   end
@@ -296,9 +303,10 @@ describe 'ssh-hardening::client' do
         end
 
         it "warns about ignoring the global #{attr} value for the client" do
-          expect(chef_run).to write_log("ignored-ssh/#{attr}_client").
-            with(message: "Ignoring ssh/#{attr}:true for client").
-            with_level(:warn)
+          expect(chef_run).to write_log("ignored-ssh/#{attr}_client").with(
+            message: "Ignoring ssh/#{attr}:true for client",
+            level: :warn
+          )
         end
       end
 
@@ -313,8 +321,9 @@ describe 'ssh-hardening::client' do
         end
 
         it "does not warn about ignoring the global #{attr}" do
-          expect(chef_run).not_to write_log("ignored-ssh/#{attr}_client").
-            with_level(:warn)
+          expect(chef_run).not_to write_log("ignored-ssh/#{attr}_client").with(
+            level: :warn
+          )
         end
       end
     end
