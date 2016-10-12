@@ -177,7 +177,12 @@ X11UseLocalhost yes
 
 PrintMotd <%= ((@node['ssh']['print_motd']) ? 'yes' : 'no' ) %>
 PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
-#Banner /etc/ssh/banner.txt
+Banner <%= @node['ssh']['banner'] ? '/etc/ssh/banner.txt' : 'none' %>
+
+<% if @node['platform_family'] == 'debian' %>
+DebianBanner <%= @node['ssh']['os_banner'] ? 'yes' : 'no' %>
+<% end %>
+
 <% if @node['ssh']['use_dns'].nil? %>
 # Since OpenSSH 6.8, this value defaults to 'no'
 #UseDNS no
