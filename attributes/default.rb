@@ -71,6 +71,9 @@ default['ssh']['deny_groups']             = []      # sshd
 default['ssh']['allow_groups']            = []      # sshd
 default['ssh']['print_motd']              = false   # sshd
 default['ssh']['print_last_log']          = false   # sshd
+default['ssh']['banner']                  = false   # sshd
+default['ssh']['os_banner']               = false   # sshd (Debian OS family)
+
 # set this to nil to let us use the default OpenSSH in case it's not set by the user
 default['ssh']['use_dns']                 = nil     # sshd
 # set this to nil to let us detect the attribute based on the node platform
