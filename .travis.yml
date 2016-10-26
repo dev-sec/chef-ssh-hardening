@@ -38,3 +38,7 @@ matrix:
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='fedora'
+  - rvm: 2.3.1
+    bundler_args: "--without guard tools"
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='opensuse'
