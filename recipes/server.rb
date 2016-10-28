@@ -53,11 +53,11 @@ service 'sshd' do
   action [:enable, :start]
 end
 
-directory '/etc/ssh' do
+directory 'openssh-server ssh directory /etc/ssh' do
+  path '/etc/ssh'
   mode '0755'
   owner 'root'
   group 'root'
-  action :create
 end
 
 # warn about cipher depreciations and support legacy attributes
