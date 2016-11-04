@@ -24,7 +24,7 @@ when 'redhat', 'centos', 'fedora', 'amazon', 'oracle', 'scientific'
   default['sshclient']['package'] = 'openssh-clients'
 when 'debian', 'ubuntu'
   default['sshclient']['package'] = 'openssh-client'
-when 'arch', 'suse', 'opensuse'
+when 'arch', 'suse', 'opensuse', 'opensuseleap'
   default['sshclient']['package'] = 'openssh'
 else
   default['sshclient']['package'] = 'openssh-client'
@@ -32,7 +32,7 @@ end
 
 # Define the server package name
 case node['platform']
-when 'suse', 'opensuse'
+when 'suse', 'opensuse', 'opensuseleap'
   default['sshserver']['package'] = 'openssh'
 else
   default['sshserver']['package'] = 'openssh-server'
