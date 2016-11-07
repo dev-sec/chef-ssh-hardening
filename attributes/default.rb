@@ -71,7 +71,8 @@ default['ssh']['deny_groups']             = []      # sshd
 default['ssh']['allow_groups']            = []      # sshd
 default['ssh']['print_motd']              = false   # sshd
 default['ssh']['print_last_log']          = false   # sshd
-default['ssh']['banner']                  = false   # sshd
+# set this to nil to disable banner or provide a path like '/etc/issue.net'
+default['ssh']['banner']                  = nil     # sshd
 default['ssh']['os_banner']               = false   # sshd (Debian OS family)
 
 # set this to nil to let us use the default OpenSSH in case it's not set by the user
