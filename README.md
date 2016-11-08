@@ -12,15 +12,18 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 
 ## Requirements
 
-* Opscode chef
+* Chef >= 12.5.1
 
 ### Platform
 
 - Debian 7, 8
 - Ubuntu 12.04, 14.04, 16.04
-- RHEL 6.6, 6.7, 7
-- CentOS 6.6, 6.7, 7
-- OracleLinux 6.6, 6.7, 7
+- RHEL 6, 7
+- CentOS 6, 7
+- Oracle Linux 6, 7
+- Fedora 23, 24
+- OpenSuse Leap 42.1
+- OpenSuse 13.2
 
 ## Attributes
 
