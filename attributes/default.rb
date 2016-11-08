@@ -78,6 +78,7 @@ default['ssh']['os_banner']               = false   # sshd (Debian OS family)
 default['ssh']['use_dns']                 = nil     # sshd
 # set this to nil to let us detect the attribute based on the node platform
 default['ssh']['use_privilege_separation'] = nil
+default['ssh']['login_grace_time']         = '30s'  # sshd
 default['ssh']['max_auth_tries']           = 2      # sshd
 default['ssh']['max_sessions']             = 10     # sshd
 default['ssh']['client']['password_authentication'] = false   # ssh
