@@ -177,7 +177,7 @@ X11UseLocalhost yes
 
 PrintMotd <%= ((@node['ssh']['print_motd']) ? 'yes' : 'no' ) %>
 PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
-Banner <%= @node['ssh']['banner'] ? '/etc/ssh/banner.txt' : 'none' %>
+Banner <%= @node['ssh']['banner'] ? @node['ssh']['banner'] : 'none' %>
 
 <% if @node['platform_family'] == 'debian' %>
 DebianBanner <%= @node['ssh']['os_banner'] ? 'yes' : 'no' %>
