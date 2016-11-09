@@ -23,3 +23,6 @@ require 'coveralls'
 # coverage report
 Coveralls.wear!
 at_exit { ChefSpec::Coverage.report! }
+
+require_relative '../libraries/devsec_ssh'
+require_relative 'shared_examples_crypto'

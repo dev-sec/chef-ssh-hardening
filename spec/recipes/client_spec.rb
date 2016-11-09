@@ -1,6 +1,7 @@
 # encoding: UTF-8
 #
 # Copyright 2014, Deutsche Telekom AG
+# Copyright 2016, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +19,9 @@
 require 'spec_helper'
 
 describe 'ssh-hardening::client' do
+  let(:helper_lib) { DevSec::Ssh }
+  let(:ssh_config_file) { '/etc/ssh/ssh_config' }
+
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
@@ -46,36 +50,16 @@ describe 'ssh-hardening::client' do
     )
   end
 
-  it 'disables weak hmacs' do
-    expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-      with_content(/MACs [^#]*\bhmac-sha1\b/)
-  end
-
-  it 'disables weak kexs' do
-    expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-      with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-    expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-      with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-    expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-      with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-  end
-
-  it 'disables cbc ciphers' do
-    expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-      with_content(/Ciphers [^#]*-cbc\b/)
-  end
+  include_examples 'does not allow weak hmacs'
+  include_examples 'does not allow weak kexs'
+  include_examples 'does not allow weak ciphers'
 
   it 'disables client roaming' do
     expect(chef_run).to render_file('/etc/ssh/ssh_config').
       with_content(/UseRoaming no/)
   end
 
-  it 'enables ctr ciphers' do
-    expect(chef_run).to render_file('/etc/ssh/ssh_config').
-      with_content(/Ciphers [^#]*\baes128-ctr\b/).
-      with_content(/Ciphers [^#]*\baes192-ctr\b/).
-      with_content(/Ciphers [^#]*\baes256-ctr\b/)
-  end
+  include_examples 'allow ctr ciphers'
 
   context 'weak_hmac enabled only for the client' do
     cached(:chef_run) do
@@ -84,10 +68,7 @@ describe 'ssh-hardening::client' do
       end.converge(described_recipe)
     end
 
-    it 'allows weak hmacs for the client' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/MACs [^#]*\bhmac-sha1\b/)
-    end
+    include_examples 'allow weak hmacs'
 
     it 'does not warn about depreciation' do
       expect(chef_run).not_to write_log('deprecated-ssh/weak_hmac_cliet')
@@ -101,10 +82,7 @@ describe 'ssh-hardening::client' do
       end.converge(described_recipe)
     end
 
-    it 'does not enable weak hmacs on the client' do
-      expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-        with_content(/MACs [^#]*\bhmac-sha1\b/)
-    end
+    include_examples 'does not allow weak hmacs'
   end
 
   context 'weak_kex enabled for the client only' do
@@ -114,14 +92,7 @@ describe 'ssh-hardening::client' do
       end.converge(described_recipe)
     end
 
-    it 'allows weak kexs on the client' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-    end
+    include_examples 'allow weak kexs'
 
     it 'does not warn about depreciation' do
       expect(chef_run).not_to write_log('deprecated-ssh/weak_kex_client')
@@ -135,14 +106,7 @@ describe 'ssh-hardening::client' do
       end.converge(described_recipe)
     end
 
-    it 'does not allow weak kexs on the client' do
-      expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-      expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-      expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-    end
+    include_examples 'does not allow weak kexs'
   end
 
   context 'cbc_required set for the client only' do
@@ -152,12 +116,7 @@ describe 'ssh-hardening::client' do
       end.converge(described_recipe)
     end
 
-    it 'allows cbc ciphers on the client' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/Ciphers [^#]*\baes256-cbc\b/).
-        with_content(/Ciphers [^#]*\baes192-cbc\b/).
-        with_content(/Ciphers [^#]*\baes128-cbc\b/)
-    end
+    include_examples 'allow weak ciphers'
 
     it 'does not warn about depreciation' do
       expect(chef_run).not_to write_log('deprecated-ssh/cbc_required_client')
@@ -171,10 +130,7 @@ describe 'ssh-hardening::client' do
       end.converge(described_recipe)
     end
 
-    it 'does not allow cbc ciphers on the client' do
-      expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-        with_content(/Ciphers [^#]*\b.*-cbc\b/)
-    end
+    include_examples 'does not allow weak ciphers'
   end
 
   describe 'backward compatibility' do
@@ -185,24 +141,9 @@ describe 'ssh-hardening::client' do
         end.converge(described_recipe)
       end
 
-      it 'allows weak hmacs' do
-        expect(chef_run).to render_file('/etc/ssh/ssh_config').
-          with_content(/MACs [^#]*\bhmac-sha1\b/)
-      end
-
-      it 'still does not allow weak kexs' do
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-      end
-
-      it 'still doss not allow cbc ciphers' do
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/Ciphers [^#]*-cbc\b/)
-      end
+      include_examples 'allow weak hmacs'
+      include_examples 'does not allow weak kexs'
+      include_examples 'does not allow weak ciphers'
 
       it 'warns about depreciation' do
         expect(chef_run).to write_log('deprecated-ssh/weak_hmac_client').with(
@@ -219,24 +160,9 @@ describe 'ssh-hardening::client' do
         end.converge(described_recipe)
       end
 
-      it 'allows weak kexs on the client' do
-        expect(chef_run).to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-        expect(chef_run).to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-        expect(chef_run).to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-      end
-
-      it 'still does not allow weak macs' do
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/MACs [^#]*\bhmac-sha1\b/)
-      end
-
-      it 'still does not allow cbc ciphers' do
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/Ciphers [^#]*-cbc\b/)
-      end
+      include_examples 'allow weak kexs'
+      include_examples 'does not allow weak hmacs'
+      include_examples 'does not allow weak ciphers'
 
       it 'warns about depreciation' do
         expect(chef_run).to write_log('deprecated-ssh/weak_kex_client').with(
@@ -253,33 +179,10 @@ describe 'ssh-hardening::client' do
         end.converge(described_recipe)
       end
 
-      it 'allows cbc ciphers for the client' do
-        expect(chef_run).to render_file('/etc/ssh/ssh_config').
-          with_content(/Ciphers [^#]*\baes256-cbc\b/).
-          with_content(/Ciphers [^#]*\baes192-cbc\b/).
-          with_content(/Ciphers [^#]*\baes128-cbc\b/)
-      end
-
-      it 'still does not allow weak macs' do
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/MACs [^#]*\bhmac-sha1\b/)
-      end
-
-      it 'still does not allow weak kexs' do
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group14-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group-exchange-sha1\b/)
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/KexAlgorithms [^#]*\bdiffie-hellman-group1-sha1\b/)
-      end
-
-      it 'still enables ctr ciphers' do
-        expect(chef_run).to render_file('/etc/ssh/ssh_config').
-          with_content(/Ciphers [^#]*\baes128-ctr\b/).
-          with_content(/Ciphers [^#]*\baes192-ctr\b/).
-          with_content(/Ciphers [^#]*\baes256-ctr\b/)
-      end
+      include_examples 'allow weak ciphers'
+      include_examples 'does not allow weak hmacs'
+      include_examples 'does not allow weak kexs'
+      include_examples 'allow ctr ciphers'
 
       it 'warns about depreciation' do
         expect(chef_run).to write_log('deprecated-ssh/cbc_required_client').with(
