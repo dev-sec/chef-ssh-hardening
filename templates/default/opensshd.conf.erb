@@ -107,7 +107,7 @@ UsePAM <%= ((@node['ssh']['use_pam']) ? "yes" : "no" ) %>
 <% passsword_auth = @node['ssh']['server']['password_authentication'] || !!@node['ssh']['password_authentication'] -%>
 PasswordAuthentication <%= (passsword_auth ? "yes" : "no" ) %>
 PermitEmptyPasswords no
-ChallengeResponseAuthentication no
+ChallengeResponseAuthentication <%= (@node['ssh']['challenge_response_authentication'] ? "yes" : "no" ) %>
 
 # Only enable Kerberos authentication if it is configured.
 KerberosAuthentication no

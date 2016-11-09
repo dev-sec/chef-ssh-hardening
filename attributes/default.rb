@@ -65,6 +65,7 @@ default['ssh']['allow_tcp_forwarding']    = false   # sshd
 default['ssh']['allow_agent_forwarding']  = false   # sshd
 default['ssh']['allow_x11_forwarding']    = false   # sshd
 default['ssh']['use_pam']                 = false   # sshd
+default['ssh']['challenge_response_authentication'] = false   # sshd
 default['ssh']['deny_users']              = []      # sshd
 default['ssh']['allow_users']             = []      # sshd
 default['ssh']['deny_groups']             = []      # sshd
