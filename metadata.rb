@@ -23,6 +23,13 @@ description      'This cookbook installs and provides secure ssh and sshd config
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.2.1'
 
+supports 'ubuntu', '>= 12.04'
+supports 'debian', '>= 6.0'
+supports 'centos', '>= 5.0'
+supports 'redhat', '>= 5.0'
+supports 'oracle', '>= 6.4'
+supports 'fedora', '>= 23'
+
 recipe 'ssh-hardening::default', 'installs and configures ssh client and server'
 recipe 'ssh-hardening::client', 'install and apply security hardening for ssh client'
 recipe 'ssh-hardening::server', 'install and apply security hardening for ssh server'
