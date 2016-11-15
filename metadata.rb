@@ -21,7 +21,7 @@ maintainer_email 'dominik.richter@googlemail.com'
 license          'Apache 2.0'
 description      'This cookbook installs and provides secure ssh and sshd configurations.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.2.1'
+version          '1.3.0'
 
 supports 'ubuntu', '>= 12.04'
 supports 'debian', '>= 6.0'
