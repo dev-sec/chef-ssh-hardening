@@ -88,7 +88,7 @@ KexAlgorithms <%= @kex %>
 UseLogin no
 UsePrivilegeSeparation <%= @use_priv_sep %>
 PermitUserEnvironment no
-LoginGraceTime 30s
+LoginGraceTime <%= @node['ssh']['login_grace_time'] %>
 MaxAuthTries <%= @node['ssh']['max_auth_tries'] %>
 MaxSessions <%= @node['ssh']['max_sessions'] %>
 MaxStartups 10:30:100
