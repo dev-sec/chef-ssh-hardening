@@ -28,7 +28,7 @@ supports 'debian', '>= 6.0'
 supports 'centos', '>= 5.0'
 supports 'redhat', '>= 5.0'
 supports 'oracle', '>= 6.4'
-supports 'fedora', '>= 23'
+supports 'fedora', '>= 23.0'
 
 recipe 'ssh-hardening::default', 'installs and configures ssh client and server'
 recipe 'ssh-hardening::client', 'install and apply security hardening for ssh client'
