@@ -62,9 +62,9 @@ template '/etc/ssh/ssh_config' do
   owner 'root'
   group 'root'
   variables(
-    mac: DevSec::Ssh.get_client_macs(node['ssh']['client']['weak_hmac']),
-    kex: DevSec::Ssh.get_client_kexs(node['ssh']['client']['weak_kex']),
-    cipher: DevSec::Ssh.get_client_ciphers(node['ssh']['client']['cbc_required']),
+    mac:     node['ssh']['client']['mac']    || DevSec::Ssh.get_client_macs(node['ssh']['client']['weak_hmac']),
+    kex:     node['ssh']['client']['kex']    || DevSec::Ssh.get_client_kexs(node['ssh']['client']['weak_kex']),
+    cipher:  node['ssh']['client']['cipher'] || DevSec::Ssh.get_client_ciphers(node['ssh']['client']['cbc_required']),
     roaming: node['ssh']['client']['roaming']
   )
 end
