@@ -28,6 +28,9 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 ## Attributes
 
 * `['network']['ipv6']['enable']` - true if IPv6 is needed
+* `['ssh'][{'client', 'server'}]['kex']` - nil to calculate best key-exchange (KEX) based on server version, otherwise specify a string of Kex values
+* `['ssh'][{'client', 'server'}]['mac']` - nil to calculate best Message Authentication Codes (MACs) based on server version, otherwise specify a string of Mac values
+* `['ssh'][{'client', 'server'}]['cipher']` - nil to calculate best ciphers based on server version, otherwise specify a string of Cipher values
 * `['ssh'][{'client', 'server'}]['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
 * `['ssh'][{'client', 'server'}]['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled.
 * `['ssh'][{'client', 'server'}]['weak_kex']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled.

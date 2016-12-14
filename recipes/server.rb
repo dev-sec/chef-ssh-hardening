@@ -92,9 +92,9 @@ template '/etc/ssh/sshd_config' do
   owner 'root'
   group 'root'
   variables(
-    mac: DevSec::Ssh.get_server_macs(node['ssh']['server']['weak_hmac']),
-    kex: DevSec::Ssh.get_server_kexs(node['ssh']['server']['weak_kex']),
-    cipher: DevSec::Ssh.get_server_ciphers(node['ssh']['server']['cbc_required']),
+    mac:    node['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh']['server']['weak_hmac']),
+    kex:    node['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh']['server']['weak_kex']),
+    cipher: node['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh']['server']['cbc_required']),
     use_priv_sep: node['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
     deny_users: node['ssh']['deny_users'],
     allow_users: node['ssh']['allow_users'],
