@@ -1,4 +1,4 @@
-<% node['config_disclaimer'].to_s.split("\n").each do |l| %>
+<% node['ssh-hardening']['config_disclaimer'].to_s.split("\n").each do |l| %>
 # <%= l %>
 <% end %>
 #---
@@ -12,27 +12,27 @@
 # ===================
 
 # Either disable or only allow root login via certificates.
-<% if @node['ssh']['allow_root_with_key'] %>
+<% if @node['ssh-hardening']['ssh']['allow_root_with_key'] %>
 PermitRootLogin without-password
 <% else %>
 PermitRootLogin no
 <% end %>
 
 # Define which port sshd should listen to. Default to `22`.
-<% Array(@node['ssh']['ports']).each do |ssh_port| %>
+<% Array(@node['ssh-hardening']['ssh']['ports']).each do |ssh_port| %>
 Port <%= ssh_port %>
 <% end %>
 
 # Address family should always be limited to the active network configuration.
-AddressFamily <%= ((@node['network']['ipv6']['enable']) ? "any" : "inet" ) %>
+AddressFamily <%= ((@node['ssh-hardening']['network']['ipv6']['enable']) ? "any" : "inet" ) %>
 
 # Define which addresses sshd should listen to. Default to `0.0.0.0`, ie make sure you put your desired address in here, since otherwise sshd will listen to everyone.
-<% Array(@node['ssh']['listen_to']).each do |ssh_ip| %>
+<% Array(@node['ssh-hardening']['ssh']['listen_to']).each do |ssh_ip| %>
 ListenAddress <%= ssh_ip %>
 <% end %>
 
 # List HostKeys here.
-<% Array(@node['ssh']['host_key_files']).each do |host_key_file| %>
+<% Array(@node['ssh-hardening']['ssh']['host_key_files']).each do |host_key_file| %>
 HostKey <%= host_key_file %>          # Req 20
 <% end %>
 
@@ -88,9 +88,9 @@ KexAlgorithms <%= @kex %>
 UseLogin no
 UsePrivilegeSeparation <%= @use_priv_sep %>
 PermitUserEnvironment no
-LoginGraceTime <%= @node['ssh']['login_grace_time'] %>
-MaxAuthTries <%= @node['ssh']['max_auth_tries'] %>
-MaxSessions <%= @node['ssh']['max_sessions'] %>
+LoginGraceTime <%= @node['ssh-hardening']['ssh']['login_grace_time'] %>
+MaxAuthTries <%= @node['ssh-hardening']['ssh']['max_auth_tries'] %>
+MaxSessions <%= @node['ssh-hardening']['ssh']['max_sessions'] %>
 MaxStartups 10:30:100
 
 # Enable public key authentication
@@ -102,12 +102,12 @@ IgnoreUserKnownHosts yes
 HostbasedAuthentication no
 
 # Enable PAM to enforce system wide rules
-UsePAM <%= ((@node['ssh']['use_pam']) ? "yes" : "no" ) %>
+UsePAM <%= ((@node['ssh-hardening']['ssh']['use_pam']) ? "yes" : "no" ) %>
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
-<% passsword_auth = @node['ssh']['server']['password_authentication'] || !!@node['ssh']['password_authentication'] -%>
+<% passsword_auth = @node['ssh-hardening']['ssh']['server']['password_authentication'] || !!@node['ssh-hardening']['ssh']['password_authentication'] -%>
 PasswordAuthentication <%= (passsword_auth ? "yes" : "no" ) %>
 PermitEmptyPasswords no
-ChallengeResponseAuthentication <%= (@node['ssh']['challenge_response_authentication'] ? "yes" : "no" ) %>
+ChallengeResponseAuthentication <%= (@node['ssh-hardening']['ssh']['challenge_response_authentication'] ? "yes" : "no" ) %>
 
 # Only enable Kerberos authentication if it is configured.
 KerberosAuthentication no
@@ -120,23 +120,23 @@ GSSAPIAuthentication no
 GSSAPICleanupCredentials yes
 
 # In case you don't use PAM (`UsePAM no`), you can alternatively restrict users and groups here. For key-based authentication this is not necessary, since all keys must be explicitely enabled.
-<% unless @node['ssh']['deny_users'].empty? %>
-DenyUsers <%= @node['ssh']['deny_users'].join(' ') %>
+<% unless @node['ssh-hardening']['ssh']['deny_users'].empty? %>
+DenyUsers <%= @node['ssh-hardening']['ssh']['deny_users'].join(' ') %>
 <% else %>
 #DenyUsers *
 <% end %>
-<% unless @node['ssh']['allow_users'].empty? %>
-AllowUsers <%= @node['ssh']['allow_users'].join(' ') %>
+<% unless @node['ssh-hardening']['ssh']['allow_users'].empty? %>
+AllowUsers <%= @node['ssh-hardening']['ssh']['allow_users'].join(' ') %>
 <% else %>
 #AllowUsers user1
 <% end %>
-<% unless @node['ssh']['deny_groups'].empty? %>
-DenyGroups <%= @node['ssh']['deny_groups'].join(' ') %>
+<% unless @node['ssh-hardening']['ssh']['deny_groups'].empty? %>
+DenyGroups <%= @node['ssh-hardening']['ssh']['deny_groups'].join(' ') %>
 <% else %>
 #DenyGroups *
 <% end %>
-<% unless @node['ssh']['allow_groups'].empty? %>
-AllowGroups <%= @node['ssh']['allow_groups'].join(' ') %>
+<% unless @node['ssh-hardening']['ssh']['allow_groups'].empty? %>
+AllowGroups <%= @node['ssh-hardening']['ssh']['allow_groups'].join(' ') %>
 <% else %>
 #AllowGroups group1
 <% end %>
@@ -149,25 +149,25 @@ AllowGroups <%= @node['ssh']['allow_groups'].join(' ') %>
 TCPKeepAlive no
 
 # Manage `ClientAlive..` signals via interval and maximum count. This will periodically check up to a `..CountMax` number of times within `..Interval` timeframe, and abort the connection once these fail.
-ClientAliveInterval <%= @node['ssh']['client_alive_interval'] %>
-ClientAliveCountMax <%= @node['ssh']['client_alive_count'] %>
+ClientAliveInterval <%= @node['ssh-hardening']['ssh']['client_alive_interval'] %>
+ClientAliveCountMax <%= @node['ssh-hardening']['ssh']['client_alive_count'] %>
 
 # Disable tunneling
 PermitTunnel no
 
 # Disable forwarding tcp connections.
 # no real advantage without denied shell access
-AllowTcpForwarding  <%= ((@node['ssh']['allow_tcp_forwarding']) ? 'yes' : 'no' ) %>
+AllowTcpForwarding  <%= ((@node['ssh-hardening']['ssh']['allow_tcp_forwarding']) ? 'yes' : 'no' ) %>
 
 # Disable agent formwarding, since local agent could be accessed through forwarded connection.
 # no real advantage without denied shell access
-AllowAgentForwarding  <%= ((@node['ssh']['allow_agent_forwarding']) ? 'yes' : 'no' ) %>
+AllowAgentForwarding  <%= ((@node['ssh-hardening']['ssh']['allow_agent_forwarding']) ? 'yes' : 'no' ) %>
 
 # Do not allow remote port forwardings to bind to non-loopback addresses.
 GatewayPorts no
 
 # Disable X11 forwarding, since local X11 display could be accessed through forwarded connection.
-X11Forwarding  <%= ((@node['ssh']['allow_x11_forwarding']) ? 'yes' : 'no' ) %>
+X11Forwarding  <%= ((@node['ssh-hardening']['ssh']['allow_x11_forwarding']) ? 'yes' : 'no' ) %>
 X11UseLocalhost yes
 
 
@@ -175,35 +175,35 @@ X11UseLocalhost yes
 # ===================
 
 
-PrintMotd <%= ((@node['ssh']['print_motd']) ? 'yes' : 'no' ) %>
-PrintLastLog <%= ((@node['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
-Banner <%= @node['ssh']['banner'] ? @node['ssh']['banner'] : 'none' %>
+PrintMotd <%= ((@node['ssh-hardening']['ssh']['print_motd']) ? 'yes' : 'no' ) %>
+PrintLastLog <%= ((@node['ssh-hardening']['ssh']['print_last_log']) ? 'yes' : 'no' ) %>
+Banner <%= @node['ssh-hardening']['ssh']['banner'] ? @node['ssh-hardening']['ssh']['banner'] : 'none' %>
 
 <% if @node['platform_family'] == 'debian' %>
-DebianBanner <%= @node['ssh']['os_banner'] ? 'yes' : 'no' %>
+DebianBanner <%= @node['ssh-hardening']['ssh']['os_banner'] ? 'yes' : 'no' %>
 <% end %>
 
-<% if @node['ssh']['use_dns'].nil? %>
+<% if @node['ssh-hardening']['ssh']['use_dns'].nil? %>
 # Since OpenSSH 6.8, this value defaults to 'no'
 #UseDNS no
 <% else %>
-UseDNS <%= ((@node['ssh']['use_dns']) ? 'yes' : 'no' ) %>
+UseDNS <%= ((@node['ssh-hardening']['ssh']['use_dns']) ? 'yes' : 'no' ) %>
 <% end %>
 #PidFile /var/run/sshd.pid
 #MaxStartups 10
 #ChrootDirectory none
 #ChrootDirectory /home/%u
 
-<% if @node['ssh']['sftp']['enable'] %>
+<% if @node['ssh-hardening']['ssh']['sftp']['enable'] %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
 ## Subsystem sftp /opt/app/openssh5/libexec/sftp-server
 Subsystem sftp internal-sftp -l VERBOSE
 
 ## These lines must appear at the *end* of sshd_config
-Match Group <%= @node['ssh']['sftp']['group'] %>
+Match Group <%= @node['ssh-hardening']['ssh']['sftp']['group'] %>
 ForceCommand internal-sftp -l VERBOSE
-ChrootDirectory <%= @node['ssh']['sftp']['chroot'] %>
+ChrootDirectory <%= @node['ssh-hardening']['ssh']['sftp']['chroot'] %>
 AllowTcpForwarding no
 AllowAgentForwarding no
 PasswordAuthentication no

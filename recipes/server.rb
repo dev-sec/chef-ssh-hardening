@@ -21,7 +21,7 @@
 
 # installs package name
 package 'openssh-server' do
-  package_name node['sshserver']['package']
+  package_name node['ssh-hardening']['sshserver']['package']
 end
 
 # defines the sshd service
@@ -36,7 +36,7 @@ service 'sshd' do
       provider Chef::Provider::Service::Upstart
     end
   end
-  service_name node['sshserver']['service_name']
+  service_name node['ssh-hardening']['sshserver']['service_name']
   supports value_for_platform(
     'centos' => { 'default' => [:restart, :reload, :status] },
     'redhat' => { 'default' => [:restart, :reload, :status] },
@@ -62,7 +62,7 @@ end
 
 # warn about cipher depreciations and support legacy attributes
 %w(weak_hmac weak_kex cbc_required).each do |setting|
-  next unless node['ssh'][setting]
+  next unless node['ssh-hardening']['ssh'][setting]
   # If at least one of the specific client/server attributes was used,
   # we assume the global attribute to be a leftover from previous runs and
   # just ignore it.
@@ -71,16 +71,16 @@ end
   # value for both client and server for backward compatibility - the user may
   # not have noticed the new attributes yet and did request the weak settings
   # in the past. We don't want to break too many things.
-  if !node['ssh']['server'][setting] && !node['ssh']['client'][setting]
+  if !node['ssh-hardening']['ssh']['server'][setting] && !node['ssh-hardening']['ssh']['client'][setting]
     log "deprecated-ssh/#{setting}_server" do
       message "ssh/server/#{setting} set from deprecated ssh/#{setting}"
       level :warn
     end
-    node.default['ssh']['server'][setting] = node['ssh'][setting]
+    node.default['ssh-hardening']['ssh']['server'][setting] = node['ssh-hardening']['ssh'][setting]
   else
     log "ignored-ssh/#{setting}_server" do
       message "Ignoring ssh/#{setting}:true for server"
-      only_if { !node['ssh']['server'][setting] }
+      only_if { !node['ssh-hardening']['ssh']['server'][setting] }
       level :warn
     end
   end
@@ -92,19 +92,19 @@ template '/etc/ssh/sshd_config' do
   owner 'root'
   group 'root'
   variables(
-    mac:    node['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh']['server']['weak_hmac']),
-    kex:    node['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh']['server']['weak_kex']),
-    cipher: node['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh']['server']['cbc_required']),
-    use_priv_sep: node['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
-    deny_users: node['ssh']['deny_users'],
-    allow_users: node['ssh']['allow_users'],
-    deny_groups: node['ssh']['deny_groups'],
-    allow_groups: node['ssh']['allow_groups']
+    mac:    node['ssh-hardening']['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh-hardening']['ssh']['server']['weak_hmac']),
+    kex:    node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
+    cipher: node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
+    use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
+    deny_users: node['ssh-hardening']['ssh']['deny_users'],
+    allow_users: node['ssh-hardening']['ssh']['allow_users'],
+    deny_groups: node['ssh-hardening']['ssh']['deny_groups'],
+    allow_groups: node['ssh-hardening']['ssh']['allow_groups']
   )
   notifies :restart, 'service[sshd]'
 end
 
 execute 'unlock root account if it is locked' do
   command "sed 's/^root:\!/root:*/' /etc/shadow -i"
-  only_if { node['ssh']['allow_root_with_key'] }
+  only_if { node['ssh-hardening']['ssh']['allow_root_with_key'] }
 end

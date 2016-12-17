@@ -27,35 +27,35 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 
 ## Attributes
 
-* `['network']['ipv6']['enable']` - true if IPv6 is needed
-* `['ssh'][{'client', 'server'}]['kex']` - nil to calculate best key-exchange (KEX) based on server version, otherwise specify a string of Kex values
-* `['ssh'][{'client', 'server'}]['mac']` - nil to calculate best Message Authentication Codes (MACs) based on server version, otherwise specify a string of Mac values
-* `['ssh'][{'client', 'server'}]['cipher']` - nil to calculate best ciphers based on server version, otherwise specify a string of Cipher values
-* `['ssh'][{'client', 'server'}]['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
-* `['ssh'][{'client', 'server'}]['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled.
-* `['ssh'][{'client', 'server'}]['weak_kex']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled.
-* `['ssh']['client']['roaming']` - enable experimental client roaming. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
-* `['ssh']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism.
-* `['ssh']['ports']` - ports to which ssh-server should listen to and ssh-client should connect to
-* `['ssh']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
-* `['ssh']['remote_hosts']` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
-* `['ssh']['allow_tcp_forwarding']` - `false` to disable TCP Forwarding. Set to `true` to allow TCP Forwarding
-* `['ssh']['allow_agent_forwarding']` - `false` to disable Agent Forwarding. Set to `true` to allow Agent Forwarding
-* `['ssh']['allow_x11_forwarding']` - `false` to disable X11 Forwarding. Set to `true` to allow X11 Forwarding
-* `['ssh']['use_pam']` - `false` to disable pam authentication
-* `['ssh']['print_motd']` - `false` to disable printing of the MOTD
-* `['ssh']['print_last_log']` - `false` to disable display of last login information
-* `['ssh']['banner']` - `nil` to disable banner or provide a path like '/etc/issue.net'
-* `['ssh']['max_auth_tries']` - controls `MaxAuthTries`; the number of authentication attempts per connection.
-* `['ssh']['max_sessions']` - controls `MaxSessions`; the number of sessions per connection.
-* `['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
-* `['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
-* `['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
-* `['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
-* `['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
-* `['ssh']['sftp']['enable']` - `false` to disable the SFTP feature of OpenSSHd. Set to `true` to enable SFTP.
-* `['ssh']['sftp']['group']` - `sftponly` to configure the `Match Group` option of SFTP to allow SFTP only for dedicated users
-* `['ssh']['sftp']['chroot']` - `/home/%u` to configure the directory where the SFTP user should be chrooted
+* `['ssh-hardening']['network']['ipv6']['enable']` - true if IPv6 is needed
+* `['ssh-hardening']['ssh'][{'client', 'server'}]['kex']` - nil to calculate best key-exchange (KEX) based on server version, otherwise specify a string of Kex values
+* `['ssh-hardening']['ssh'][{'client', 'server'}]['mac']` - nil to calculate best Message Authentication Codes (MACs) based on server version, otherwise specify a string of Mac values
+* `['ssh-hardening']['ssh'][{'client', 'server'}]['cipher']` - nil to calculate best ciphers based on server version, otherwise specify a string of Cipher values
+* `['ssh-hardening']['ssh'][{'client', 'server'}]['cbc_required']` - true if CBC for ciphers is required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure ciphers enabled. CBC is a weak alternative. Anything weaker should be avoided and is thus not available.
+* `['ssh-hardening']['ssh'][{'client', 'server'}]['weak_hmac']` - true if weaker HMAC mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure HMACs enabled.
+* `['ssh-hardening']['ssh'][{'client', 'server'}]['weak_kex']` - true if weaker Key-Exchange (KEX) mechanisms are required. This is usually only necessary, if older M2M mechanism need to communicate with SSH, that don't have any of the configured secure KEXs enabled.
+* `['ssh-hardening']['ssh']['client']['roaming']` - enable experimental client roaming. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
+* `['ssh-hardening']['ssh']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism.
+* `['ssh-hardening']['ssh']['ports']` - ports to which ssh-server should listen to and ssh-client should connect to
+* `['ssh-hardening']['ssh']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
+* `['ssh-hardening']['ssh']['remote_hosts']` - one or more hosts, to which ssh-client can connect to. Default is empty, but should be configured for security reasons!
+* `['ssh-hardening']['ssh']['allow_tcp_forwarding']` - `false` to disable TCP Forwarding. Set to `true` to allow TCP Forwarding
+* `['ssh-hardening']['ssh']['allow_agent_forwarding']` - `false` to disable Agent Forwarding. Set to `true` to allow Agent Forwarding
+* `['ssh-hardening']['ssh']['allow_x11_forwarding']` - `false` to disable X11 Forwarding. Set to `true` to allow X11 Forwarding
+* `['ssh-hardening']['ssh']['use_pam']` - `false` to disable pam authentication
+* `['ssh-hardening']['ssh']['print_motd']` - `false` to disable printing of the MOTD
+* `['ssh-hardening']['ssh']['print_last_log']` - `false` to disable display of last login information
+* `['ssh-hardening']['ssh']['banner']` - `nil` to disable banner or provide a path like '/etc/issue.net'
+* `['ssh-hardening']['ssh']['max_auth_tries']` - controls `MaxAuthTries`; the number of authentication attempts per connection.
+* `['ssh-hardening']['ssh']['max_sessions']` - controls `MaxSessions`; the number of sessions per connection.
+* `['ssh-hardening']['ssh']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
+* `['ssh-hardening']['ssh']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.
+* `['ssh-hardening']['ssh']['deny_groups']` - `[]` to configure `DenyGroups`, if specified, login is disallowed for users whose primary group or supplementary group list matches one of the patterns.
+* `['ssh-hardening']['ssh']['allow_groups']` - `[]` to configure `AllowGroups`, if specified, login is allowed only for users whose primary group or supplementary group list matches one of the patterns.
+* `['ssh-hardening']['ssh']['use_dns']` - `nil` to configure if sshd should look up the remote host name and check that the resolved host name for the remote IP address maps back to the very same IP address.
+* `['ssh-hardening']['ssh']['sftp']['enable']` - `false` to disable the SFTP feature of OpenSSHd. Set to `true` to enable SFTP.
+* `['ssh-hardening']['ssh']['sftp']['group']` - `sftponly` to configure the `Match Group` option of SFTP to allow SFTP only for dedicated users
+* `['ssh-hardening']['ssh']['sftp']['chroot']` - `/home/%u` to configure the directory where the SFTP user should be chrooted
 
 ## Usage
 
@@ -70,8 +70,10 @@ This will install ssh-server and ssh-client. You can alternatively choose only o
 
 Configure attributes:
 
-    "ssh" : {
-      "listen_to" : "10.2.3.4"
+    "ssh-hardening": {
+      "ssh" : {
+        "listen_to" : "10.2.3.4"
+      }
     }
 
 **The default value for `listen_to` is `0.0.0.0`. It is highly recommended to change the value.**
@@ -86,11 +88,13 @@ To enable the SFTP configuration add one of the following recipes to the run_lis
 
 Configure attributes:
 
-    "ssh" : {
-      "sftp" : {
-        "enable" : true,
-        "chroot" : "/home/sftp/%u",
-        "group"  : "sftusers"
+    "ssh-hardening": {
+      "ssh" : {
+        "sftp" : {
+          "enable" : true,
+          "chroot" : "/home/sftp/%u",
+          "group"  : "sftusers"
+        }
       }
     }
 
@@ -139,7 +143,7 @@ The proper way to solve this is to unlock the account (`passwd -u myuser`). If t
 
     usermod -p "*" myuser
 
-Alternatively, if you intend to use PAM, you enabled it via `['ssh']['use_pam'] = true`. PAM will allow locked users to get in with keys.
+Alternatively, if you intend to use PAM, you enabled it via `['ssh-hardening']['ssh']['use_pam'] = true`. PAM will allow locked users to get in with keys.
 
 
 **Why doesn't my application connect via SSH anymore?**
@@ -148,7 +152,7 @@ Always look into log files first and if possible look at the negotation between 
 
 We have seen some issues in applications (based on python and ruby) that are due to their use of an outdated crypto set. This collides with this hardening module, which reduced the list of ciphers, message authentication codes (MACs) and key exchange (KEX) algorithms to a more secure selection.
 
-If you find this isn't enough, feel free to activate the attributes `cbc_requires` for ciphers, `weak_hmac` for MACs and `weak_kex`for KEX in the namespaces `['ssh']['client']` or `['ssh']['server']` based on where you want to support them.
+If you find this isn't enough, feel free to activate the attributes `cbc_requires` for ciphers, `weak_hmac` for MACs and `weak_kex`for KEX in the namespaces `['ssh-hardening']['ssh']['client']` or `['ssh-hardening']['ssh']['server']` based on where you want to support them.
 
 **Why can't I log to the SFTP server after I added a user to my SFTP group?**
 
@@ -158,11 +162,11 @@ See [https://wiki.archlinux.org/index.php/SFTP_chroot](https://wiki.archlinux.or
 
 ## Deprecation Notices
 
-* `node['ssh']['cbc_required']` has been deprecated in favour of `node['ssh']['client']['cbc_required']` and `node['ssh']['server']['cbc_required']`.
+* `node['ssh-hardening']['ssh']['cbc_required']` has been deprecated in favour of `node['ssh-hardening']['ssh']['client']['cbc_required']` and `node['ssh-hardening']['ssh']['server']['cbc_required']`.
 
-* `node['ssh']['weak_hmac']` has been deprecated in favour of `node['ssh']['client']['weak_hmac']` and `node['ssh']['server']['weak_hmac']`.
+* `node['ssh-hardening']['ssh']['weak_hmac']` has been deprecated in favour of `node['ssh-hardening']['ssh']['client']['weak_hmac']` and `node['ssh-hardening']['ssh']['server']['weak_hmac']`.
 
-* `node['ssh']['weak_kex']` has been deprecated in favour of `node['ssh']['client']['weak_kex']` and `node['ssh']['server']['weak_kex']`.
+* `node['ssh-hardening']['ssh']['weak_kex']` has been deprecated in favour of `node['ssh-hardening']['ssh']['client']['weak_kex']` and `node['ssh-hardening']['ssh']['server']['weak_kex']`.
 
 * The old attributes are still supported but will be removed in the future. In case one of the legacy attributes is set, it still precedes the newly added attributes to allow for backward compatibility.
 

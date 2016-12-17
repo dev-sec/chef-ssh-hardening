@@ -39,11 +39,13 @@ describe DevSec::Ssh do
       'platform_family' => family,
       'platform' => platform,
       'platform_version' => version,
-      'sshclient' => {
-        'package' => package_name
-      },
-      'sshserver' => {
-        'package' => package_name
+      'ssh-hardening' => {
+        'sshclient' => {
+          'package' => package_name
+        },
+        'sshserver' => {
+          'package' => package_name
+        }
       }
     }
     node['packages'] = { package_name => { 'version' => package_version } } if package_installed
