@@ -76,9 +76,8 @@ describe 'ssh-hardening::server' do
 
   context 'with weak hmacs enabled for only the client' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.normal['ssh']['server']['client']['weak_hmac'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -101,9 +100,8 @@ describe 'ssh-hardening::server' do
 
   context 'weak_kex enabled for only the client' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.normal['ssh']['client']['weak_kex'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -126,9 +124,8 @@ describe 'ssh-hardening::server' do
 
   context 'cbc_required for the client only' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node, server|
+      ChefSpec::ServerRunner.new do |node|
         node.normal['ssh']['client']['cbc_required'] = true
-        server.create_data_bag('users', 'someuser' => { id: 'someuser' })
       end.converge(described_recipe)
     end
 
@@ -138,8 +135,7 @@ describe 'ssh-hardening::server' do
   describe 'backward compatibility' do
     context 'legacy attribute weak hmac set' do
       cached(:chef_run) do
-        ChefSpec::ServerRunner.new do |node, server|
-          server.create_data_bag('users', 'someuser' => { id: 'someuser' })
+        ChefSpec::ServerRunner.new do |node|
           node.normal['ssh']['weak_hmac'] = true
         end.converge(described_recipe)
       end
@@ -158,9 +154,8 @@ describe 'ssh-hardening::server' do
 
     context 'legacy attribute weak_kex set' do
       cached(:chef_run) do
-        ChefSpec::ServerRunner.new do |node, server|
+        ChefSpec::ServerRunner.new do |node|
           node.normal['ssh']['weak_kex'] = true
-          server.create_data_bag('users', 'someuser' => { id: 'someuser' })
         end.converge(described_recipe)
       end
 
@@ -178,9 +173,8 @@ describe 'ssh-hardening::server' do
 
     context 'legacy attribute cbc_required set' do
       cached(:chef_run) do
-        ChefSpec::ServerRunner.new do |node, server|
+        ChefSpec::ServerRunner.new do |node|
           node.normal['ssh']['cbc_required'] = true
-          server.create_data_bag('users', 'someuser' => { id: 'someuser' })
         end.converge(described_recipe)
       end
 
@@ -202,11 +196,10 @@ describe 'ssh-hardening::server' do
         context "global #{attr} true, client true and server false" do
           # don't use cache, log persists
           let(:chef_run) do
-            ChefSpec::ServerRunner.new do |node, server|
+            ChefSpec::ServerRunner.new do |node|
               node.normal['ssh'][attr] = true
               node.normal['ssh']['client'][attr] = true
               node.normal['ssh']['server'][attr] = false
-              server.create_data_bag('users', 'someuser' => { id: 'someuser' })
             end.converge(described_recipe)
           end
 
@@ -221,11 +214,10 @@ describe 'ssh-hardening::server' do
         context "global #{attr} true, client false and server true" do
           # don't use cache, log persists
           let(:chef_run) do
-            ChefSpec::ServerRunner.new do |node, server|
+            ChefSpec::ServerRunner.new do |node|
               node.normal['ssh'][attr] = true
               node.normal['ssh']['client'][attr] = false
               node.normal['ssh']['server'][attr] = true
-              server.create_data_bag('users', 'someuser' => { id: 'someuser' })
             end.converge(described_recipe)
           end
 
@@ -244,14 +236,6 @@ describe 'ssh-hardening::server' do
     expect(resource).to notify('service[sshd]').to(:restart).delayed
   end
 
-  it 'creates .ssh directory for user root' do
-    expect(chef_run).to create_directory('/root/.ssh').with(
-      mode: '0500',
-      owner: 'root',
-      group: 'root'
-    )
-  end
-
   context 'without attribute allow_root_with_key' do
     it 'does not unlock root account' do
       expect(chef_run).to_not run_execute('unlock root account if it is locked')
@@ -268,65 +252,6 @@ describe 'ssh-hardening::server' do
     it 'unlocks root account' do
       expect(chef_run).to run_execute('unlock root account if it is locked').
         with(command: "sed 's/^root:\!/root:*/' /etc/shadow -i")
-    end
-  end
-
-  context 'with users data bag' do
-    cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |_node, server|
-        server.create_data_bag(
-          'users',
-          'user1' => { id: 'user1', ssh_rootkey: 'key-user1' },
-          'user2' => { id: 'user2', ssh_rootkey: 'key-user2' },
-          'user3' => { id: 'user3', ssh_rootkeys: %w(key1-user3 key2-user3) },
-          'user4' => { id: 'user4', ssh_rootkeys: %w(key1-user4) }
-        )
-      end.converge(described_recipe)
-    end
-
-    it 'creates authorized_keys for root' do
-      expect(chef_run).to create_template('/root/.ssh/authorized_keys').with(
-        mode: '0400',
-        owner: 'root',
-        group: 'root'
-      )
-    end
-
-    it 'authorizes keys from the user data bag for root access' do
-      expect(chef_run).to render_file('/root/.ssh/authorized_keys').
-        with_content(/^key-user1$/).
-        with_content(/^key-user2$/).
-        with_content(/^key1-user3$/).
-        with_content(/^key2-user3$/).
-        with_content(/^key1-user4$/)
-    end
-
-    it 'warns about deprecation of data bag use' do
-      expect(chef_run).to write_log('deprecated-databag').with(
-        message: 'Use of deprecated key ssh_rootkey(s) found in users data bag. ' \
-         'Managing authorized_keys from users data bag will be removed ' \
-         'from the ssh-hardening cookbook in the next major release. ' \
-         'Please transition to alternative approaches.',
-        level: :warn
-      )
-    end
-  end
-
-  context 'without users data bag' do
-    cached(:chef_run) do
-      ChefSpec::ServerRunner.new.converge(described_recipe)
-    end
-
-    it 'does not raise an error' do
-      expect { chef_run }.not_to raise_error
-    end
-
-    it 'does not touch authorized_keys by root' do
-      expect(chef_run).to_not create_template('/root/.ssh/authorized_keys')
-    end
-
-    it 'does not warn about deprecation of data bag use' do
-      expect(chef_run).not_to write_log('deprecated-databag')
     end
   end
 

@@ -8,7 +8,7 @@
 
 ## Description
 
-This cookbook provides secure ssh-client and ssh-server configurations.
+This cookbook provides secure ssh-client and ssh-server configurations. This cookbook does not provide capabilities for management of users and/or ssh keys, please use other cookbooks for that.
 
 ## Requirements
 
@@ -56,39 +56,6 @@ This cookbook provides secure ssh-client and ssh-server configurations.
 * `['ssh']['sftp']['enable']` - `false` to disable the SFTP feature of OpenSSHd. Set to `true` to enable SFTP.
 * `['ssh']['sftp']['group']` - `sftponly` to configure the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh']['sftp']['chroot']` - `/home/%u` to configure the directory where the SFTP user should be chrooted
-
-## Data Bags
-
-**DEPRECATION WARNING**: Support for managing authorized_keys for the root account will be removed from this cookbook in the next major release. Please use alternative cookbooks for that.
-
-This cookbook used to handle authorized keys for the root user, but that support will be removed in the next major release. Use other cookbooks to set up your users.
-
-### Old behaviour:
-
-Have users in your `data_bag/users/` directory. This cookbook looks for users inside this folder with a `ssh_rootkey`.
-
-Example:
-
-First you have to find out the ssh-key of the user you want to allow. A typical example for this is
-
-    cat ~/.ssh/id_rsa.pub
-
-If that folder doesn't exist or you don't know what this is all about, please read a SSH tutorial for your blend of operating system first.
-
-You can now add this key to the data bag. Example for dada:
-
-Example for `data_bags/users/dada.json`
-
-    {
-      "id" : "dada",
-      // ... other stuff ...
-      "ssh_rootkey" : "ssh-rsa AAAA....mail.com"
-    }
-
-You can then access
-
-    ssh dada@yourmachines
-
 
 ## Usage
 
