@@ -104,52 +104,6 @@ template '/etc/ssh/sshd_config' do
   notifies :restart, 'service[sshd]'
 end
 
-def chef_solo_search_installed?
-  klass = ::Search.const_get('Helper')
-  return klass.is_a?(Class)
-rescue NameError
-  return false
-end
-
-# authorized_key management will be deprecated in the next major release:
-def get_key_from(field)
-  return [] if Chef::Config[:solo] && !chef_solo_search_installed?
-  return [] unless Chef::DataBag.list.key?('users')
-  search('users', "#{field}:*").map do |v| # ~FC003 ignore footcritic violation
-    Chef::Log.info "ssh_server: installing ssh-keys for root access of user #{v['id']}"
-    v[field]
-  end.flatten
-end
-
-keys = get_key_from('ssh_rootkey') + get_key_from('ssh_rootkeys')
-
-directory '/root/.ssh' do
-  mode '0500'
-  owner 'root'
-  group 'root'
-  action :create
-end
-
-unless keys.empty?
-  log 'deprecated-databag' do
-    message 'Use of deprecated key ssh_rootkey(s) found in users data bag. ' \
-      'Managing authorized_keys from users data bag will be removed ' \
-      'from the ssh-hardening cookbook in the next major release. ' \
-      'Please transition to alternative approaches.'
-    level :warn
-  end
-
-  template '/root/.ssh/authorized_keys' do
-    source 'authorized_keys.erb'
-    mode '0400'
-    owner 'root'
-    group 'root'
-    variables(
-      keys: keys
-    )
-  end
-end
-
 execute 'unlock root account if it is locked' do
   command "sed 's/^root:\!/root:*/' /etc/shadow -i"
   only_if { node['ssh']['allow_root_with_key'] }
