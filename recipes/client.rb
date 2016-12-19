@@ -20,7 +20,7 @@
 #
 
 package 'openssh-client' do
-  package_name node['sshclient']['package']
+  package_name node['ssh-hardening']['sshclient']['package']
 end
 
 directory 'openssh-client ssh directory /etc/ssh' do
@@ -32,7 +32,7 @@ end
 
 # warn about cipher depreciations and support legacy attributes
 %w(weak_hmac weak_kex cbc_required).each do |setting|
-  next unless node['ssh'][setting]
+  next unless node['ssh-hardening']['ssh'][setting]
   # If at least one of the specific client/server attributes was used,
   # we assume the global attribute to be a leftover from previous runs and
   # just ignore it.
@@ -41,16 +41,16 @@ end
   # value for both client and server for backward compatibility - the user may
   # not have noticed the new attributes yet and did request the weak settings
   # in the past. We don't want to break too many things.
-  if !node['ssh']['client'][setting] && !node['ssh']['server'][setting]
+  if !node['ssh-hardening']['ssh']['client'][setting] && !node['ssh-hardening']['ssh']['server'][setting]
     log "deprecated-ssh/#{setting}_client" do
       message "ssh/client/#{setting} set from deprecated ssh/#{setting}"
       level :warn
     end
-    node.default['ssh']['client'][setting] = node['ssh'][setting]
+    node.default['ssh-hardening']['ssh']['client'][setting] = node['ssh-hardening']['ssh'][setting]
   else
     log "ignored-ssh/#{setting}_client" do
       message "Ignoring ssh/#{setting}:true for client"
-      only_if { !node['ssh']['client'][setting] }
+      only_if { !node['ssh-hardening']['ssh']['client'][setting] }
       level :warn
     end
   end
@@ -62,9 +62,9 @@ template '/etc/ssh/ssh_config' do
   owner 'root'
   group 'root'
   variables(
-    mac:     node['ssh']['client']['mac']    || DevSec::Ssh.get_client_macs(node['ssh']['client']['weak_hmac']),
-    kex:     node['ssh']['client']['kex']    || DevSec::Ssh.get_client_kexs(node['ssh']['client']['weak_kex']),
-    cipher:  node['ssh']['client']['cipher'] || DevSec::Ssh.get_client_ciphers(node['ssh']['client']['cbc_required']),
-    roaming: node['ssh']['client']['roaming']
+    mac:     node['ssh-hardening']['ssh']['client']['mac']    || DevSec::Ssh.get_client_macs(node['ssh-hardening']['ssh']['client']['weak_hmac']),
+    kex:     node['ssh-hardening']['ssh']['client']['kex']    || DevSec::Ssh.get_client_kexs(node['ssh-hardening']['ssh']['client']['weak_kex']),
+    cipher:  node['ssh-hardening']['ssh']['client']['cipher'] || DevSec::Ssh.get_client_ciphers(node['ssh-hardening']['ssh']['client']['cbc_required']),
+    roaming: node['ssh-hardening']['ssh']['client']['roaming']
   )
 end

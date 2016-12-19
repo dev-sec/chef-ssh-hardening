@@ -1,4 +1,4 @@
-<% node['config_disclaimer'].to_s.split("\n").each do |l| %>
+<% node['ssh-hardening']['config_disclaimer'].to_s.split("\n").each do |l| %>
 # <%= l %>
 <% end %>
 #---
@@ -12,14 +12,14 @@
 # ===================
 
 # Address family should always be limited to the active network configuration.
-AddressFamily <%= ((@node['network']['ipv6']['enable']) ? "any" : "inet" ) %>
+AddressFamily <%= ((@node['ssh-hardening']['network']['ipv6']['enable']) ? "any" : "inet" ) %>
 
-<% Array(@node['ssh']['remote_hosts']).each do |host| %>
+<% Array(@node['ssh-hardening']['ssh']['remote_hosts']).each do |host| %>
 # Restrict the following configuration to be limited to this Host.
 Host <%= host %>
 <% end %>
 
-<% Array(@node['ssh']['ports']).each do |ssh_port| %>
+<% Array(@node['ssh-hardening']['ssh']['ports']).each do |ssh_port| %>
 # The port at the destination should be defined
 Port <%= ssh_port %>
 <% end %>
@@ -88,7 +88,7 @@ RhostsRSAAuthentication no
 RSAAuthentication yes
 
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
-PasswordAuthentication <%= ((@node['ssh']['client']['password_authentication']) ? "yes" : "no" ) %>
+PasswordAuthentication <%= ((@node['ssh-hardening']['ssh']['client']['password_authentication']) ? "yes" : "no" ) %>
 
 # Only use GSSAPIAuthentication if implemented on the network.
 GSSAPIAuthentication no
