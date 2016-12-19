@@ -68,10 +68,6 @@ describe 'ssh-hardening::server' do
     end
 
     include_examples 'allow weak hmacs'
-
-    it 'does not warn about depreciation' do
-      expect(chef_run).not_to write_log('deprecated-ssh/weak_hmac_server')
-    end
   end
 
   context 'with weak hmacs enabled for only the client' do
@@ -92,10 +88,6 @@ describe 'ssh-hardening::server' do
     end
 
     include_examples 'allow weak kexs'
-
-    it 'does not warn about depreciation' do
-      expect(chef_run).not_to write_log('deprecated-ssh/weak_kex_server')
-    end
   end
 
   context 'weak_kex enabled for only the client' do
@@ -116,10 +108,6 @@ describe 'ssh-hardening::server' do
     end
 
     include_examples 'allow weak ciphers'
-
-    it 'does not warn about depreciation' do
-      expect(chef_run).not_to write_log('deprecated-ssh/weak_kex_server')
-    end
   end
 
   context 'cbc_required for the client only' do
@@ -130,105 +118,6 @@ describe 'ssh-hardening::server' do
     end
 
     include_examples 'does not allow weak ciphers'
-  end
-
-  describe 'backward compatibility' do
-    context 'legacy attribute weak hmac set' do
-      cached(:chef_run) do
-        ChefSpec::ServerRunner.new do |node|
-          node.normal['ssh-hardening']['ssh']['weak_hmac'] = true
-        end.converge(described_recipe)
-      end
-
-      include_examples 'allow weak hmacs'
-      include_examples 'does not allow weak kexs'
-      include_examples 'does not allow weak ciphers'
-
-      it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_hmac_server').with(
-          message: 'ssh/server/weak_hmac set from deprecated ssh/weak_hmac',
-          level: :warn
-        )
-      end
-    end
-
-    context 'legacy attribute weak_kex set' do
-      cached(:chef_run) do
-        ChefSpec::ServerRunner.new do |node|
-          node.normal['ssh-hardening']['ssh']['weak_kex'] = true
-        end.converge(described_recipe)
-      end
-
-      include_examples 'allow weak kexs'
-      include_examples 'does not allow weak hmacs'
-      include_examples 'does not allow weak ciphers'
-
-      it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/weak_kex_server').with(
-          message: 'ssh/server/weak_kex set from deprecated ssh/weak_kex',
-          level: :warn
-        )
-      end
-    end
-
-    context 'legacy attribute cbc_required set' do
-      cached(:chef_run) do
-        ChefSpec::ServerRunner.new do |node|
-          node.normal['ssh-hardening']['ssh']['cbc_required'] = true
-        end.converge(described_recipe)
-      end
-
-      include_examples 'allow weak ciphers'
-      include_examples 'does not allow weak hmacs'
-      include_examples 'does not allow weak kexs'
-      include_examples 'allow ctr ciphers'
-
-      it 'warns about depreciation' do
-        expect(chef_run).to write_log('deprecated-ssh/cbc_required_server').with(
-          message: 'ssh/server/cbc_required set from deprecated ssh/cbc_required',
-          level: :warn
-        )
-      end
-    end
-
-    %w(weak_hmac weak_kex cbc_required).each do |attr|
-      describe "transition logic for #{attr}" do
-        context "global #{attr} true, client true and server false" do
-          # don't use cache, log persists
-          let(:chef_run) do
-            ChefSpec::ServerRunner.new do |node|
-              node.normal['ssh-hardening']['ssh'][attr] = true
-              node.normal['ssh-hardening']['ssh']['client'][attr] = true
-              node.normal['ssh-hardening']['ssh']['server'][attr] = false
-            end.converge(described_recipe)
-          end
-
-          it "warns about ignoring the global #{attr} value for the server" do
-            expect(chef_run).to write_log("ignored-ssh/#{attr}_server").with(
-              message: "Ignoring ssh/#{attr}:true for server",
-              level: :warn
-            )
-          end
-        end
-
-        context "global #{attr} true, client false and server true" do
-          # don't use cache, log persists
-          let(:chef_run) do
-            ChefSpec::ServerRunner.new do |node|
-              node.normal['ssh-hardening']['ssh'][attr] = true
-              node.normal['ssh-hardening']['ssh']['client'][attr] = false
-              node.normal['ssh-hardening']['ssh']['server'][attr] = true
-            end.converge(described_recipe)
-          end
-
-          it "does not warn about ignoring the global #{attr}" do
-            expect(chef_run).not_to write_log("ignored-ssh/#{attr}_server").with(
-              level: :warn
-            )
-          end
-        end
-      end
-    end
   end
 
   it 'restarts the ssh server on config changes' do
