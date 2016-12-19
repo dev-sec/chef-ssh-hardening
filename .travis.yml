@@ -16,29 +16,29 @@ matrix:
   # verify lint and unit
   - rvm: 2.3.1
     gemfile: Gemfile
-    bundler_args: "--without integration guard tools"
+    bundler_args: "--without integration development"
   # integration tests
   - rvm: 2.3.1
-    bundler_args: "--without guard tools"
+    bundler_args: "--without development"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='centos'
   - rvm: 2.3.1
-    bundler_args: "--without guard tools"
+    bundler_args: "--without development"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='oracle'
   - rvm: 2.3.1
-    bundler_args: "--without guard tools"
+    bundler_args: "--without development"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='ubuntu'
   - rvm: 2.3.1
-    bundler_args: "--without guard tools"
+    bundler_args: "--without development"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='debian'
   - rvm: 2.3.1
-    bundler_args: "--without guard tools"
+    bundler_args: "--without development"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='fedora'
   - rvm: 2.3.1
-    bundler_args: "--without guard tools"
+    bundler_args: "--without development"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='opensuse'
