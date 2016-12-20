@@ -160,16 +160,6 @@ This is a ChrootDirectory ownership problem. sshd will reject SFTP connections t
 
 See [https://wiki.archlinux.org/index.php/SFTP_chroot](https://wiki.archlinux.org/index.php/SFTP_chroot)
 
-## Deprecation Notices
-
-* `node['ssh-hardening']['ssh']['cbc_required']` has been deprecated in favour of `node['ssh-hardening']['ssh']['client']['cbc_required']` and `node['ssh-hardening']['ssh']['server']['cbc_required']`.
-
-* `node['ssh-hardening']['ssh']['weak_hmac']` has been deprecated in favour of `node['ssh-hardening']['ssh']['client']['weak_hmac']` and `node['ssh-hardening']['ssh']['server']['weak_hmac']`.
-
-* `node['ssh-hardening']['ssh']['weak_kex']` has been deprecated in favour of `node['ssh-hardening']['ssh']['client']['weak_kex']` and `node['ssh-hardening']['ssh']['server']['weak_kex']`.
-
-* The old attributes are still supported but will be removed in the future. In case one of the legacy attributes is set, it still precedes the newly added attributes to allow for backward compatibility.
-
 ## Contributors + Kudos
 
 * Dominik Richter [arlimus](https://github.com/arlimus)
