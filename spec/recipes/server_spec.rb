@@ -193,6 +193,24 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  it 'disables the login banner' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/Banner none/)
+  end
+
+  context 'with provided login banner path' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['banner'] = '/etc/ssh/banner'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the given login banner' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/Banner \/etc\/ssh\/banner/)
+    end
+  end
+
   it 'leaves deny users commented' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/#DenyUsers */)
