@@ -19,6 +19,17 @@
 # limitations under the License.
 #
 
+# default attributes
+# We can not set this kind of defaults in the attribute files
+# as we react on value of other attributes
+# https://github.com/dev-sec/chef-ssh-hardening/issues/140#issuecomment-267779720
+node.default['ssh-hardening']['ssh']['server']['listen_to'] =
+  if node['ssh-hardening']['network']['ipv6']['enable']
+    ['0.0.0.0', '::']
+  else
+    ['0.0.0.0']
+  end
+
 # installs package name
 package 'openssh-server' do
   package_name node['ssh-hardening']['sshserver']['package']

@@ -410,4 +410,31 @@ describe 'ssh-hardening::server' do
         with_content(/^ChrootDirectory test_home_dir$/)
     end
   end
+
+  context 'with disabled IPv6' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['network']['ipv6']['enable'] = false
+      end.converge(described_recipe)
+    end
+
+    it 'sets proper IPv4 ListenAdress' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/ListenAddress 0.0.0.0/)
+    end
+  end
+
+  context 'with enabled IPv6' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['network']['ipv6']['enable'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'sets proper IPv4 and IPv6 ListenAdress' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/ListenAddress 0.0.0.0/).
+        with_content(/ListenAddress ::/)
+    end
+  end
 end
