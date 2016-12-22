@@ -69,11 +69,7 @@ template '/etc/ssh/sshd_config' do
     mac:    node['ssh-hardening']['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh-hardening']['ssh']['server']['weak_hmac']),
     kex:    node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
     cipher: node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
-    use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
-    deny_users: node['ssh-hardening']['ssh']['deny_users'],
-    allow_users: node['ssh-hardening']['ssh']['allow_users'],
-    deny_groups: node['ssh-hardening']['ssh']['deny_groups'],
-    allow_groups: node['ssh-hardening']['ssh']['allow_groups']
+    use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion
   )
   notifies :restart, 'service[sshd]'
 end
