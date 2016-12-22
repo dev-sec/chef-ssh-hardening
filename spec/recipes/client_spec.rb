@@ -121,6 +121,45 @@ describe 'ssh-hardening::client' do
     include_examples 'does not allow weak ciphers'
   end
 
+  context 'with custom KEXs' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['client']['kex'] = 'mycustomkexvalue'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of kex attribute' do
+      expect(chef_run).to render_file('/etc/ssh/ssh_config').
+        with_content(/KexAlgorithms mycustomkexvalue/)
+    end
+  end
+
+  context 'with custom MACs' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['client']['mac'] = 'mycustommacvalue'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of mac attribute' do
+      expect(chef_run).to render_file('/etc/ssh/ssh_config').
+        with_content(/MACs mycustommacvalue/)
+    end
+  end
+
+  context 'with custom ciphers' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['client']['cipher'] = 'mycustomciphervalue'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of cipher attribute' do
+      expect(chef_run).to render_file('/etc/ssh/ssh_config').
+        with_content(/Ciphers mycustomciphervalue/)
+    end
+  end
+
   context 'chef-solo' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new.converge(described_recipe)
