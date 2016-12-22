@@ -14,7 +14,7 @@
 # Address family should always be limited to the active network configuration.
 AddressFamily <%= ((@node['ssh-hardening']['network']['ipv6']['enable']) ? "any" : "inet" ) %>
 
-<% Array(@node['ssh-hardening']['ssh']['remote_hosts']).each do |host| %>
+<% Array(@node['ssh-hardening']['ssh']['client']['remote_hosts']).each do |host| %>
 # Restrict the following configuration to be limited to this Host.
 Host <%= host %>
 <% end %>
