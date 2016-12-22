@@ -211,6 +211,43 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  describe 'debian banner' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
+    end
+
+    it 'disables the debian banner' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/DebianBanner no/)
+    end
+
+    context 'with enabled debian banner' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+          node.normal['ssh-hardening']['ssh']['os_banner'] = true
+        end.converge(described_recipe)
+      end
+
+      it 'uses the enabled debian banner' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/DebianBanner yes/)
+      end
+    end
+
+    context 'with centos as platform' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') do |node|
+          node.normal['ssh-hardening']['ssh']['os_banner'] = true
+        end.converge(described_recipe)
+      end
+
+      it 'does not have the debian banner option' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/DebianBanner/)
+      end
+    end
+  end
+
   it 'leaves deny users commented' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/#DenyUsers */)
