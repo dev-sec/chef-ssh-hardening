@@ -201,7 +201,7 @@ describe 'ssh-hardening::server' do
   context 'with provided login banner path' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['banner'] = '/etc/ssh/banner'
+        node.normal['ssh-hardening']['ssh']['server']['banner'] = '/etc/ssh/banner'
       end.converge(described_recipe)
     end
 
@@ -224,7 +224,7 @@ describe 'ssh-hardening::server' do
     context 'with enabled debian banner' do
       cached(:chef_run) do
         ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
-          node.normal['ssh-hardening']['ssh']['os_banner'] = true
+          node.normal['ssh-hardening']['ssh']['server']['os_banner'] = true
         end.converge(described_recipe)
       end
 
@@ -237,7 +237,7 @@ describe 'ssh-hardening::server' do
     context 'with centos as platform' do
       cached(:chef_run) do
         ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') do |node|
-          node.normal['ssh-hardening']['ssh']['os_banner'] = true
+          node.normal['ssh-hardening']['ssh']['server']['os_banner'] = true
         end.converge(described_recipe)
       end
 
