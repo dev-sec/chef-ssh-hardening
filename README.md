@@ -3,7 +3,7 @@
 [![Supermarket](http://img.shields.io/cookbook/v/ssh-hardening.svg)][1]
 [![Build Status](http://img.shields.io/travis/dev-sec/chef-ssh-hardening.svg)][2]
 [![Code Coverage](http://img.shields.io/coveralls/dev-sec/chef-ssh-hardening.svg)][3]
-[![Dependencies](http://img.shields.io/gemnasium/hardening-io/chef-ssh-hardening.svg)][4]
+[![Dependencies](http://img.shields.io/gemnasium/dev-sec/chef-ssh-hardening.svg)][4]
 [![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)][5]
 
 ## Description
@@ -219,5 +219,5 @@ limitations under the License.
 [1]: https://supermarket.getchef.com/cookbooks/ssh-hardening
 [2]: http://travis-ci.org/dev-sec/chef-ssh-hardening
 [3]: https://coveralls.io/r/dev-sec/chef-ssh-hardening
-[4]: https://gemnasium.com/hardening-io/chef-ssh-hardening
+[4]: https://gemnasium.com/dev-sec/chef-ssh-hardening
 [5]: https://gitter.im/dev-sec/general
