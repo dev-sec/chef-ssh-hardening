@@ -271,7 +271,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute deny_users' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['deny_users'] = %w(someuser)
+        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w(someuser)
       end.converge(described_recipe)
     end
 
@@ -284,7 +284,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute deny_users mutiple' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['deny_users'] = %w(someuser otheruser)
+        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w(someuser otheruser)
       end.converge(described_recipe)
     end
 
@@ -304,7 +304,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute use_dns set to false' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['use_dns'] = false
+        node.normal['ssh-hardening']['ssh']['server']['use_dns'] = false
       end.converge(described_recipe)
     end
 
@@ -317,7 +317,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute use_dns set to true' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['use_dns'] = true
+        node.normal['ssh-hardening']['ssh']['server']['use_dns'] = true
       end.converge(described_recipe)
     end
 
@@ -337,7 +337,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute ["sftp"]["enable"] set to true' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['sftp']['enable'] = true
+        node.normal['ssh-hardening']['ssh']['server']['sftp']['enable'] = true
       end.converge(described_recipe)
     end
 
@@ -350,8 +350,8 @@ describe 'ssh-hardening::server' do
   context 'with attribute ["sftp"]["enable"] set to true and ["sftp"]["group"] set to "testgroup"' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['sftp']['enable'] = true
-        node.normal['ssh-hardening']['ssh']['sftp']['group'] = 'testgroup'
+        node.normal['ssh-hardening']['ssh']['server']['sftp']['enable'] = true
+        node.normal['ssh-hardening']['ssh']['server']['sftp']['group'] = 'testgroup'
       end.converge(described_recipe)
     end
 
@@ -364,8 +364,8 @@ describe 'ssh-hardening::server' do
   context 'with attribute ["sftp"]["enable"] set to true and ["sftp"]["chroot"] set to "/export/home/%u"' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['sftp']['enable'] = true
-        node.normal['ssh-hardening']['ssh']['sftp']['chroot'] = 'test_home_dir'
+        node.normal['ssh-hardening']['ssh']['server']['sftp']['enable'] = true
+        node.normal['ssh-hardening']['ssh']['server']['sftp']['chroot'] = 'test_home_dir'
       end.converge(described_recipe)
     end
 
