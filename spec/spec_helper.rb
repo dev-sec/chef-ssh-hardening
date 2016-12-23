@@ -24,5 +24,11 @@ require 'coveralls'
 Coveralls.wear!
 at_exit { ChefSpec::Coverage.report! }
 
+RSpec.configure do |config|
+  # OS and version for mocking of ohai data, needed by chefspec
+  config.platform = 'ubuntu'
+  config.version = '16.04'
+end
+
 require_relative '../libraries/devsec_ssh'
 require_relative 'shared_examples_crypto'
