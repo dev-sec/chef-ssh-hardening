@@ -120,6 +120,45 @@ describe 'ssh-hardening::server' do
     include_examples 'does not allow weak ciphers'
   end
 
+  context 'with custom KEXs' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['kex'] = 'mycustomkexvalue'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of kex attribute' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/KexAlgorithms mycustomkexvalue/)
+    end
+  end
+
+  context 'with custom MACs' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['mac'] = 'mycustommacvalue'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of mac attribute' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/MACs mycustommacvalue/)
+    end
+  end
+
+  context 'with custom ciphers' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['cipher'] = 'mycustomciphervalue'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of cipher attribute' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/Ciphers mycustomciphervalue/)
+    end
+  end
+
   it 'restarts the ssh server on config changes' do
     resource = chef_run.template('/etc/ssh/sshd_config')
     expect(resource).to notify('service[sshd]').to(:restart).delayed
@@ -151,6 +190,61 @@ describe 'ssh-hardening::server' do
 
     it 'does not raise an error' do
       expect { chef_run }.not_to raise_error
+    end
+  end
+
+  it 'disables the login banner' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/Banner none/)
+  end
+
+  context 'with provided login banner path' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['banner'] = '/etc/ssh/banner'
+      end.converge(described_recipe)
+    end
+
+    it 'uses the given login banner' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/Banner \/etc\/ssh\/banner/)
+    end
+  end
+
+  describe 'debian banner' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
+    end
+
+    it 'disables the debian banner' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/DebianBanner no/)
+    end
+
+    context 'with enabled debian banner' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+          node.normal['ssh-hardening']['ssh']['os_banner'] = true
+        end.converge(described_recipe)
+      end
+
+      it 'uses the enabled debian banner' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content(/DebianBanner yes/)
+      end
+    end
+
+    context 'with centos as platform' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') do |node|
+          node.normal['ssh-hardening']['ssh']['os_banner'] = true
+        end.converge(described_recipe)
+      end
+
+      it 'does not have the debian banner option' do
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/DebianBanner/)
+      end
     end
   end
 
