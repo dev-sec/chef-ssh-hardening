@@ -266,6 +266,24 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  it 'sets the login grace time to 30s' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/LoginGraceTime 30s/)
+  end
+
+  context 'with configured login grace time to 60s' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['login_grace_time'] = '60s'
+      end.converge(described_recipe)
+    end
+
+    it 'sets the login grace time to 60s' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/LoginGraceTime 60s/)
+    end
+  end
+
   it 'leaves deny users commented' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/#DenyUsers */)
