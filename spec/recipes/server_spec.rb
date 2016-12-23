@@ -248,6 +248,24 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  it 'disables the challenge response authentication' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content(/ChallengeResponseAuthentication no/)
+  end
+
+  context 'with challenge response authentication enabled' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['challenge_response_authentication'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'enables the challenge response authentication' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/ChallengeResponseAuthentication yes/)
+    end
+  end
+
   it 'leaves deny users commented' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/#DenyUsers */)
