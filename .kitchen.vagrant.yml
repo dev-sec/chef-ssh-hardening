@@ -29,3 +29,24 @@ suites:
   verifier:
     inspec_tests:
       - https://github.com/dev-sec/tests-ssh-hardening
+- name: rhel-with-disabled-pam
+  includes:
+    - centos-6.8
+    - centos-7.3
+    - fedora-23
+    - fedora-24
+  driver:
+    provision: true
+    vagrantfiles:
+      - test/fixtures/vagrantfiles/enforce_selinux.rb
+  run_list:
+  - recipe[ssh-hardening]
+  attributes:
+    ssh-hardening:
+      ssh:
+        server:
+          use_pam: false
+  verifier:
+    inspec_tests:
+      - https://github.com/dev-sec/tests-ssh-hardening
+      - test/integration/without-pam

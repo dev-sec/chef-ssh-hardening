@@ -51,7 +51,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']` - `false`. Set to `true` to allow TCP Forwarding
 * `['ssh-hardening']['ssh']['server']['allow_agent_forwarding']` - `false`. Set to `true` to allow Agent Forwarding
 * `['ssh-hardening']['ssh']['server']['allow_x11_forwarding']` - `false`. Set to `true` to allow X11 Forwarding
-* `['ssh-hardening']['ssh']['server']['use_pam']` - `false`. Set to `true` to enable the pam authentication of sshd
+* `['ssh-hardening']['ssh']['server']['use_pam']` - `true`. Set to `false` to disable the pam authentication of sshd
 * `['ssh-hardening']['ssh']['server']['challenge_response_authentication']` - `false`. Set to `true` to enable challenge response authentication.
 * `['ssh-hardening']['ssh']['server']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.
 * `['ssh-hardening']['ssh']['server']['allow_users']` - `[]` to configure `AllowUsers`, if specified, login is allowed only for user names that match one of the patterns.

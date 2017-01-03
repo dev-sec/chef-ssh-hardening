@@ -119,7 +119,6 @@ KerberosTicketCleanup yes
 GSSAPIAuthentication no
 GSSAPICleanupCredentials yes
 
-# In case you don't use PAM (`UsePAM no`), you can alternatively restrict users and groups here. For key-based authentication this is not necessary, since all keys must be explicitely enabled.
 <% unless @node['ssh-hardening']['ssh']['server']['deny_users'].empty? %>
 DenyUsers <%= @node['ssh-hardening']['ssh']['server']['deny_users'].join(' ') %>
 <% else %>
