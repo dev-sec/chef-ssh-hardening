@@ -40,7 +40,7 @@ Below you can find the attribute documentation and their default values.
 * `['ssh-hardening']['ssh']['client']['remote_hosts']` - `[]` - one or more hosts, to which ssh-client can connect to.
 * `['ssh-hardening']['ssh']['client']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled.
 * `['ssh-hardening']['ssh']['client']['roaming']` - `false`. Set to `true` if experimental client roaming should be enabled. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
-* `['ssh-hardening']['ssh']['server']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is empty, but should be configured for security reasons!
+* `['ssh-hardening']['ssh']['server']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is to listen on all interfaces. It should be configured for security reasons!
 * `['ssh-hardening']['ssh']['server']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism
 * `['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']` - `false`. Set to `true` to allow TCP Forwarding
 * `['ssh-hardening']['ssh']['server']['allow_agent_forwarding']` - `false`. Set to `true` to allow Agent Forwarding
@@ -64,6 +64,8 @@ Below you can find the attribute documentation and their default values.
 * `['ssh-hardening']['ssh']['server']['sftp']['enable']` - `false`. Set to `true` to enable the SFTP feature of OpenSSH daemon
 * `['ssh-hardening']['ssh']['server']['sftp']['group']` - `sftponly`. Sets the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh-hardening']['ssh']['server']['sftp']['chroot']` - `/home/%u`. Sets the directory where the SFTP user should be chrooted
+
+Notice: Some of attribute defaults of this cookbook are set in the recipes. Its a good idea to use a higher [attribute precedence](https://docs.chef.io/attributes.html#attribute-precedence) level for attribute overriding. Otherwise you might get unexpected results.
 
 ## Usage
 

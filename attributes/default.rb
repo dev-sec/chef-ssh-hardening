@@ -58,7 +58,6 @@ default['ssh-hardening']['ssh']['client']['cipher']        = nil     # nil = cal
 default['ssh-hardening']['ssh']['client']['cbc_required']  = false
 default['ssh-hardening']['ssh']['client']['weak_hmac']     = false
 default['ssh-hardening']['ssh']['client']['weak_kex']      = false
-
 default['ssh-hardening']['ssh']['client']['remote_hosts']  = []
 default['ssh-hardening']['ssh']['client']['password_authentication'] = false   # ssh
 # http://undeadly.org/cgi?action=article&sid=20160114142733
@@ -71,11 +70,9 @@ default['ssh-hardening']['ssh']['server']['mac']                      = nil     
 default['ssh-hardening']['ssh']['server']['cbc_required']             = false
 default['ssh-hardening']['ssh']['server']['weak_hmac']                = false
 default['ssh-hardening']['ssh']['server']['weak_kex']                 = false
-default['ssh-hardening']['ssh']['server']['listen_to']                = ['0.0.0.0']
 default['ssh-hardening']['ssh']['server']['host_key_files']           = ['/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_dsa_key', '/etc/ssh/ssh_host_ecdsa_key']
 default['ssh-hardening']['ssh']['server']['client_alive_interval']    = 600     # 10min
 default['ssh-hardening']['ssh']['server']['client_alive_count']       = 3       # ~> 3 x interval
-
 default['ssh-hardening']['ssh']['server']['allow_root_with_key']      = false
 default['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']     = false
 default['ssh-hardening']['ssh']['server']['allow_agent_forwarding']   = false
