@@ -29,6 +29,12 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 
 Below you can find the attribute documentation and their default values.
 
+Notice: Some of attribute defaults of this cookbook are set in the recipes. You should use a higher [attribute precedence](https://docs.chef.io/attributes.html#attribute-precedence) level for overriding of such attributes. Such attributes are flagged with `#override attribute#` in the list below. Example for overriding a such attribute:
+
+```ruby
+override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
+```
+
 * `['ssh-hardening']['network']['ipv6']['enable']` - `false`. Set to true if IPv6 is needed
 * `['ssh-hardening']['ssh']['ports']` - `22`. Ports to which ssh-server should listen to and ssh-client should connect to
 * `['ssh-hardening']['ssh'][{'client', 'server'}]['kex']` - `nil` to calculate best key-exchange (KEX) based on server version, otherwise specify a string of Kex values
@@ -40,7 +46,7 @@ Below you can find the attribute documentation and their default values.
 * `['ssh-hardening']['ssh']['client']['remote_hosts']` - `[]` - one or more hosts, to which ssh-client can connect to.
 * `['ssh-hardening']['ssh']['client']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled.
 * `['ssh-hardening']['ssh']['client']['roaming']` - `false`. Set to `true` if experimental client roaming should be enabled. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
-* `['ssh-hardening']['ssh']['server']['listen_to']` - one or more ip addresses, to which ssh-server should listen to. Default is to listen on all interfaces. It should be configured for security reasons!
+* `['ssh-hardening']['ssh']['server']['listen_to']` `#override attribute#` - one or more ip addresses, to which ssh-server should listen to. Default is to listen on all interfaces. It should be configured for security reasons!
 * `['ssh-hardening']['ssh']['server']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism
 * `['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']` - `false`. Set to `true` to allow TCP Forwarding
 * `['ssh-hardening']['ssh']['server']['allow_agent_forwarding']` - `false`. Set to `true` to allow Agent Forwarding
@@ -65,7 +71,6 @@ Below you can find the attribute documentation and their default values.
 * `['ssh-hardening']['ssh']['server']['sftp']['group']` - `sftponly`. Sets the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh-hardening']['ssh']['server']['sftp']['chroot']` - `/home/%u`. Sets the directory where the SFTP user should be chrooted
 
-Notice: Some of attribute defaults of this cookbook are set in the recipes. Its a good idea to use a higher [attribute precedence](https://docs.chef.io/attributes.html#attribute-precedence) level for attribute overriding. Otherwise you might get unexpected results.
 
 ## Usage
 
