@@ -14,8 +14,8 @@ platforms:
 - name: centos-7.3
 - name: debian-7.11
 - name: debian-8.6
-- name: fedora-23
 - name: fedora-24
+- name: fedora-25
 - name: opensuse-leap-42.1
 - name: opensuse-13.2
 
@@ -33,8 +33,8 @@ suites:
   includes:
     - centos-6.8
     - centos-7.3
-    - fedora-23
     - fedora-24
+    - fedora-25
   driver:
     provision: true
     vagrantfiles:

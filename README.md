@@ -21,7 +21,7 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 - RHEL 6, 7
 - CentOS 6, 7
 - Oracle Linux 6, 7
-- Fedora 23, 24
+- Fedora 24, 25
 - OpenSuse Leap 42.1
 - OpenSuse 13.2
 
