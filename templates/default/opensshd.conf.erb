@@ -48,7 +48,7 @@ StrictModes yes
 
 # Logging, obsoletes QuietMode and FascistLogging
 SyslogFacility AUTH
-LogLevel VERBOSE
+LogLevel <%= @node['ssh-hardening']['ssh']['server']['log_level'].upcase %>
 
 # Cryptography
 # ------------

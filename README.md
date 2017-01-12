@@ -67,6 +67,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['max_auth_tries']` - `2`. The number of authentication attempts per connection
 * `['ssh-hardening']['ssh']['server']['max_sessions']` - `10` The number of sessions per connection
 * `['ssh-hardening']['ssh']['server']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled
+* `['ssh-hardening']['ssh']['server']['log_level']` - `verbose`. The log level of sshd. See `LogLevel` in `man 5 sshd_config` for possible values.
 * `['ssh-hardening']['ssh']['server']['sftp']['enable']` - `false`. Set to `true` to enable the SFTP feature of OpenSSH daemon
 * `['ssh-hardening']['ssh']['server']['sftp']['group']` - `sftponly`. Sets the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh-hardening']['ssh']['server']['sftp']['chroot']` - `/home/%u`. Sets the directory where the SFTP user should be chrooted
