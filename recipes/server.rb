@@ -35,6 +35,44 @@ package 'openssh-server' do
   package_name node['ssh-hardening']['sshserver']['package']
 end
 
+# Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
+if %w(fedora rhel).include?(node['platform_family'])
+  policy_dir = ::File.join(Chef::Config[:file_cache_path], cookbook_name.to_s)
+  policy_file = ::File.join(policy_dir, 'ssh_password.te')
+  module_file = ::File.join(policy_dir, 'ssh_password.mod')
+  package_file = ::File.join(policy_dir, 'ssh_password.pp')
+
+  package 'policycoreutils-python'
+  # on fedora we need an addtional package for semodule_package
+  package 'policycoreutils-python-utils' if node['platform_family'] == 'fedora'
+
+  if node['ssh-hardening']['ssh']['server']['use_pam']
+    # UsePAM yes: disable and remove the additional SELinux policy
+
+    execute 'remove selinux policy' do
+      command 'semodule -r ssh_password'
+      only_if 'getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password'
+    end
+  else
+    # UsePAM no: enable and install the additional SELinux policy
+
+    directory policy_dir
+
+    cookbook_file policy_file do
+      source 'ssh_password.te'
+    end
+
+    bash 'build selinux package and install it' do
+      code <<-EOC
+        checkmodule -M -m -o #{module_file} #{policy_file}
+        semodule_package -o #{package_file} -m #{module_file}
+        semodule -i #{package_file}
+      EOC
+      not_if 'getenforce | grep -q Disabled || semodule -l | grep -q ssh_password'
+    end
+  end
+end
+
 # defines the sshd service
 service 'sshd' do
   # use upstart for ubuntu, otherwise chef uses init

@@ -28,6 +28,7 @@ RSpec.configure do |config|
   # OS and version for mocking of ohai data, needed by chefspec
   config.platform = 'ubuntu'
   config.version = '16.04'
+  config.file_cache_path = '/tmp/ssh-hardening-file-cache'
 end
 
 require_relative '../libraries/devsec_ssh'

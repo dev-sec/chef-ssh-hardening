@@ -211,6 +211,122 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  it 'should set UsePAM to yes per default' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
+  end
+
+  describe 'UsePAM option' do
+    let(:use_pam) { true }
+
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: platform, version: version) do |node|
+        node.normal['ssh-hardening']['ssh']['server']['use_pam'] = use_pam
+      end.converge(described_recipe)
+    end
+
+    context 'when running on Ubuntu' do
+      let(:platform) { 'ubuntu' }
+      let(:version) { '16.04' }
+
+      it 'does not invoke any SELinux resources' do
+        expect(chef_run).not_to create_directory('/tmp/ssh-hardening-file-cache/ssh-hardening')
+        expect(chef_run).not_to render_file('/tmp/ssh-hardening-file-cache/ssh-hardening/ssh_password.te')
+        expect(chef_run).not_to run_execute('remove selinux policy')
+        expect(chef_run).not_to run_bash('build selinux package and install it')
+        expect(chef_run).not_to install_package('policycoreutils-python')
+      end
+
+      context 'when use_pam is set to true' do
+        let(:use_pam) { true }
+
+        it 'should set UsePAM to yes' do
+          expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
+        end
+      end
+
+      context 'when use_pam is set to false' do
+        let(:use_pam) { false }
+
+        it 'should set UsePAM to no' do
+          expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM no')
+        end
+      end
+    end
+
+    context 'when running on CentOS' do
+      let(:platform) { 'centos' }
+      let(:version) { '7.2.1511' }
+
+      let(:selinux_disabled_or_policy_removed) { false }
+      let(:selinux_enabled_and_policy_installed) { false }
+
+      before do
+        stub_command('getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password').and_return(selinux_enabled_and_policy_installed)
+        stub_command('getenforce | grep -q Disabled || semodule -l | grep -q ssh_password').and_return(selinux_disabled_or_policy_removed)
+      end
+
+      it 'should install selinux tools' do
+        expect(chef_run).to install_package('policycoreutils-python')
+      end
+
+      context 'when use_pam is set to true' do
+        let(:use_pam) { true }
+
+        it 'should set UsePAM to yes' do
+          expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
+        end
+
+        context 'when selinux is disabled or policy is removed' do
+          let(:selinux_enabled_and_policy_installed) { false }
+
+          it 'should not invoke the policy removal' do
+            expect(chef_run).not_to run_execute('remove selinux policy')
+          end
+        end
+
+        context 'when selinux is enabled and policy is present' do
+          let(:selinux_enabled_and_policy_installed) { true }
+
+          it 'should invoke the policy removal' do
+            expect(chef_run).to run_execute('remove selinux policy')
+          end
+        end
+      end
+
+      context 'when use_pam is set to false' do
+        let(:use_pam) { false }
+
+        it 'should set UsePAM to no' do
+          expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM no')
+        end
+
+        it 'should create cache directory for policy files' do
+          expect(chef_run).to create_directory('/tmp/ssh-hardening-file-cache/ssh-hardening')
+        end
+
+        it 'should create selinux source policy file' do
+          expect(chef_run).to render_file('/tmp/ssh-hardening-file-cache/ssh-hardening/ssh_password.te')
+        end
+
+        context 'when selinux is disabled or policy is installed' do
+          let(:selinux_disabled_or_policy_removed) { true }
+
+          it 'should not install the policy' do
+            expect(chef_run).not_to run_bash('build selinux package and install it')
+          end
+        end
+
+        context 'when selinux is enabled and policy is not installed' do
+          let(:selinux_disabled_or_policy_removed) { false }
+
+          it 'should install the policy' do
+            expect(chef_run).to run_bash('build selinux package and install it')
+          end
+        end
+      end
+    end
+  end
+
   describe 'debian banner' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
@@ -235,6 +351,10 @@ describe 'ssh-hardening::server' do
     end
 
     context 'with centos as platform' do
+      before do
+        stub_command('getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password').and_return(true)
+      end
+
       cached(:chef_run) do
         ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') do |node|
           node.normal['ssh-hardening']['ssh']['server']['os_banner'] = true
