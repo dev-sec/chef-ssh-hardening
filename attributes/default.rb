@@ -93,6 +93,7 @@ default['ssh-hardening']['ssh']['server']['login_grace_time']         = '30s'
 default['ssh-hardening']['ssh']['server']['max_auth_tries']           = 2
 default['ssh-hardening']['ssh']['server']['max_sessions']             = 10
 default['ssh-hardening']['ssh']['server']['password_authentication']  = false
+default['ssh-hardening']['ssh']['server']['log_level']                = 'verbose'
 # sshd sftp options
 default['ssh-hardening']['ssh']['server']['sftp']['enable']           = false
 default['ssh-hardening']['ssh']['server']['sftp']['group']            = 'sftponly'

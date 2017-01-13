@@ -404,6 +404,24 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  it 'sets the log level to verbose' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content('LogLevel VERBOSE')
+  end
+
+  context 'with log level set to debug' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['log_level'] = 'debug'
+      end.converge(described_recipe)
+    end
+
+    it 'sets the log level to debug' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content('LogLevel DEBUG')
+    end
+  end
+
   it 'leaves deny users commented' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/#DenyUsers */)
