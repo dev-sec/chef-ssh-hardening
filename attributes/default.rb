@@ -70,6 +70,7 @@ default['ssh-hardening']['ssh']['server']['mac']                      = nil     
 default['ssh-hardening']['ssh']['server']['cbc_required']             = false
 default['ssh-hardening']['ssh']['server']['weak_hmac']                = false
 default['ssh-hardening']['ssh']['server']['weak_kex']                 = false
+default['ssh-hardening']['ssh']['server']['dh_min_prime_size']        = 2048
 default['ssh-hardening']['ssh']['server']['host_key_files']           = ['/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key']
 default['ssh-hardening']['ssh']['server']['client_alive_interval']    = 600     # 10min
 default['ssh-hardening']['ssh']['server']['client_alive_count']       = 3       # ~> 3 x interval

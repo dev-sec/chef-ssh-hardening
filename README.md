@@ -46,6 +46,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['client']['remote_hosts']` - `[]` - one or more hosts, to which ssh-client can connect to.
 * `['ssh-hardening']['ssh']['client']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled.
 * `['ssh-hardening']['ssh']['client']['roaming']` - `false`. Set to `true` if experimental client roaming should be enabled. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
+* `['ssh-hardening']['ssh']['server']['dh_min_prime_size']` - `2048` - Minimal acceptable prime length in bits in `/etc/ssh/moduli`. Primes below this number will get removed. (See [this](https://entropux.net/article/openssh-moduli/) for more information and background)
 * `['ssh-hardening']['ssh']['server']['listen_to']` `#override attribute#` - one or more ip addresses, to which ssh-server should listen to. Default is to listen on all interfaces. It should be configured for security reasons!
 * `['ssh-hardening']['ssh']['server']['allow_root_with_key']` - `false` to disable root login altogether. Set to `true` to allow root to login via key-based mechanism
 * `['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']` - `false`. Set to `true` to allow TCP Forwarding

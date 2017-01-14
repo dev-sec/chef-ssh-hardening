@@ -21,10 +21,15 @@ require 'spec_helper'
 describe 'ssh-hardening::server' do
   let(:helper_lib) { DevSec::Ssh }
   let(:ssh_config_file) { '/etc/ssh/sshd_config' }
+  let(:dh_primes_ok) { true }
 
   # converge
   cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
+  end
+
+  before do
+    stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(dh_primes_ok)
   end
 
   it 'installs openssh-server' do
@@ -323,6 +328,28 @@ describe 'ssh-hardening::server' do
             expect(chef_run).to run_bash('build selinux package and install it')
           end
         end
+      end
+    end
+  end
+
+  describe 'DH primes handling' do
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new.converge(described_recipe)
+    end
+
+    context 'when there are no small primes' do
+      let(:dh_primes_ok) { true }
+
+      it 'should not remove small primes from DH moduli' do
+        expect(chef_run).not_to run_ruby_block('remove small primes from DH moduli')
+      end
+    end
+
+    context 'when there are small primes present' do
+      let(:dh_primes_ok) { false }
+
+      it 'should invoke small primes from DH module' do
+        expect(chef_run).to run_ruby_block('remove small primes from DH moduli')
       end
     end
   end

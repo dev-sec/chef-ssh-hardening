@@ -23,6 +23,10 @@ describe 'ssh-hardening::default' do
     ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
+  before do
+    stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(true)
+  end
+
   # check that the recipes are executed
   it 'includes server recipe' do
     expect(chef_run).to include_recipe('ssh-hardening::server')
