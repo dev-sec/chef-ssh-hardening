@@ -32,6 +32,10 @@ describe 'ssh-hardening::server' do
     stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(dh_primes_ok)
   end
 
+  it 'should create cache directory' do
+    expect(chef_run).to create_directory('/tmp/ssh-hardening-file-cache/ssh-hardening')
+  end
+
   it 'installs openssh-server' do
     expect(chef_run).to install_package('openssh-server')
   end
@@ -234,7 +238,6 @@ describe 'ssh-hardening::server' do
       let(:version) { '16.04' }
 
       it 'does not invoke any SELinux resources' do
-        expect(chef_run).not_to create_directory('/tmp/ssh-hardening-file-cache/ssh-hardening')
         expect(chef_run).not_to render_file('/tmp/ssh-hardening-file-cache/ssh-hardening/ssh_password.te')
         expect(chef_run).not_to run_execute('remove selinux policy')
         expect(chef_run).not_to run_bash('build selinux package and install it')
@@ -305,10 +308,6 @@ describe 'ssh-hardening::server' do
           expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM no')
         end
 
-        it 'should create cache directory for policy files' do
-          expect(chef_run).to create_directory('/tmp/ssh-hardening-file-cache/ssh-hardening')
-        end
-
         it 'should create selinux source policy file' do
           expect(chef_run).to render_file('/tmp/ssh-hardening-file-cache/ssh-hardening/ssh_password.te')
         end
@@ -330,6 +329,10 @@ describe 'ssh-hardening::server' do
         end
       end
     end
+  end
+
+  it 'should not build own DH primes per default' do
+    expect(chef_run).not_to run_bash('build own primes for DH')
   end
 
   describe 'DH primes handling' do

@@ -31,7 +31,12 @@ node.default['ssh-hardening']['ssh']['server']['listen_to'] =
   end
 
 # some internal definitions
+cache_dir = ::File.join(Chef::Config[:file_cache_path], cookbook_name.to_s)
 dh_moduli_file = '/etc/ssh/moduli'
+
+# create a cache dir for this cookbook
+# we use it for storing of lock files or selinux files
+directory cache_dir
 
 # installs package name
 package 'openssh-server' do
@@ -40,10 +45,9 @@ end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
 if %w(fedora rhel).include?(node['platform_family'])
-  policy_dir = ::File.join(Chef::Config[:file_cache_path], cookbook_name.to_s)
-  policy_file = ::File.join(policy_dir, 'ssh_password.te')
-  module_file = ::File.join(policy_dir, 'ssh_password.mod')
-  package_file = ::File.join(policy_dir, 'ssh_password.pp')
+  policy_file = ::File.join(cache_dir, 'ssh_password.te')
+  module_file = ::File.join(cache_dir, 'ssh_password.mod')
+  package_file = ::File.join(cache_dir, 'ssh_password.pp')
 
   package 'policycoreutils-python'
   # on fedora we need an addtional package for semodule_package
@@ -58,8 +62,6 @@ if %w(fedora rhel).include?(node['platform_family'])
     end
   else
     # UsePAM no: enable and install the additional SELinux policy
-
-    directory policy_dir
 
     cookbook_file policy_file do
       source 'ssh_password.te'
@@ -77,6 +79,23 @@ if %w(fedora rhel).include?(node['platform_family'])
 end
 
 # handle Diffie-Hellman moduli
+# build own moduli file if required
+own_primes_lock_file = ::File.join(cache_dir, 'moduli.lock')
+bash 'build own primes for DH' do
+  code <<-EOS
+    set -e
+    tempdir=$(mktemp -d)
+    ssh-keygen -G $tempdir/moduli.all -b #{node['ssh-hardening']['ssh']['server']['dh_build_primes_size']}
+    ssh-keygen -T $tempdir/moduli.safe -f $tempdir/moduli.all
+    cp $tempdir/moduli.safe #{dh_moduli_file}
+    rm -rf $tempdir
+    touch #{own_primes_lock_file}
+  EOS
+  only_if { node['ssh-hardening']['ssh']['server']['dh_build_primes'] }
+  not_if { ::File.exist?(own_primes_lock_file) }
+  notifies :restart, 'service[sshd]'
+end
+
 # remove all small primes
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
 dh_min_prime_size = node['ssh-hardening']['ssh']['server']['dh_min_prime_size'].to_i - 1 # 4096 is 4095 in the moduli file
