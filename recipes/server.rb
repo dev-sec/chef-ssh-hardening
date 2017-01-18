@@ -30,6 +30,14 @@ node.default['ssh-hardening']['ssh']['server']['listen_to'] =
     ['0.0.0.0']
   end
 
+# some internal definitions
+cache_dir = ::File.join(Chef::Config[:file_cache_path], cookbook_name.to_s)
+dh_moduli_file = '/etc/ssh/moduli'
+
+# create a cache dir for this cookbook
+# we use it for storing of lock files or selinux files
+directory cache_dir
+
 # installs package name
 package 'openssh-server' do
   package_name node['ssh-hardening']['sshserver']['package']
@@ -37,10 +45,9 @@ end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
 if %w(fedora rhel).include?(node['platform_family'])
-  policy_dir = ::File.join(Chef::Config[:file_cache_path], cookbook_name.to_s)
-  policy_file = ::File.join(policy_dir, 'ssh_password.te')
-  module_file = ::File.join(policy_dir, 'ssh_password.mod')
-  package_file = ::File.join(policy_dir, 'ssh_password.pp')
+  policy_file = ::File.join(cache_dir, 'ssh_password.te')
+  module_file = ::File.join(cache_dir, 'ssh_password.mod')
+  package_file = ::File.join(cache_dir, 'ssh_password.pp')
 
   package 'policycoreutils-python'
   # on fedora we need an addtional package for semodule_package
@@ -56,8 +63,6 @@ if %w(fedora rhel).include?(node['platform_family'])
   else
     # UsePAM no: enable and install the additional SELinux policy
 
-    directory policy_dir
-
     cookbook_file policy_file do
       source 'ssh_password.te'
     end
@@ -71,6 +76,53 @@ if %w(fedora rhel).include?(node['platform_family'])
       not_if 'getenforce | grep -q Disabled || semodule -l | grep -q ssh_password'
     end
   end
+end
+
+# handle Diffie-Hellman moduli
+# build own moduli file if required
+own_primes_lock_file = ::File.join(cache_dir, 'moduli.lock')
+bash 'build own primes for DH' do
+  code <<-EOS
+    set -e
+    tempdir=$(mktemp -d)
+    ssh-keygen -G $tempdir/moduli.all -b #{node['ssh-hardening']['ssh']['server']['dh_build_primes_size']}
+    ssh-keygen -T $tempdir/moduli.safe -f $tempdir/moduli.all
+    cp $tempdir/moduli.safe #{dh_moduli_file}
+    rm -rf $tempdir
+    touch #{own_primes_lock_file}
+  EOS
+  only_if { node['ssh-hardening']['ssh']['server']['dh_build_primes'] }
+  not_if { ::File.exist?(own_primes_lock_file) }
+  notifies :restart, 'service[sshd]'
+end
+
+# remove all small primes
+# https://stribika.github.io/2015/01/04/secure-secure-shell.html
+dh_min_prime_size = node['ssh-hardening']['ssh']['server']['dh_min_prime_size'].to_i - 1 # 4096 is 4095 in the moduli file
+ruby_block 'remove small primes from DH moduli' do # ~FC014
+  block do
+    tmp_file = "#{dh_moduli_file}.tmp"
+    ::File.open(tmp_file, 'w') do |new_file|
+      ::File.readlines(dh_moduli_file).each do |line|
+        unless line_match = line.match(/^(\d+ ){4}(\d+) \d+ \h+$/) # rubocop:disable Lint/AssignmentInCondition
+          # some line without expected data structure, e.g. comment line
+          # write it and go to the next data
+          new_file.write(line)
+          next
+        end
+
+        # lets compare the bits and do not write the lines with small bit size
+        bits = line_match[2]
+        new_file.write(line) unless bits.to_i < dh_min_prime_size
+      end
+    end
+
+    # we use cp&rm to preserve the permissions of existing file
+    FileUtils.cp(tmp_file, dh_moduli_file)
+    FileUtils.rm(tmp_file)
+  end
+  not_if "test $(awk '$5 < #{dh_min_prime_size} && $5 ~ /^[0-9]+$/ { print $5 }' #{dh_moduli_file} | uniq | wc -c) -eq 0"
+  notifies :restart, 'service[sshd]'
 end
 
 # defines the sshd service
