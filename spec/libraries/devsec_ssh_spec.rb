@@ -202,6 +202,27 @@ describe DevSec::Ssh do
     end
   end
 
+  describe 'get_server_algorithms' do
+    DevSec::Ssh::HOSTKEY_ALGORITHMS.each do |openssh_version, conf_data|
+      context "when openssh is >= #{openssh_version}" do
+        before :each do
+          # mock get_ssh_server_version. We test it somewhere else
+          expect(subject).to receive(:get_ssh_server_version) { openssh_version }
+        end
+
+        it "get the config value #{conf_data}" do
+          expect(subject.get_server_algorithms).to eq conf_data
+        end
+      end
+    end
+    context 'when openssh has a totaly unsupported version, e.g. 3.0' do
+      it 'should raise an exception' do
+        expect(subject).to receive(:get_ssh_server_version) { 3.0 }
+        expect { subject.get_server_algorithms }.to raise_exception(/Unsupported ssh version/)
+      end
+    end
+  end
+
   # Here we test the public functions:
   # get_[client|server]_[kexs|macs|ciphers]
   # In order to cover all possible combinations, we need a complex nested loops:-\

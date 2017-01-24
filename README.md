@@ -46,6 +46,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['client']['remote_hosts']` - `[]` - one or more hosts, to which ssh-client can connect to.
 * `['ssh-hardening']['ssh']['client']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled.
 * `['ssh-hardening']['ssh']['client']['roaming']` - `false`. Set to `true` if experimental client roaming should be enabled. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
+* `['ssh-hardening']['ssh']['server']['host_key_files']` - `nil` to calculate best hostkey configuration based on server version, otherwise specify an array with file paths (e.g. `/etc/ssh/ssh_host_rsa_key`)
 * `['ssh-hardening']['ssh']['server']['dh_min_prime_size']` - `2048` - Minimal acceptable prime length in bits in `/etc/ssh/moduli`. Primes below this number will get removed. (See [this](https://entropux.net/article/openssh-moduli/) for more information and background)
 * `['ssh-hardening']['ssh']['server']['dh_build_primes']` - `false` - If own primes should be built. This rebuild happens only once and takes a lot of time (~ 1.5 - 2h on the modern hardware for 4096 length).
 * `['ssh-hardening']['ssh']['server']['dh_build_primes_size']` - `4096` - Prime length which should be generated. This option is only valid if `dh_build_primes` is enabled.
