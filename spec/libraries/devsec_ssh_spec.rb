@@ -109,6 +109,46 @@ describe DevSec::Ssh do
       end
     end
 
+    context 'when running on Fedora 25' do
+      let(:family) { 'fedora' }
+      let(:platform) { 'fedora' }
+      let(:version) { '25' }
+
+      it 'should return ssh version 7.3' do
+        expect(subject.send(:guess_ssh_version)).to eq 7.3
+      end
+    end
+
+    context 'when running on Fedora 24' do
+      let(:family) { 'fedora' }
+      let(:platform) { 'fedora' }
+      let(:version) { '24' }
+
+      it 'should return ssh version 7.2' do
+        expect(subject.send(:guess_ssh_version)).to eq 7.2
+      end
+    end
+
+    context 'when running on Opensuse 13.2' do
+      let(:family) { 'suse' }
+      let(:platform) { 'opensuse' }
+      let(:version) { '13.2' }
+
+      it 'should return ssh version 6.6' do
+        expect(subject.send(:guess_ssh_version)).to eq 6.6
+      end
+    end
+
+    context 'when running on Opensuse 42.1' do
+      let(:family) { 'suse' }
+      let(:platform) { 'opensuse' }
+      let(:version) { '42.1' }
+
+      it 'should return ssh version 6.6' do
+        expect(subject.send(:guess_ssh_version)).to eq 6.6
+      end
+    end
+
     context 'when running on unknown platform' do
       let(:family) { 'unknown' }
       let(:platform) { 'unknown' }
