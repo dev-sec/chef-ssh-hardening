@@ -193,6 +193,11 @@ UseDNS <%= ((@node['ssh-hardening']['ssh']['server']['use_dns']) ? 'yes' : 'no' 
 #ChrootDirectory none
 #ChrootDirectory /home/%u
 
+<% unless @node['ssh-hardening']['ssh']['server']['accept_env'].empty? %>
+# Accept locale environment variables
+AcceptEnv <%= @node['ssh-hardening']['ssh']['server']['accept_env'].join(' ') %>
+<% end %>
+
 <% if @node['ssh-hardening']['ssh']['server']['sftp']['enable'] %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
