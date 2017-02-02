@@ -61,7 +61,8 @@ default['ssh-hardening']['ssh']['client']['weak_kex']      = false
 default['ssh-hardening']['ssh']['client']['remote_hosts']  = []
 default['ssh-hardening']['ssh']['client']['password_authentication'] = false   # ssh
 # http://undeadly.org/cgi?action=article&sid=20160114142733
-default['ssh-hardening']['ssh']['client']['roaming']        = false
+default['ssh-hardening']['ssh']['client']['roaming']       = false
+default['ssh-hardening']['ssh']['client']['send_env']      = ['LANG', 'LC_*', 'LANGUAGE']
 
 # sshd
 default['ssh-hardening']['ssh']['server']['kex']                      = nil     # nil = calculate best combination for server version
@@ -97,6 +98,8 @@ default['ssh-hardening']['ssh']['server']['max_auth_tries']           = 2
 default['ssh-hardening']['ssh']['server']['max_sessions']             = 10
 default['ssh-hardening']['ssh']['server']['password_authentication']  = false
 default['ssh-hardening']['ssh']['server']['log_level']                = 'verbose'
+default['ssh-hardening']['ssh']['server']['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
+
 # sshd sftp options
 default['ssh-hardening']['ssh']['server']['sftp']['enable']           = false
 default['ssh-hardening']['ssh']['server']['sftp']['group']            = 'sftponly'

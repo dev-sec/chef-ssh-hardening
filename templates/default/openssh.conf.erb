@@ -112,3 +112,8 @@ Compression yes
 
 # http://undeadly.org/cgi?action=article&sid=20160114142733
 UseRoaming <%= @node['ssh-hardening']['ssh']['client']['roaming'] ? 'yes' : 'no' %>
+
+<% unless @node['ssh-hardening']['ssh']['client']['send_env'].empty? %>
+# Send locale environment variables
+SendEnv <%= @node['ssh-hardening']['ssh']['client']['send_env'].join(' ') %>
+<% end %>

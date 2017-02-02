@@ -64,6 +64,11 @@ describe 'ssh-hardening::server' do
     )
   end
 
+  it 'accepts default locale environment variables' do
+    expect(chef_run).to render_file('/etc/ssh/sshd_config').
+      with_content('AcceptEnv LANG LC_* LANGUAGE')
+  end
+
   include_examples 'does not allow weak hmacs'
   include_examples 'does not allow weak kexs'
   include_examples 'does not allow weak ciphers'
@@ -603,6 +608,32 @@ describe 'ssh-hardening::server' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config').
         with_content(/ListenAddress 0.0.0.0/).
         with_content(/ListenAddress ::/)
+    end
+  end
+
+  context 'with empty accept_env attribute' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['accept_env'] = []
+      end.converge(described_recipe)
+    end
+
+    it 'will not accept any environment variables' do
+      expect(chef_run).to_not render_file('/etc/ssh/sshd_config').
+        with_content(/AcceptEnv/)
+    end
+  end
+
+  context 'with custom accept_env attribute' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['accept_env'] = %w(some environment variables)
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of accept_env attribute' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config').
+        with_content(/AcceptEnv some environment variables/)
     end
   end
 end

@@ -59,6 +59,11 @@ describe 'ssh-hardening::client' do
       with_content(/UseRoaming no/)
   end
 
+  it 'sends default locale environment variables' do
+    expect(chef_run).to render_file('/etc/ssh/ssh_config').
+      with_content('SendEnv LANG LC_* LANGUAGE')
+  end
+
   include_examples 'allow ctr ciphers'
 
   context 'weak_hmac enabled only for the client' do
@@ -157,6 +162,32 @@ describe 'ssh-hardening::client' do
     it 'uses the value of cipher attribute' do
       expect(chef_run).to render_file('/etc/ssh/ssh_config').
         with_content(/Ciphers mycustomciphervalue/)
+    end
+  end
+
+  context 'with empty send_env attribute' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['client']['send_env'] = []
+      end.converge(described_recipe)
+    end
+
+    it 'will not send any environment variables' do
+      expect(chef_run).to_not render_file('/etc/ssh/ssh_config').
+        with_content(/SendEnv/)
+    end
+  end
+
+  context 'with custom send_env attribute' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['client']['send_env'] = %w(some environment variables)
+      end.converge(described_recipe)
+    end
+
+    it 'uses the value of send_env attribute' do
+      expect(chef_run).to render_file('/etc/ssh/ssh_config').
+        with_content(/SendEnv some environment variables/)
     end
   end
 
