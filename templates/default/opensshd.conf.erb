@@ -32,7 +32,7 @@ ListenAddress <%= ssh_ip %>
 <% end %>
 
 # List HostKeys here.
-<% Array(@node['ssh-hardening']['ssh']['server']['host_key_files']).each do |host_key_file| %>
+<% @hostkeys.each do |host_key_file| %>
 HostKey <%= host_key_file %>          # Req 20
 <% end %>
 

@@ -109,6 +109,46 @@ describe DevSec::Ssh do
       end
     end
 
+    context 'when running on Fedora 25' do
+      let(:family) { 'fedora' }
+      let(:platform) { 'fedora' }
+      let(:version) { '25' }
+
+      it 'should return ssh version 7.3' do
+        expect(subject.send(:guess_ssh_version)).to eq 7.3
+      end
+    end
+
+    context 'when running on Fedora 24' do
+      let(:family) { 'fedora' }
+      let(:platform) { 'fedora' }
+      let(:version) { '24' }
+
+      it 'should return ssh version 7.2' do
+        expect(subject.send(:guess_ssh_version)).to eq 7.2
+      end
+    end
+
+    context 'when running on Opensuse 13.2' do
+      let(:family) { 'suse' }
+      let(:platform) { 'opensuse' }
+      let(:version) { '13.2' }
+
+      it 'should return ssh version 6.6' do
+        expect(subject.send(:guess_ssh_version)).to eq 6.6
+      end
+    end
+
+    context 'when running on Opensuse 42.1' do
+      let(:family) { 'suse' }
+      let(:platform) { 'opensuse' }
+      let(:version) { '42.1' }
+
+      it 'should return ssh version 6.6' do
+        expect(subject.send(:guess_ssh_version)).to eq 6.6
+      end
+    end
+
     context 'when running on unknown platform' do
       let(:family) { 'unknown' }
       let(:platform) { 'unknown' }
@@ -198,6 +238,27 @@ describe DevSec::Ssh do
       it 'should raise an exception' do
         expect(subject).to receive(:get_ssh_server_version) { 3.0 }
         expect { subject.get_server_privilege_separarion }.to raise_exception(/Unsupported ssh version/)
+      end
+    end
+  end
+
+  describe 'get_server_algorithms' do
+    DevSec::Ssh::HOSTKEY_ALGORITHMS.each do |openssh_version, conf_data|
+      context "when openssh is >= #{openssh_version}" do
+        before :each do
+          # mock get_ssh_server_version. We test it somewhere else
+          expect(subject).to receive(:get_ssh_server_version) { openssh_version }
+        end
+
+        it "get the config value #{conf_data}" do
+          expect(subject.get_server_algorithms).to eq conf_data
+        end
+      end
+    end
+    context 'when openssh has a totaly unsupported version, e.g. 3.0' do
+      it 'should raise an exception' do
+        expect(subject).to receive(:get_ssh_server_version) { 3.0 }
+        expect { subject.get_server_algorithms }.to raise_exception(/Unsupported ssh version/)
       end
     end
   end

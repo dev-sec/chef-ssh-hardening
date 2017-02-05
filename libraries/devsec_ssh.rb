@@ -70,12 +70,27 @@ module DevSec
       5.3 => 'yes',
       5.9 => 'sandbox'
     }.freeze
+    # Hostkey algorithms
+    # In the current implementation they are server specific so we need own data hash for it
+    HOSTKEY_ALGORITHMS ||= {
+      5.3 => %w(rsa),
+      6.0 => %w(rsa ecdsa),
+      6.6 => %w(rsa ecdsa ed25519)
+    }.freeze
 
     class << self
       def get_server_privilege_separarion # rubocop:disable Style/AccessorMethodName
         Chef::Log.debug('Called get_server_privilege_separarion')
         found_ssh_version = find_ssh_version(get_ssh_server_version, PRIVILEGE_SEPARATION.keys)
         ret = PRIVILEGE_SEPARATION[found_ssh_version]
+        Chef::Log.debug("Using configuration for ssh version #{found_ssh_version}, value: #{ret}")
+        ret
+      end
+
+      def get_server_algorithms # rubocop:disable Style/AccessorMethodName
+        Chef::Log.debug('Called get_server_algorithms')
+        found_ssh_version = find_ssh_version(get_ssh_server_version, HOSTKEY_ALGORITHMS.keys)
+        ret = HOSTKEY_ALGORITHMS[found_ssh_version]
         Chef::Log.debug("Using configuration for ssh version #{found_ssh_version}, value: #{ret}")
         ret
       end
@@ -176,7 +191,7 @@ module DevSec
       end
 
       # Guess the version of ssh via OS matrix
-      def guess_ssh_version
+      def guess_ssh_version # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         family = node['platform_family']
         platform = node['platform']
         version = node['platform_version'].to_f
@@ -188,11 +203,20 @@ module DevSec
             return 6.6 if version >= 14.04
           when 'debian'
             return 6.6 if version >= 8
+            return 6.0 if version >= 7
             return 5.3 if version <= 6
           end
         when 'rhel'
           return 6.6 if version >= 7
           return 5.3 if version >= 6
+        when 'fedora'
+          return 7.3 if version >= 25
+          return 7.2 if version >= 24
+        when 'suse'
+          case platform
+          when 'opensuse'
+            return 6.6 if version >= 13.2
+          end
         end
         Chef::Log.info("Unknown platform #{node['platform']} with version #{node['platform_version']} and family #{node['platform_family']}. Assuming ssh version #{FALLBACK_SSH_VERSION}")
         FALLBACK_SSH_VERSION
