@@ -86,9 +86,8 @@ platforms:
 suites:
 - name: default
   run_list:
-  - recipe[apt]
-  - recipe[yum]
-  - recipe[ssh-hardening::default]
+  - recipe[test]
+  - recipe[ssh-hardening]
   verifier:
     inspec_tests:
       - https://github.com/dev-sec/tests-ssh-hardening

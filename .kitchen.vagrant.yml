@@ -27,6 +27,7 @@ verifier:
 suites:
 - name: default
   run_list:
+  - recipe[test]
   - recipe[ssh-hardening]
   verifier:
     inspec_tests:
@@ -44,6 +45,7 @@ suites:
     vagrantfiles:
       - test/fixtures/vagrantfiles/enforce_selinux.rb
   run_list:
+  - recipe[test]
   - recipe[ssh-hardening]
   attributes:
     ssh-hardening:
