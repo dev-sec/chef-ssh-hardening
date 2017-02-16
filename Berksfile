@@ -4,5 +4,6 @@ source 'https://supermarket.chef.io'
 
 metadata
 
-cookbook 'apt'
-cookbook 'yum'
+group :test do
+  cookbook 'test', path: 'test/fixtures/cookbooks/test'
+end
