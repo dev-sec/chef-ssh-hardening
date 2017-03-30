@@ -99,6 +99,7 @@ default['ssh-hardening']['ssh']['server']['max_sessions']             = 10
 default['ssh-hardening']['ssh']['server']['password_authentication']  = false
 default['ssh-hardening']['ssh']['server']['log_level']                = 'verbose'
 default['ssh-hardening']['ssh']['server']['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
+default['ssh-hardening']['ssh']['server']['authorized_keys_path']     = nil     # if not nil, full path to an authorized keys folder is expected
 
 # sshd sftp options
 default['ssh-hardening']['ssh']['server']['sftp']['enable']           = false

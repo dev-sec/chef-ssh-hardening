@@ -96,6 +96,11 @@ MaxStartups 10:30:100
 # Enable public key authentication
 PubkeyAuthentication yes
 
+<% if @node['ssh-hardening']['ssh']['server']['authorized_keys_path'] != nil %>
+# Customized authorized keys path
+AuthorizedKeysFile <%= @node['ssh-hardening']['ssh']['server']['authorized_keys_path'] %>
+<% end %>
+
 # Never use host-based authentication. It can be exploited.
 IgnoreRhosts yes
 IgnoreUserKnownHosts yes
