@@ -403,6 +403,33 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  describe 'extra configuration values' do
+    context 'without custom extra config value' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new.converge(described_recipe)
+      end
+
+      it 'does not have any extra config options' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/^# Extra Configuration Options/)
+      end
+    end
+
+    context 'with custom extra config value' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new do |node|
+          node.normal['ssh-hardening']['ssh']['server']['extras']['#ExtraConfig'] = 'Value'
+        end.converge(described_recipe)
+      end
+
+      it 'uses the extra config attributes' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content(/^# Extra Configuration Options/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content(/^#ExtraConfig Value/)
+      end
+    end
+  end
+
   it 'disables the challenge response authentication' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/ChallengeResponseAuthentication no/)
