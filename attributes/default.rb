@@ -52,56 +52,66 @@ default['ssh-hardening']['config_disclaimer']              = '**Note:** This fil
 default['ssh-hardening']['ssh']['ports']                   = [22]
 
 # ssh client
-default['ssh-hardening']['ssh']['client']['mac']           = nil     # nil = calculate best combination for client
-default['ssh-hardening']['ssh']['client']['kex']           = nil     # nil = calculate best combination for client
-default['ssh-hardening']['ssh']['client']['cipher']        = nil     # nil = calculate best combination for client
-default['ssh-hardening']['ssh']['client']['cbc_required']  = false
-default['ssh-hardening']['ssh']['client']['weak_hmac']     = false
-default['ssh-hardening']['ssh']['client']['weak_kex']      = false
-default['ssh-hardening']['ssh']['client']['remote_hosts']  = []
-default['ssh-hardening']['ssh']['client']['password_authentication'] = false   # ssh
-# http://undeadly.org/cgi?action=article&sid=20160114142733
-default['ssh-hardening']['ssh']['client']['roaming']       = false
-default['ssh-hardening']['ssh']['client']['send_env']      = ['LANG', 'LC_*', 'LANGUAGE']
+default['ssh-hardening']['ssh']['client'].tap do |client|
+  client['mac']           = nil     # nil = calculate best combination for client
+  client['kex']           = nil     # nil = calculate best combination for client
+  client['cipher']        = nil     # nil = calculate best combination for client
+  client['cbc_required']  = false
+  client['weak_hmac']     = false
+  client['weak_kex']      = false
+  client['remote_hosts']  = []
+  client['password_authentication'] = false   # ssh
+  # http://undeadly.org/cgi?action=article&sid=20160114142733
+  client['roaming']       = false
+  client['send_env']      = ['LANG', 'LC_*', 'LANGUAGE']
+
+  # extra client configuration options
+  client['extras']        = {}
+end
 
 # sshd
-default['ssh-hardening']['ssh']['server']['kex']                      = nil     # nil = calculate best combination for server version
-default['ssh-hardening']['ssh']['server']['cipher']                   = nil     # nil = calculate best combination for server version
-default['ssh-hardening']['ssh']['server']['mac']                      = nil     # nil = calculate best combination for server version
-default['ssh-hardening']['ssh']['server']['cbc_required']             = false
-default['ssh-hardening']['ssh']['server']['weak_hmac']                = false
-default['ssh-hardening']['ssh']['server']['weak_kex']                 = false
-default['ssh-hardening']['ssh']['server']['dh_min_prime_size']        = 2048
-default['ssh-hardening']['ssh']['server']['dh_build_primes']          = false
-default['ssh-hardening']['ssh']['server']['dh_build_primes_size']     = 4096
-default['ssh-hardening']['ssh']['server']['host_key_files']           = nil
-default['ssh-hardening']['ssh']['server']['client_alive_interval']    = 600     # 10min
-default['ssh-hardening']['ssh']['server']['client_alive_count']       = 3       # ~> 3 x interval
-default['ssh-hardening']['ssh']['server']['allow_root_with_key']      = false
-default['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']     = false
-default['ssh-hardening']['ssh']['server']['allow_agent_forwarding']   = false
-default['ssh-hardening']['ssh']['server']['allow_x11_forwarding']     = false
-default['ssh-hardening']['ssh']['server']['use_pam']                  = true
-default['ssh-hardening']['ssh']['server']['challenge_response_authentication'] = false
-default['ssh-hardening']['ssh']['server']['deny_users']               = []
-default['ssh-hardening']['ssh']['server']['allow_users']              = []
-default['ssh-hardening']['ssh']['server']['deny_groups']              = []
-default['ssh-hardening']['ssh']['server']['allow_groups']             = []
-default['ssh-hardening']['ssh']['server']['print_motd']               = false
-default['ssh-hardening']['ssh']['server']['print_last_log']           = false
-default['ssh-hardening']['ssh']['server']['banner']                   = nil     # set this to nil to disable banner or provide a path like '/etc/issue.net'
-default['ssh-hardening']['ssh']['server']['os_banner']                = false   # (Debian OS family)
-default['ssh-hardening']['ssh']['server']['use_dns']                  = nil     # set this to nil to let us use the default OpenSSH in case it's not set by the user
-default['ssh-hardening']['ssh']['server']['use_privilege_separation'] = nil     # set this to nil to let us detect the attribute based on the node platform
-default['ssh-hardening']['ssh']['server']['login_grace_time']         = '30s'
-default['ssh-hardening']['ssh']['server']['max_auth_tries']           = 2
-default['ssh-hardening']['ssh']['server']['max_sessions']             = 10
-default['ssh-hardening']['ssh']['server']['password_authentication']  = false
-default['ssh-hardening']['ssh']['server']['log_level']                = 'verbose'
-default['ssh-hardening']['ssh']['server']['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
-default['ssh-hardening']['ssh']['server']['authorized_keys_path']     = nil     # if not nil, full path to an authorized keys folder is expected
+default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable BlockLength
+  server['kex']                      = nil     # nil = calculate best combination for server version
+  server['cipher']                   = nil     # nil = calculate best combination for server version
+  server['mac']                      = nil     # nil = calculate best combination for server version
+  server['cbc_required']             = false
+  server['weak_hmac']                = false
+  server['weak_kex']                 = false
+  server['dh_min_prime_size']        = 2048
+  server['dh_build_primes']          = false
+  server['dh_build_primes_size']     = 4096
+  server['host_key_files']           = nil
+  server['client_alive_interval']    = 600     # 10min
+  server['client_alive_count']       = 3       # ~> 3 x interval
+  server['allow_root_with_key']      = false
+  server['allow_tcp_forwarding']     = false
+  server['allow_agent_forwarding']   = false
+  server['allow_x11_forwarding']     = false
+  server['use_pam']                  = true
+  server['challenge_response_authentication'] = false
+  server['deny_users']               = []
+  server['allow_users']              = []
+  server['deny_groups']              = []
+  server['allow_groups']             = []
+  server['print_motd']               = false
+  server['print_last_log']           = false
+  server['banner']                   = nil     # set this to nil to disable banner or provide a path like '/etc/issue.net'
+  server['os_banner']                = false   # (Debian OS family)
+  server['use_dns']                  = nil     # set this to nil to let us use the default OpenSSH in case it's not set by the user
+  server['use_privilege_separation'] = nil     # set this to nil to let us detect the attribute based on the node platform
+  server['login_grace_time']         = '30s'
+  server['max_auth_tries']           = 2
+  server['max_sessions']             = 10
+  server['password_authentication']  = false
+  server['log_level']                = 'verbose'
+  server['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
+  server['authorized_keys_path']     = nil     # if not nil, full path to an authorized keys folder is expected
+  
+  # extra server configuration options
+  server['extras']                   = {}
 
-# sshd sftp options
-default['ssh-hardening']['ssh']['server']['sftp']['enable']           = false
-default['ssh-hardening']['ssh']['server']['sftp']['group']            = 'sftponly'
-default['ssh-hardening']['ssh']['server']['sftp']['chroot']           = '/home/%u'
+  # sshd sftp options
+  server['sftp']['enable']           = false
+  server['sftp']['group']            = 'sftponly'
+  server['sftp']['chroot']           = '/home/%u'
+end

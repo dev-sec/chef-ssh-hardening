@@ -46,6 +46,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['client']['remote_hosts']` - `[]` - one or more hosts, to which ssh-client can connect to.
 * `['ssh-hardening']['ssh']['client']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled.
 * `['ssh-hardening']['ssh']['client']['roaming']` - `false`. Set to `true` if experimental client roaming should be enabled. This is known to cause potential issues with secrets being disclosed to malicious servers and defaults to being disabled.
+* `['ssh-hardening']['ssh']['client']['extras']` - `{}`. Add extra configuration options, see [below](#extra-configuration-options) for details
 * `['ssh-hardening']['ssh']['server']['host_key_files']` - `nil` to calculate best hostkey configuration based on server version, otherwise specify an array with file paths (e.g. `/etc/ssh/ssh_host_rsa_key`)
 * `['ssh-hardening']['ssh']['server']['dh_min_prime_size']` - `2048` - Minimal acceptable prime length in bits in `/etc/ssh/moduli`. Primes below this number will get removed. (See [this](https://entropux.net/article/openssh-moduli/) for more information and background)
 * `['ssh-hardening']['ssh']['server']['dh_build_primes']` - `false` - If own primes should be built. This rebuild happens only once and takes a lot of time (~ 1.5 - 2h on the modern hardware for 4096 length).
@@ -76,6 +77,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['sftp']['group']` - `sftponly`. Sets the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh-hardening']['ssh']['server']['sftp']['chroot']` - `/home/%u`. Sets the directory where the SFTP user should be chrooted
 * `['ssh-hardening']['ssh']['server']['authorized_keys_path']` - `nil`. If not nil, full path to an authorized keys folder is expected
+* `['ssh-hardening']['ssh']['server']['extras']` - `{}`. Add extra configuration options, see [below](#extra-configuration-options) for details
 
 ## Usage
 
@@ -123,6 +125,24 @@ Configure attributes:
     }
 
 This will enable the SFTP Server and chroot every user in the `sftpusers` group to the `/home/sftp/%u` directory.
+
+## Extra Configuration Options
+Extra configuration options can be appended to the client or server configuration files.  This can be used to override statically set values, or add configuration options not otherwise available via attributes.
+
+The syntax is as follows:
+```
+# => Extra Server Configuration
+default['ssh-hardening']['ssh']['server']['extras'].tap do |extra|
+  extra['#Some Comment'] = 'Heres the Comment'
+  extra['AuthenticationMethods'] =  'publickey,keyboard-interactive'
+end
+
+# => Extra Client Configuration
+default['ssh-hardening']['ssh']['client']['extras'].tap do |extra|
+  extra['PermitLocalCommand'] = 'no'
+  extra['Tunnel'] =  'no'
+end
+```
 
 ## Local Testing
 

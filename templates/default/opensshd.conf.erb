@@ -234,3 +234,10 @@ X11Forwarding no
 #PermitRootLogin no
 #X11Forwarding no
 <% end %>
+
+<%- unless @node['ssh-hardening']['ssh']['server']['extras'].empty? %>
+# Extra Configuration Options
+  <%- @node['ssh-hardening']['ssh']['server']['extras'].each do |key, value| %>
+<%= key %> <%= value %>
+  <% end -%>
+<% end -%>

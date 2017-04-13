@@ -117,3 +117,10 @@ UseRoaming <%= @node['ssh-hardening']['ssh']['client']['roaming'] ? 'yes' : 'no'
 # Send locale environment variables
 SendEnv <%= @node['ssh-hardening']['ssh']['client']['send_env'].join(' ') %>
 <% end %>
+
+<%- unless @node['ssh-hardening']['ssh']['client']['extras'].empty? %>
+# Extra Configuration Options
+  <%- @node['ssh-hardening']['ssh']['client']['extras'].each do |key, value| %>
+<%= key %> <%= value %>
+  <% end -%>
+<% end -%>
