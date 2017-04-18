@@ -76,9 +76,8 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['sftp']['enable']` - `false`. Set to `true` to enable the SFTP feature of OpenSSH daemon
 * `['ssh-hardening']['ssh']['server']['sftp']['group']` - `sftponly`. Sets the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh-hardening']['ssh']['server']['sftp']['chroot']` - `/home/%u`. Sets the directory where the SFTP user should be chrooted
-
+* `['ssh-hardening']['ssh']['server']['authorized_keys_path']` - `nil`. If not nil, full path to an authorized keys folder is expected
 * `['ssh-hardening']['ssh']['server']['extras']` - `{}`. Add extra configuration options, see [below](#extra-configuration-options) for details
-
 
 ## Usage
 
