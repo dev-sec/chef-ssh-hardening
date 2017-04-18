@@ -673,8 +673,8 @@ describe 'ssh-hardening::server' do
       it 'does not have AuthorizedKeysFile configured' do
         expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
           with_content('AuthorizedKeysFile')
-        end
       end
+    end
 
     context 'with customized AuthorizedKeysFile' do
       cached(:chef_run) do
