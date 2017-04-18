@@ -106,7 +106,7 @@ default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Blo
   server['log_level']                = 'verbose'
   server['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
   server['authorized_keys_path']     = nil     # if not nil, full path to an authorized keys folder is expected
-  
+
   # extra server configuration options
   server['extras']                   = {}
 
