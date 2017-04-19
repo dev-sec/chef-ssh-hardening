@@ -1,19 +1,33 @@
 # Change Log
 
+## [v2.1.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.1.0) (2017-04-19)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Suse support missing in metadata [\#170](https://github.com/dev-sec/chef-ssh-hardening/issues/170)
+
+**Merged pull requests:**
+
+- Add Support for Extra Configuration Options [\#173](https://github.com/dev-sec/chef-ssh-hardening/pull/173) ([bdwyertech](https://github.com/bdwyertech))
+- Authorized keys custom path [\#172](https://github.com/dev-sec/chef-ssh-hardening/pull/172) ([lubomir-kacalek](https://github.com/lubomir-kacalek))
+- Add suse to the supported list in metadata [\#171](https://github.com/dev-sec/chef-ssh-hardening/pull/171) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Removal of apt/yum cookbooks from tests [\#169](https://github.com/dev-sec/chef-ssh-hardening/pull/169) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
 ## [v2.0.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.0.0) (2017-02-06)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.3.0...v2.0.0)
 
 **Implemented enhancements:**
 
 - Send and Accept locale environment variables [\#167](https://github.com/dev-sec/chef-ssh-hardening/pull/167) ([mikemoate](https://github.com/mikemoate))
-- Use different algorithms depending on the ssh version [\#166](https://github.com/dev-sec/chef-ssh-hardening/pull/166) ([artem-sidorenko](https://github.com/artem-sidorenko))
-- Avoid small primes for DH and allow rebuild of DH primes [\#163](https://github.com/dev-sec/chef-ssh-hardening/pull/163) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Removal of DSA key from defaults [\#161](https://github.com/dev-sec/chef-ssh-hardening/pull/161) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Allow log level configuration of sshd [\#159](https://github.com/dev-sec/chef-ssh-hardening/pull/159) ([artem-sidorenko](https://github.com/artem-sidorenko))
-- Switch UsePAM default to yes [\#157](https://github.com/dev-sec/chef-ssh-hardening/pull/157) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Split the attribues to the client and server areas [\#150](https://github.com/dev-sec/chef-ssh-hardening/pull/150) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Attribute namespace \['ssh-hardening'\] added [\#144](https://github.com/dev-sec/chef-ssh-hardening/pull/144) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Add node attributes to override KEX, MAC and cipher values [\#141](https://github.com/dev-sec/chef-ssh-hardening/pull/141) ([bazbremner](https://github.com/bazbremner))
+- Use different algorithms depending on the ssh version [\#166](https://github.com/dev-sec/chef-ssh-hardening/pull/166) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Avoid small primes for DH and allow rebuild of DH primes [\#163](https://github.com/dev-sec/chef-ssh-hardening/pull/163) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Switch UsePAM default to yes [\#157](https://github.com/dev-sec/chef-ssh-hardening/pull/157) ([artem-sidorenko](https://github.com/artem-sidorenko))
 
 **Fixed bugs:**
 
@@ -21,8 +35,8 @@
 
 **Closed issues:**
 
-- Verify the current crypto settings [\#162](https://github.com/dev-sec/chef-ssh-hardening/issues/162)
 - Possibly missing locale handling [\#160](https://github.com/dev-sec/chef-ssh-hardening/issues/160)
+- Verify the current crypto settings [\#162](https://github.com/dev-sec/chef-ssh-hardening/issues/162)
 - Error message about DSA key on RHEL 7 [\#158](https://github.com/dev-sec/chef-ssh-hardening/issues/158)
 - Attributes should be in the own namespace ssh-hardening [\#142](https://github.com/dev-sec/chef-ssh-hardening/issues/142)
 - Move entire crypto parameter configuration in tests to the centralized place [\#137](https://github.com/dev-sec/chef-ssh-hardening/issues/137)
