@@ -15,9 +15,6 @@ verifier:
   sudo: true
 
 platforms:
-- name: ubuntu-12.04
-  driver:
-    image: ubuntu:12.04
 - name: ubuntu-14.04
   driver:
     image: ubuntu:14.04
@@ -27,24 +24,18 @@ platforms:
     intermediate_instructions:
     - RUN /usr/bin/apt-get update
     pid_one_command: /bin/systemd
-- name: centos-6.6
+- name: centos-6.8
   driver:
-    image: centos:6.6
-- name: centos-6.7
-  driver:
-    image: centos:6.7
+    image: centos:6.8
     intermediate_instructions:
       - RUN yum install -y initscripts
 - name: centos-7
   driver:
     image: centos:7
     pid_one_command: /usr/lib/systemd/systemd
-- name: oracle-6.6
+- name: oracle-6.8
   driver:
-    image: oraclelinux:6.6
-- name: oracle-6.7
-  driver:
-    image: oraclelinux:6.7
+    image: oraclelinux:6.8
 - name: oracle-7.1
   driver:
     image: oraclelinux:7.1
@@ -77,10 +68,6 @@ platforms:
 - name: opensuse-42
   driver:
     image: opensuse:42.1
-    pid_one_command: /usr/lib/systemd/systemd
-- name: opensuse-13
-  driver:
-    image: opensuse:13.2
     pid_one_command: /usr/lib/systemd/systemd
 
 suites:

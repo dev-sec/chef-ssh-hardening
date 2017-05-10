@@ -17,13 +17,12 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 ### Platform
 
 - Debian 7, 8
-- Ubuntu 12.04, 14.04, 16.04
+- Ubuntu 14.04, 16.04
 - RHEL 6, 7
 - CentOS 6, 7
 - Oracle Linux 6, 7
 - Fedora 24, 25
 - OpenSuse Leap 42.1
-- OpenSuse 13.2
 
 ## Attributes
 
