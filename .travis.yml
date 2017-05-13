@@ -1,44 +1,36 @@
 ---
 sudo: required
 language: ruby
-cache: bundler
+bundler_args: "--without development"
 dist: trusty
+cache: bundler
 
 services:
 - docker
 
+rvm: 2.3.3
+
 before_install:
-- gem --version
-- bundle version
+  - gem update --system # see https://github.com/bundler/bundler/issues/5357
+
+env:
+ - INSTANCE=ubuntu-14-04
+ - INSTANCE=ubuntu-16-04
+ - INSTANCE=centos-6
+ - INSTANCE=centos-7
+ - INSTANCE=oracle-6
+ - INSTANCE=oracle-7
+ - INSTANCE=debian-7
+ - INSTANCE=debian-8
+ - INSTANCE=fedora-24
+ - INSTANCE=fedora-25
+ - INSTANCE=opensuse-42
+
+script:
+  -  bundle exec rake kitchen KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
 
 matrix:
   include:
-  # verify lint and unit
-  - rvm: 2.3.1
-    gemfile: Gemfile
-    bundler_args: "--without integration development"
-  # integration tests
-  - rvm: 2.3.1
-    bundler_args: "--without development"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='centos'
-  - rvm: 2.3.1
-    bundler_args: "--without development"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='oracle'
-  - rvm: 2.3.1
-    bundler_args: "--without development"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='ubuntu'
-  - rvm: 2.3.1
-    bundler_args: "--without development"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='debian'
-  - rvm: 2.3.1
-    bundler_args: "--without development"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='fedora'
-  - rvm: 2.3.1
-    bundler_args: "--without development"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='opensuse'
+    - env: UNIT_AND_LINT=1
+      script:
+        - bundle exec rake lint spec

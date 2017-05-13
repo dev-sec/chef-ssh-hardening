@@ -22,7 +22,7 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 - CentOS 6, 7
 - Oracle Linux 6, 7
 - Fedora 24, 25
-- OpenSuse Leap 42.1
+- OpenSuse Leap 42
 
 ## Attributes
 
@@ -145,30 +145,30 @@ end
 
 ## Local Testing
 
-For local testing you can use vagrant and Virtualbox of VMWare to run tests locally. You will have to install Virtualbox and Vagrant on your system. See [Vagrant Downloads](http://downloads.vagrantup.com/) for a vagrant package suitable for your system. For all our tests we use `test-kitchen`. If you are not familiar with `test-kitchen` please have a look at [their guide](http://kitchen.ci/docs/getting-started). We are writing our test with [InSpec](https://github.com/chef/inspec).
+Please install [chef-dk](https://downloads.chef.io/chefdk), [VirtualBox](https://www.virtualbox.org/) or VMware Workstation and [Vagrant](https://www.vagrantup.com/).
 
-Next install test-kitchen:
+Linting is checked with [rubocop](https://github.com/bbatsov/rubocop) and [foodcritic](http://www.foodcritic.io/):
 
 ```bash
-# Install dependencies
-gem install bundler
-bundle install
-
-# Do lint checks
-bundle exec rake lint
-
-# fast test on one machine
-bundle exec kitchen test default-ubuntu-1204
-
-# test on all machines
-bundle exec kitchen test
-
-# for development
-bundle exec kitchen create default-ubuntu-1204
-bundle exec kitchen converge default-ubuntu-1204
+$ chef exec rake lint
+.....
 ```
 
-For more information see [test-kitchen](http://kitchen.ci/docs/getting-started)
+Unit/spec tests are done with [chefspec](https://github.com/sethvargo/chefspec):
+
+```bash
+$ chef exec rake spec
+.....
+```
+
+Integration tests are done with [test-kitchen](http://kitchen.ci/) and [inspec](https://www.inspec.io/):
+
+```bash
+$ chef exec rake kitchen
+.....
+# or you can use the kitchen directly
+$ kitchen test
+```
 
 ## FAQ / Pitfalls
 
