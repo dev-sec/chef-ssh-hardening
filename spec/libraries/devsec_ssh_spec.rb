@@ -139,13 +139,13 @@ describe DevSec::Ssh do
       end
     end
 
-    context 'when running on Opensuse 42.1' do
+    context 'when running on Opensuse 42.2' do
       let(:family) { 'suse' }
-      let(:platform) { 'opensuse' }
-      let(:version) { '42.1' }
+      let(:platform) { 'opensuseleap' }
+      let(:version) { '42.2' }
 
-      it 'should return ssh version 6.6' do
-        expect(subject.send(:guess_ssh_version)).to eq 6.6
+      it 'should return ssh version 7.2' do
+        expect(subject.send(:guess_ssh_version)).to eq 7.2
       end
     end
 
