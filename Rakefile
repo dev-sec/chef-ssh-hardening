@@ -30,14 +30,10 @@ end
 # Foodcritic
 desc 'Run foodcritic lint checks'
 task :foodcritic do
-  if Gem::Version.new('1.9.2') <= Gem::Version.new(RUBY_VERSION.dup)
-    puts 'Running Foodcritic tests...'
-    FoodCritic::Rake::LintTask.new do |t|
-      t.options = { fail_tags: ['any'] }
-      puts 'done.'
-    end
-  else
-    puts "WARN: foodcritic run is skipped as Ruby #{RUBY_VERSION} is < 1.9.2."
+  puts 'Running Foodcritic tests...'
+  FoodCritic::Rake::LintTask.new do |t|
+    t.options = { fail_tags: ['any'] }
+    puts 'done.'
   end
 end
 
@@ -65,10 +61,10 @@ rescue LoadError
   puts '>>>>> GitHub Changelog Generator not loaded, omitting tasks'
 end
 
-namespace :test do
-  task :integration do
-    concurrency = ENV['CONCURRENCY'] || 1
-    os = ENV['OS'] || ''
-    sh('sh', '-c', "bundle exec kitchen test -c #{concurrency} #{os}")
-  end
+desc 'Run kitchen integration tests'
+task :kitchen do
+  concurrency = ENV['CONCURRENCY'] || 1
+  instance = ENV['INSTANCE'] || ''
+  args = ENV['CI'] ? '--destroy=always' : ''
+  sh('sh', '-c', "bundle exec kitchen test -c #{concurrency} #{args} #{instance}")
 end

@@ -191,7 +191,7 @@ module DevSec
       end
 
       # Guess the version of ssh via OS matrix
-      def guess_ssh_version # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      def guess_ssh_version # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
         family = node['platform_family']
         platform = node['platform']
         version = node['platform_version'].to_f
@@ -216,6 +216,8 @@ module DevSec
           case platform
           when 'opensuse'
             return 6.6 if version >= 13.2
+          when 'opensuseleap'
+            return 7.2 if version >= 42.1
           end
         end
         Chef::Log.info("Unknown platform #{node['platform']} with version #{node['platform_version']} and family #{node['platform_family']}. Assuming ssh version #{FALLBACK_SSH_VERSION}")
