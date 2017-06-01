@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 #
 # Copyright 2014, Deutsche Telekom AG
 # Copyright 2016, Artem Sidorenko
@@ -181,7 +182,7 @@ describe 'ssh-hardening::client' do
   context 'with custom send_env attribute' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['client']['send_env'] = %w(some environment variables)
+        node.normal['ssh-hardening']['ssh']['client']['send_env'] = %w[some environment variables]
       end.converge(described_recipe)
     end
 

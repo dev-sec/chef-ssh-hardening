@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 #
 # Cookbook Name:: ssh-hardening
 # Library:: devsec_ssh
@@ -41,28 +42,28 @@ module DevSec
     # Fallback ssh version for autodetection
     FALLBACK_SSH_VERSION ||= 5.9
     # Support types of ssh
-    SSH_TYPES ||= [:client, :server].freeze
+    SSH_TYPES ||= %i[client server].freeze
     # Crypto configuration for different ssh parameters
     CRYPTO ||= {
       kexs: {
         5.3 => [],
-        5.9 => %w(diffie-hellman-group-exchange-sha256),
-        6.6 => %w(curve25519-sha256@libssh.org diffie-hellman-group-exchange-sha256),
-        :weak => %w(diffie-hellman-group14-sha1 diffie-hellman-group-exchange-sha1 diffie-hellman-group1-sha1)
+        5.9 => %w[diffie-hellman-group-exchange-sha256],
+        6.6 => %w[curve25519-sha256@libssh.org diffie-hellman-group-exchange-sha256],
+        :weak => %w[diffie-hellman-group14-sha1 diffie-hellman-group-exchange-sha1 diffie-hellman-group1-sha1]
       },
       macs: {
-        5.3 => %w(hmac-ripemd160 hmac-sha1),
-        5.9 => %w(hmac-sha2-512 hmac-sha2-256 hmac-ripemd160),
-        6.6 => %w(hmac-sha2-512-etm@openssh.com hmac-sha2-256-etm@openssh.com
+        5.3 => %w[hmac-ripemd160 hmac-sha1],
+        5.9 => %w[hmac-sha2-512 hmac-sha2-256 hmac-ripemd160],
+        6.6 => %w[hmac-sha2-512-etm@openssh.com hmac-sha2-256-etm@openssh.com
                   hmac-ripemd160-etm@openssh.com umac-128-etm@openssh.com
-                  hmac-sha2-512 hmac-sha2-256 hmac-ripemd160),
-        :weak => %w(hmac-sha1)
+                  hmac-sha2-512 hmac-sha2-256 hmac-ripemd160],
+        :weak => %w[hmac-sha1]
       },
       ciphers: {
-        5.3 => %w(aes256-ctr aes192-ctr aes128-ctr),
-        6.6 => %w(chacha20-poly1305@openssh.com aes256-gcm@openssh.com aes128-gcm@openssh.com
-                  aes256-ctr aes192-ctr aes128-ctr),
-        :weak => %w(aes256-cbc aes192-cbc aes128-cbc)
+        5.3 => %w[aes256-ctr aes192-ctr aes128-ctr],
+        6.6 => %w[chacha20-poly1305@openssh.com aes256-gcm@openssh.com aes128-gcm@openssh.com
+                  aes256-ctr aes192-ctr aes128-ctr],
+        :weak => %w[aes256-cbc aes192-cbc aes128-cbc]
       }
     }.freeze
     # Privilege separation values
@@ -73,9 +74,9 @@ module DevSec
     # Hostkey algorithms
     # In the current implementation they are server specific so we need own data hash for it
     HOSTKEY_ALGORITHMS ||= {
-      5.3 => %w(rsa),
-      6.0 => %w(rsa ecdsa),
-      6.6 => %w(rsa ecdsa ed25519)
+      5.3 => %w[rsa],
+      6.0 => %w[rsa ecdsa],
+      6.6 => %w[rsa ecdsa ed25519]
     }.freeze
 
     class << self
