@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 #
 # Copyright 2014, Deutsche Telekom AG
 # Copyright 2016, Artem Sidorenko
@@ -44,7 +45,7 @@ RSpec.shared_examples 'does not allow weak ciphers' do
 end
 
 RSpec.shared_examples 'allow ctr ciphers' do
-  let(:ctr_ciphers) { %w(aes256-ctr aes192-ctr aes128-ctr) }
+  let(:ctr_ciphers) { %w[aes256-ctr aes192-ctr aes128-ctr] }
   it 'should allow ctr ciphers' do
     ctr_ciphers.each do |cipher|
       expect(chef_run).to render_file(ssh_config_file).

@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 #
 # Cookbook Name:: ssh-hardening
 # Recipe:: server.rb
@@ -44,7 +45,7 @@ package 'openssh-server' do
 end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
-if %w(fedora rhel).include?(node['platform_family'])
+if %w[fedora rhel].include?(node['platform_family'])
   policy_file = ::File.join(cache_dir, 'ssh_password.te')
   module_file = ::File.join(cache_dir, 'ssh_password.mod')
   package_file = ::File.join(cache_dir, 'ssh_password.pp')
@@ -139,19 +140,19 @@ service 'sshd' do
   end
   service_name node['ssh-hardening']['sshserver']['service_name']
   supports value_for_platform(
-    'centos' => { 'default' => [:restart, :reload, :status] },
-    'redhat' => { 'default' => [:restart, :reload, :status] },
-    'fedora' => { 'default' => [:restart, :reload, :status] },
-    'scientific' => { 'default' => [:restart, :reload, :status] },
+    'centos' => { 'default' => %i[restart reload status] },
+    'redhat' => { 'default' => %i[restart reload status] },
+    'fedora' => { 'default' => %i[restart reload status] },
+    'scientific' => { 'default' => %i[restart reload status] },
     'arch' => { 'default' => [:restart] },
-    'debian' => { 'default' => [:restart, :reload, :status] },
+    'debian' => { 'default' => %i[restart reload status] },
     'ubuntu' => {
-      '8.04' => [:restart, :reload],
-      'default' => [:restart, :reload, :status]
+      '8.04' => %i[restart reload],
+      'default' => %i[restart reload status]
     },
-    'default' => { 'default' => [:restart, :reload] }
+    'default' => { 'default' => %i[restart reload] }
   )
-  action [:enable, :start]
+  action %i[enable start]
 end
 
 directory 'openssh-server ssh directory /etc/ssh' do

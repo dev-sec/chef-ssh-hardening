@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 #
 # Cookbook Name:: ssh-hardening
 # Attributes:: default

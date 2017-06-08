@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 #
 # Copyright 2014, Deutsche Telekom AG
 # Copyright 2016, Artem Sidorenko
@@ -507,7 +508,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute deny_users' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w(someuser)
+        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w[someuser]
       end.converge(described_recipe)
     end
 
@@ -520,7 +521,7 @@ describe 'ssh-hardening::server' do
   context 'with attribute deny_users mutiple' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w(someuser otheruser)
+        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w[someuser otheruser]
       end.converge(described_recipe)
     end
 
@@ -654,7 +655,7 @@ describe 'ssh-hardening::server' do
   context 'with custom accept_env attribute' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['server']['accept_env'] = %w(some environment variables)
+        node.normal['ssh-hardening']['ssh']['server']['accept_env'] = %w[some environment variables]
       end.converge(described_recipe)
     end
 
