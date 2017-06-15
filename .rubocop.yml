@@ -4,7 +4,7 @@ AllCops:
   Exclude:
   - vendor/**/*
   - test/**/*
-  TargetRubyVersion: 2.3 # we need this because of chef 12 support
+  TargetRubyVersion: 2.1 # we need this because of chef 12.5.1 support
 Metrics/AbcSize:
   Max: 29
 Metrics/CyclomaticComplexity:
