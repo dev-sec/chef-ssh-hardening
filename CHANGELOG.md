@@ -1,5 +1,20 @@
 # Change Log
 
+## [v2.2.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.0) (2017-06-18)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.1.0...v2.2.0)
+
+**Closed issues:**
+
+- Issues on OpenSuse Leap 42.2 [\#177](https://github.com/dev-sec/chef-ssh-hardening/issues/177)
+- Chef 13 support [\#174](https://github.com/dev-sec/chef-ssh-hardening/issues/174)
+
+**Merged pull requests:**
+
+- Running rubocop in the 2.1 mode [\#179](https://github.com/dev-sec/chef-ssh-hardening/pull/179) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- CI: update to ruby 2.4.1 and gem update [\#178](https://github.com/dev-sec/chef-ssh-hardening/pull/178) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- CI, Harmonization of tests, Testing of Chef 13 and Chef 12 [\#176](https://github.com/dev-sec/chef-ssh-hardening/pull/176) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- CI: removal of EOL distros from testing and support [\#175](https://github.com/dev-sec/chef-ssh-hardening/pull/175) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
 ## [v2.1.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.1.0) (2017-04-19)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.0.0...v2.1.0)
 
