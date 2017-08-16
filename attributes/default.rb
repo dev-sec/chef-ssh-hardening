@@ -41,7 +41,7 @@ end
 
 # Define the service name for sshd
 case node['platform_family']
-when 'rhel', 'fedora', 'suse', 'freebsd', 'gentoo'
+when 'rhel', 'fedora', 'suse', 'freebsd', 'gentoo', 'amazon'
   default['ssh-hardening']['sshserver']['service_name'] = 'sshd'
 else
   default['ssh-hardening']['sshserver']['service_name'] = 'ssh'
