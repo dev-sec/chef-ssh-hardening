@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.2.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.1) (2017-08-22)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.2.0...v2.2.1)
+
+**Closed issues:**
+
+- The cookbooks fails on Amazon Linux. [\#180](https://github.com/dev-sec/chef-ssh-hardening/issues/180)
+
+**Merged pull requests:**
+
+- Fix to Issue \#180. Cookbook fails on Amazon Linux [\#181](https://github.com/dev-sec/chef-ssh-hardening/pull/181) ([jonasduarte](https://github.com/jonasduarte))
+
 ## [v2.2.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.0) (2017-06-18)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.1.0...v2.2.0)
 
