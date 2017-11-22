@@ -215,7 +215,7 @@ ForceCommand internal-sftp -l VERBOSE
 ChrootDirectory <%= @node['ssh-hardening']['ssh']['server']['sftp']['chroot'] %>
 AllowTcpForwarding no
 AllowAgentForwarding no
-PasswordAuthentication no
+PasswordAuthentication <%= ((@node['ssh-hardening']['ssh']['server']['sftp']['password_authentication']) ? 'yes' : 'no' ) %>
 PermitRootLogin no
 X11Forwarding no
 <% else %>
