@@ -203,6 +203,13 @@ UseDNS <%= ((@node['ssh-hardening']['ssh']['server']['use_dns']) ? 'yes' : 'no' 
 AcceptEnv <%= @node['ssh-hardening']['ssh']['server']['accept_env'].join(' ') %>
 <% end %>
 
+<%- unless @node['ssh-hardening']['ssh']['server']['extras'].empty? %>
+# Extra Configuration Options
+  <%- @node['ssh-hardening']['ssh']['server']['extras'].each do |key, value| %>
+<%= key %> <%= value %>
+  <% end -%>
+<% end -%>
+
 <% if @node['ssh-hardening']['ssh']['server']['sftp']['enable'] %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
@@ -234,10 +241,3 @@ X11Forwarding no
 #PermitRootLogin no
 #X11Forwarding no
 <% end %>
-
-<%- unless @node['ssh-hardening']['ssh']['server']['extras'].empty? %>
-# Extra Configuration Options
-  <%- @node['ssh-hardening']['ssh']['server']['extras'].each do |key, value| %>
-<%= key %> <%= value %>
-  <% end -%>
-<% end -%>
