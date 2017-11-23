@@ -55,8 +55,7 @@ module DevSec
         5.3 => %w[hmac-ripemd160 hmac-sha1],
         5.9 => %w[hmac-sha2-512 hmac-sha2-256 hmac-ripemd160],
         6.6 => %w[hmac-sha2-512-etm@openssh.com hmac-sha2-256-etm@openssh.com
-                  hmac-ripemd160-etm@openssh.com umac-128-etm@openssh.com
-                  hmac-sha2-512 hmac-sha2-256 hmac-ripemd160],
+                  umac-128-etm@openssh.com hmac-sha2-512 hmac-sha2-256],
         :weak => %w[hmac-sha1]
       },
       ciphers: {
