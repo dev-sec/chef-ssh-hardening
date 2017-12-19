@@ -22,7 +22,7 @@ maintainer_email 'dominik.richter@googlemail.com'
 license          'Apache-2.0'
 description      'This cookbook installs and provides secure ssh and sshd configurations.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '2.2.1'
+version          '2.3.0'
 
 chef_version '>= 12.5' if respond_to?(:chef_version)
 

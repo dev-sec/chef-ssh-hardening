@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.3.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.3.0) (2017-12-19)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.2.1...v2.3.0)
+
+**Closed issues:**
+
+- remove ripemd from MAC list [\#185](https://github.com/dev-sec/chef-ssh-hardening/issues/185)
+- allowtcpforwarding with sftp enabled is declared twice [\#182](https://github.com/dev-sec/chef-ssh-hardening/issues/182)
+
+**Merged pull requests:**
+
+- remove ripemd from MAC list [\#186](https://github.com/dev-sec/chef-ssh-hardening/pull/186) ([atomic111](https://github.com/atomic111))
+- Allow password authentification for sftp [\#184](https://github.com/dev-sec/chef-ssh-hardening/pull/184) ([avanier](https://github.com/avanier))
+- Fix Extra Configuration [\#183](https://github.com/dev-sec/chef-ssh-hardening/pull/183) ([bdwyertech](https://github.com/bdwyertech))
+
 ## [v2.2.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.1) (2017-08-22)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.2.0...v2.2.1)
 
