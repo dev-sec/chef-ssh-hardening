@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.3.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.3.1) (2018-02-13)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.3.0...v2.3.1)
+
+**Merged pull requests:**
+
+- Modified the client\_alive\_interval default to 300 [\#187](https://github.com/dev-sec/chef-ssh-hardening/pull/187) ([iennae](https://github.com/iennae))
+
 ## [v2.3.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.3.0) (2017-12-19)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.2.1...v2.3.0)
 
