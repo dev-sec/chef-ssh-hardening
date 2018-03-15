@@ -28,6 +28,8 @@ env:
  - INSTANCE=fedora-25
  - INSTANCE=opensuse-42
  - INSTANCE=opensuse-42 CHEF_VERSION=12.5.1
+ - INSTANCE=amazonlinux-1
+ - INSTANCE=amazonlinux-2
 
 script:
   -  bundle exec rake kitchen KITCHEN_LOCAL_YAML=.kitchen.dokken.yml

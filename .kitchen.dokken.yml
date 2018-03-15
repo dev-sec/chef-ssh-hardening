@@ -73,6 +73,18 @@ platforms:
   driver:
     image: opensuse:leap
     pid_one_command: /usr/lib/systemd/systemd
+- name: amazonlinux-1
+  driver:
+    image: amazonlinux:1
+    intermediate_instructions:
+    - RUN yum -y install upstart procps util-linux
+    pid_one_command: /sbin/init
+- name: amazonlinux-2
+  driver:
+    image: amazonlinux:2
+    intermediate_instructions:
+    - RUN yum -y install systemd
+    pid_one_command: /usr/lib/systemd/systemd
 
 suites:
 - name: default
