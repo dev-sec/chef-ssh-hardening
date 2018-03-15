@@ -40,8 +40,14 @@ dh_moduli_file = '/etc/ssh/moduli'
 directory cache_dir
 
 # installs package name
+ohai 'reload' do
+  action :nothing
+end
+
 package 'openssh-server' do
   package_name node['ssh-hardening']['sshserver']['package']
+  # we need to reload the package version, otherwise we get the version that was installed before cookbook execution
+  notifies :reload, 'ohai[reload]', :immediate
 end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
@@ -168,11 +174,16 @@ template '/etc/ssh/sshd_config' do
   owner 'root'
   group 'root'
   variables(
-    mac:    node['ssh-hardening']['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh-hardening']['ssh']['server']['weak_hmac']),
-    kex:    node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
-    cipher: node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
-    use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
-    hostkeys: node['ssh-hardening']['ssh']['server']['host_key_files'] || DevSec::Ssh.get_server_algorithms.map { |alg| "/etc/ssh/ssh_host_#{alg}_key" }
+    # we do lazy here to ensure we detect the version that comes with the packge update above
+    lazy {
+      {
+        mac:          node['ssh-hardening']['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh-hardening']['ssh']['server']['weak_hmac']),
+        kex:          node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
+        cipher:       node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
+        use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
+        hostkeys:     node['ssh-hardening']['ssh']['server']['host_key_files'] || DevSec::Ssh.get_server_algorithms.map { |alg| "/etc/ssh/ssh_host_#{alg}_key" }
+      }
+    }
   )
   notifies :restart, 'service[sshd]'
 end
