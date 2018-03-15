@@ -35,6 +35,7 @@ supports 'fedora', '>= 23.0'
 supports 'suse'
 supports 'opensuse', '>= 13.2'
 supports 'opensuseleap', '>= 42.1'
+supports 'amazon'
 
 recipe 'ssh-hardening::default', 'installs and configures ssh client and server'
 recipe 'ssh-hardening::client', 'install and apply security hardening for ssh client'

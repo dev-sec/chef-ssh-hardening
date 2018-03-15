@@ -175,7 +175,7 @@ template '/etc/ssh/sshd_config' do
   group 'root'
   variables(
     # we do lazy here to ensure we detect the version that comes with the packge update above
-    lazy {
+    lazy do
       {
         mac:          node['ssh-hardening']['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh-hardening']['ssh']['server']['weak_hmac']),
         kex:          node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
@@ -183,7 +183,7 @@ template '/etc/ssh/sshd_config' do
         use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
         hostkeys:     node['ssh-hardening']['ssh']['server']['host_key_files'] || DevSec::Ssh.get_server_algorithms.map { |alg| "/etc/ssh/ssh_host_#{alg}_key" }
       }
-    }
+    end
   )
   notifies :restart, 'service[sshd]'
 end

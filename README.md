@@ -23,6 +23,7 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 - Oracle Linux 6, 7
 - Fedora 24, 25
 - OpenSuse Leap 42
+- Amazon Linux 1, 2
 
 ## Attributes
 
