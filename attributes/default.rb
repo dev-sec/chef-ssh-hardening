@@ -85,6 +85,8 @@ default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Blo
   server['client_alive_interval']    = 300     # 5min
   server['client_alive_count']       = 3       # ~> 3 x interval
   server['allow_root_with_key']      = false
+   
+  server['permit_tunnel']            = false
   server['allow_tcp_forwarding']     = false
   server['allow_agent_forwarding']   = false
   server['allow_x11_forwarding']     = false
