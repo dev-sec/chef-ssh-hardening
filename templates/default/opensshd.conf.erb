@@ -161,17 +161,17 @@ PermitTunnel no
 
 # Disable forwarding tcp connections.
 # no real advantage without denied shell access
-AllowTcpForwarding  <%= ((@node['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']) ? 'yes' : 'no' ) %>
+AllowTcpForwarding <%= ((@node['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']) ? 'yes' : 'no' ) %>
 
 # Disable agent formwarding, since local agent could be accessed through forwarded connection.
 # no real advantage without denied shell access
-AllowAgentForwarding  <%= ((@node['ssh-hardening']['ssh']['server']['allow_agent_forwarding']) ? 'yes' : 'no' ) %>
+AllowAgentForwarding <%= ((@node['ssh-hardening']['ssh']['server']['allow_agent_forwarding']) ? 'yes' : 'no' ) %>
 
 # Do not allow remote port forwardings to bind to non-loopback addresses.
 GatewayPorts no
 
 # Disable X11 forwarding, since local X11 display could be accessed through forwarded connection.
-X11Forwarding  <%= ((@node['ssh-hardening']['ssh']['server']['allow_x11_forwarding']) ? 'yes' : 'no' ) %>
+X11Forwarding <%= ((@node['ssh-hardening']['ssh']['server']['allow_x11_forwarding']) ? 'yes' : 'no' ) %>
 X11UseLocalhost yes
 
 
