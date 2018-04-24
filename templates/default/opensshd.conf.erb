@@ -157,7 +157,7 @@ ClientAliveInterval <%= @node['ssh-hardening']['ssh']['server']['client_alive_in
 ClientAliveCountMax <%= @node['ssh-hardening']['ssh']['server']['client_alive_count'] %>
 
 # Disable tunneling
-PermitTunnel <%= @node['ssh-hardening']['ssh']['server']['permit_tunnel'] %>
+PermitTunnel <%= ((@node['ssh-hardening']['ssh']['server']['permit_tunnel']) ? 'yes' : 'no' ) %>
 
 # Disable forwarding tcp connections.
 # no real advantage without denied shell access
