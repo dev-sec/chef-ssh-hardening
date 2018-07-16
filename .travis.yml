@@ -8,7 +8,7 @@ cache: bundler
 services:
 - docker
 
-rvm: 2.4.1
+rvm: 2.4.4
 
 before_install:
   - gem update --system # see https://github.com/bundler/bundler/issues/5357
@@ -17,15 +17,16 @@ env:
  - INSTANCE=ubuntu-14-04
  - INSTANCE=ubuntu-16-04
  - INSTANCE=ubuntu-16-04 CHEF_VERSION=12.5.1
+ - INSTANCE=ubuntu-18-04
  - INSTANCE=centos-6
  - INSTANCE=centos-7
  - INSTANCE=centos-7 CHEF_VERSION=12.5.1
  - INSTANCE=oracle-6
  - INSTANCE=oracle-7
- - INSTANCE=debian-7
  - INSTANCE=debian-8
- - INSTANCE=fedora-24
- - INSTANCE=fedora-25
+ - INSTANCE=debian-9
+ - INSTANCE=fedora-27
+ - INSTANCE=fedora-28
  - INSTANCE=opensuse-42
  - INSTANCE=opensuse-42 CHEF_VERSION=12.5.1
  - INSTANCE=amazonlinux-1
