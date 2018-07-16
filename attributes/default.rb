@@ -60,6 +60,7 @@ default['ssh-hardening']['ssh']['client'].tap do |client|
   client['cbc_required']  = false
   client['weak_hmac']     = false
   client['weak_kex']      = false
+  client['allow_agent_forwarding']   = false
   client['remote_hosts']  = []
   client['password_authentication'] = false   # ssh
   # http://undeadly.org/cgi?action=article&sid=20160114142733
