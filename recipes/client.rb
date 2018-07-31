@@ -48,7 +48,8 @@ template '/etc/ssh/ssh_config' do
       {
         mac:     node['ssh-hardening']['ssh']['client']['mac']    || DevSec::Ssh.get_client_macs(node['ssh-hardening']['ssh']['client']['weak_hmac']),
         kex:     node['ssh-hardening']['ssh']['client']['kex']    || DevSec::Ssh.get_client_kexs(node['ssh-hardening']['ssh']['client']['weak_kex']),
-        cipher:  node['ssh-hardening']['ssh']['client']['cipher'] || DevSec::Ssh.get_client_ciphers(node['ssh-hardening']['ssh']['client']['cbc_required'])
+        cipher:  node['ssh-hardening']['ssh']['client']['cipher'] || DevSec::Ssh.get_client_ciphers(node['ssh-hardening']['ssh']['client']['cbc_required']),
+        version: DevSec::Ssh.get_ssh_client_version
       }
     end
   )
