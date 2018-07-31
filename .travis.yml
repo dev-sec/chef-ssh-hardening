@@ -14,10 +14,11 @@ before_install:
   - gem update --system # see https://github.com/bundler/bundler/issues/5357
 
 env:
- - INSTANCE=ubuntu-14-04
- - INSTANCE=ubuntu-16-04
- - INSTANCE=ubuntu-16-04 CHEF_VERSION=12.5.1
- - INSTANCE=ubuntu-18-04
+
+ - INSTANCE=ubuntu-1404
+ - INSTANCE=ubuntu-1604
+ - INSTANCE=ubuntu-1604 CHEF_VERSION=12.5.1
+ - INSTANCE=ubuntu-1804
  - INSTANCE=centos-6
  - INSTANCE=centos-7
  - INSTANCE=centos-7 CHEF_VERSION=12.5.1
