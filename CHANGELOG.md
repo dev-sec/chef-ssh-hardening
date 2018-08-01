@@ -1,5 +1,21 @@
 # Change Log
 
+## [v2.4.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.4.0) (2018-08-01)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.3.1...v2.4.0)
+
+**Closed issues:**
+
+- Errors on Ubuntu 18.04 [\#195](https://github.com/dev-sec/chef-ssh-hardening/issues/195)
+
+**Merged pull requests:**
+
+- Avoid some deprecated options for OpenSSH \>=7.6 [\#198](https://github.com/dev-sec/chef-ssh-hardening/pull/198) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Update of tests and supported distros and chef versions [\#197](https://github.com/dev-sec/chef-ssh-hardening/pull/197) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Update of CI and test environment [\#196](https://github.com/dev-sec/chef-ssh-hardening/pull/196) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Make ForwardAgent configurable for Client Configuration [\#193](https://github.com/dev-sec/chef-ssh-hardening/pull/193) ([kabakakao](https://github.com/kabakakao))
+- minor update to the template [\#192](https://github.com/dev-sec/chef-ssh-hardening/pull/192) ([crashdummymch](https://github.com/crashdummymch))
+- amazonlinux support [\#188](https://github.com/dev-sec/chef-ssh-hardening/pull/188) ([chris-rock](https://github.com/chris-rock))
+
 ## [v2.3.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.3.1) (2018-02-13)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.3.0...v2.3.1)
 
