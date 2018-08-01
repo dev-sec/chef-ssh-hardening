@@ -119,6 +119,13 @@ module DevSec
         get_crypto_data(:kexs, :server, enable_weak)
       end
 
+      { client: 'sshclient',
+        server: 'sshserver' }.each do |k, v|
+        define_method("get_ssh_#{k}_version") do
+          get_ssh_version(node['ssh-hardening'][v]['package'])
+        end
+      end
+
       private
 
       # :nocov:
@@ -168,13 +175,6 @@ module DevSec
         raise "Unsupported ssh version #{version}" unless found_ssh_version
 
         found_ssh_version
-      end
-
-      { client: 'sshclient',
-        server: 'sshserver' }.each do |k, v|
-        define_method("get_ssh_#{k}_version") do
-          get_ssh_version(node['ssh-hardening'][v]['package'])
-        end
       end
 
       def get_ssh_version(package)

@@ -82,10 +82,13 @@ ForwardX11 no
 
 # Never use host-based authentication. It can be exploited.
 HostbasedAuthentication no
+
+<% if @version.to_f < 7.6 %>
 RhostsRSAAuthentication no
 
 # Enable RSA authentication via identity files.
 RSAAuthentication yes
+<% end %>
 
 # Disable password-based authentication, it can allow for potentially easier brute-force attacks.
 PasswordAuthentication <%= ((@node['ssh-hardening']['ssh']['client']['password_authentication']) ? "yes" : "no" ) %>
