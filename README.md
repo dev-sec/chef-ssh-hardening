@@ -12,16 +12,16 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 
 ## Requirements
 
-* Chef >= 12.5.1
+* Chef >= 13.10.0
 
 ### Platform
 
-- Debian 7, 8
-- Ubuntu 14.04, 16.04
+- Debian 8, 9
+- Ubuntu 14.04, 16.04, 18.04
 - RHEL 6, 7
 - CentOS 6, 7
 - Oracle Linux 6, 7
-- Fedora 24, 25
+- Fedora 27, 28
 - OpenSuse Leap 42
 - Amazon Linux 1, 2
 
