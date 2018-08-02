@@ -21,7 +21,7 @@ require 'spec_helper'
 describe 'ssh-hardening::unlock' do
   # converge
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new.converge(described_recipe)
+    ChefSpec::SoloRunner.new.converge(described_recipe)
   end
 
   # check that the recipes are executed
