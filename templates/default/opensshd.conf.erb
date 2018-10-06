@@ -214,11 +214,11 @@ AcceptEnv <%= @node['ssh-hardening']['ssh']['server']['accept_env'].join(' ') %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
 ## Subsystem sftp /opt/app/openssh5/libexec/sftp-server
-Subsystem sftp internal-sftp -l VERBOSE
+Subsystem sftp internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sftp']['log_level'] %>
 
 ## These lines must appear at the *end* of sshd_config
 Match Group <%= @node['ssh-hardening']['ssh']['server']['sftp']['group'] %>
-ForceCommand internal-sftp -l VERBOSE
+ForceCommand internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sftp']['log_level'] %>
 ChrootDirectory <%= @node['ssh-hardening']['ssh']['server']['sftp']['chroot'] %>
 AllowTcpForwarding no
 AllowAgentForwarding no
