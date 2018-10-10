@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.5.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.5.0) (2018-10-10)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.4.0...v2.5.0)
+
+**Closed issues:**
+
+- Change log level for SFTP Subsystem [\#199](https://github.com/dev-sec/chef-ssh-hardening/issues/199)
+
+**Merged pull requests:**
+
+- CI fix: pin cucumber 3 [\#201](https://github.com/dev-sec/chef-ssh-hardening/pull/201) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Add attribute for sftp subsystem logging [\#200](https://github.com/dev-sec/chef-ssh-hardening/pull/200) ([rediculum](https://github.com/rediculum))
+
 ## [v2.4.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.4.0) (2018-08-01)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.3.1...v2.4.0)
 
