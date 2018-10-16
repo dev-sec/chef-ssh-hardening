@@ -269,7 +269,7 @@ describe 'ssh-hardening::server' do
 
     context 'when running on CentOS' do
       let(:platform) { 'centos' }
-      let(:version) { '7.2.1511' }
+      let(:version) { '7.5.1804' }
 
       let(:selinux_disabled_or_policy_removed) { false }
       let(:selinux_enabled_and_policy_installed) { false }
@@ -392,7 +392,7 @@ describe 'ssh-hardening::server' do
       end
 
       cached(:chef_run) do
-        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') do |node|
+        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.5.1804') do |node|
           node.normal['ssh-hardening']['ssh']['server']['os_banner'] = true
         end.converge(described_recipe)
       end
