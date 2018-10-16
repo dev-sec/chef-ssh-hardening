@@ -235,6 +235,10 @@ describe 'ssh-hardening::server' do
       it 'should have UseLogin' do
         expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UseLogin')
       end
+
+      it 'should have UsePrivilegeSeparation' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePrivilegeSeparation')
+      end
     end
 
     context 'running with OpenSSH >= 7.4 on RHEL 7' do
@@ -248,6 +252,20 @@ describe 'ssh-hardening::server' do
 
       it 'should not have UseLogin' do
         expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+    end
+
+    context 'running with Openssh >= 7.5 on Ubuntu 18.04' do
+      let(:chef_run) do
+        ChefSpec::ServerRunner.new(version: '18.04').converge(described_recipe)
+      end
+
+      it 'should not have UseLogin' do
+        expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+
+      it 'should not have UsePrivilegeSeparation' do
+        expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UsePrivilegeSeparation')
       end
     end
   end
