@@ -40,14 +40,14 @@ dh_moduli_file = '/etc/ssh/moduli'
 directory cache_dir
 
 # installs package name
-ohai 'reload' do
+ohai 'reload openssh-server' do
   action :nothing
 end
 
 package 'openssh-server' do
   package_name node['ssh-hardening']['sshserver']['package']
   # we need to reload the package version, otherwise we get the version that was installed before cookbook execution
-  notifies :reload, 'ohai[reload]', :immediate
+  notifies :reload, 'ohai[reload openssh-server]', :immediately
 end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
