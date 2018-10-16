@@ -230,6 +230,28 @@ describe 'ssh-hardening::server' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
   end
 
+  describe 'version specifc options' do
+    context 'running with OpenSSH < 7.4' do
+      it 'should have UseLogin' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+    end
+
+    context 'running with OpenSSH >= 7.4 on RHEL 7' do
+      let(:chef_run) do
+        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.5.1804').converge(described_recipe)
+      end
+
+      before do
+        stub_command('getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password').and_return(true)
+      end
+
+      it 'should not have UseLogin' do
+        expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+    end
+  end
+
   describe 'UsePAM option' do
     let(:use_pam) { true }
 

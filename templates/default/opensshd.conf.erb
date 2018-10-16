@@ -85,7 +85,9 @@ KexAlgorithms <%= @kex %>
 # --------------
 
 # Secure Login directives.
+<% if @version.to_f < 7.4 %>
 UseLogin no
+<% end %>
 UsePrivilegeSeparation <%= @use_priv_sep %>
 PermitUserEnvironment no
 LoginGraceTime <%= @node['ssh-hardening']['ssh']['server']['login_grace_time'] %>
