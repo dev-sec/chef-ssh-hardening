@@ -20,14 +20,14 @@
 # limitations under the License.
 #
 
-ohai 'reload' do
+ohai 'client_reload' do
   action :nothing
 end
 
 package 'openssh-client' do
   package_name node['ssh-hardening']['sshclient']['package']
   # we need to reload the package version, otherwise we get the version that was installed before cookbook execution
-  notifies :reload, 'ohai[reload]', :immediate
+  notifies :reload, 'ohai[client_reload]', :immediate
 end
 
 directory 'openssh-client ssh directory /etc/ssh' do
