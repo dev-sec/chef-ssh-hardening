@@ -94,6 +94,3 @@ suites:
   run_list:
   - recipe[test]
   - recipe[ssh-hardening]
-  verifier:
-    inspec_tests:
-      - https://github.com/dev-sec/ssh-baseline

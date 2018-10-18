@@ -36,9 +36,6 @@ suites:
   run_list:
   - recipe[test]
   - recipe[ssh-hardening]
-  verifier:
-    inspec_tests:
-      - https://github.com/dev-sec/ssh-baseline
 - name: rhel-with-disabled-pam
   includes:
     - centos-6.8
@@ -61,5 +58,5 @@ suites:
           use_pam: false
   verifier:
     inspec_tests:
-      - https://github.com/dev-sec/ssh-baseline
+      - test/integration/default
       - test/integration/without-pam

@@ -230,6 +230,46 @@ describe 'ssh-hardening::server' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
   end
 
+  describe 'version specifc options' do
+    context 'running with OpenSSH < 7.4' do
+      it 'should have UseLogin' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+
+      it 'should have UsePrivilegeSeparation' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePrivilegeSeparation')
+      end
+    end
+
+    context 'running with OpenSSH >= 7.4 on RHEL 7' do
+      let(:chef_run) do
+        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.5.1804').converge(described_recipe)
+      end
+
+      before do
+        stub_command('getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password').and_return(true)
+      end
+
+      it 'should not have UseLogin' do
+        expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+    end
+
+    context 'running with Openssh >= 7.5 on Ubuntu 18.04' do
+      let(:chef_run) do
+        ChefSpec::ServerRunner.new(version: '18.04').converge(described_recipe)
+      end
+
+      it 'should not have UseLogin' do
+        expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UseLogin')
+      end
+
+      it 'should not have UsePrivilegeSeparation' do
+        expect(chef_run).to_not render_file('/etc/ssh/sshd_config').with_content('UsePrivilegeSeparation')
+      end
+    end
+  end
+
   describe 'UsePAM option' do
     let(:use_pam) { true }
 
@@ -269,7 +309,7 @@ describe 'ssh-hardening::server' do
 
     context 'when running on CentOS' do
       let(:platform) { 'centos' }
-      let(:version) { '7.2.1511' }
+      let(:version) { '7.5.1804' }
 
       let(:selinux_disabled_or_policy_removed) { false }
       let(:selinux_enabled_and_policy_installed) { false }
@@ -392,7 +432,7 @@ describe 'ssh-hardening::server' do
       end
 
       cached(:chef_run) do
-        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511') do |node|
+        ChefSpec::ServerRunner.new(platform: 'centos', version: '7.5.1804') do |node|
           node.normal['ssh-hardening']['ssh']['server']['os_banner'] = true
         end.converge(described_recipe)
       end
