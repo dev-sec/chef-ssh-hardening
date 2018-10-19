@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.6.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.6.0) (2018-10-19)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.5.0...v2.6.0)
+
+**Closed issues:**
+
+- Removal of deprecated options [\#202](https://github.com/dev-sec/chef-ssh-hardening/issues/202)
+
+**Merged pull requests:**
+
+- Update of badges in README [\#205](https://github.com/dev-sec/chef-ssh-hardening/pull/205) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Removal of deprecated options for newer openssh versions [\#203](https://github.com/dev-sec/chef-ssh-hardening/pull/203) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
 ## [v2.5.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.5.0) (2018-10-10)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.4.0...v2.5.0)
 
