@@ -1,17 +1,12 @@
 ---
-sudo: required
 language: ruby
 bundler_args: "--without development"
-dist: trusty
 cache: bundler
 
 services:
 - docker
 
 rvm: 2.5.1
-
-before_install:
-  - gem update --system # see https://github.com/bundler/bundler/issues/5357
 
 env:
  - INSTANCE=ubuntu-1404
