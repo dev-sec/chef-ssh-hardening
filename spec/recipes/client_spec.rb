@@ -219,6 +219,26 @@ describe 'ssh-hardening::client' do
     end
   end
 
+  describe 'version specifc options' do
+    context 'running with OpenSSH < 7.6' do
+      it 'should have RhostsRSAAuthentication and RSAAuthentication' do
+        expect(chef_run).to render_file('/etc/ssh/ssh_config').with_content(/RhostsRSAAuthentication/)
+        expect(chef_run).to render_file('/etc/ssh/ssh_config').with_content(/RSAAuthentication/)
+      end
+    end
+
+    context 'running with OpenSSH >= 7.6 on Ubuntu 18.04' do
+      cached(:chef_run) do
+        ChefSpec::ServerRunner.new(version: '18.04').converge(described_recipe)
+      end
+
+      it 'should not have RhostsRSAAuthentication and RSAAuthentication' do
+        expect(chef_run).to_not render_file('/etc/ssh/ssh_config').with_content(/RhostsRSAAuthentication/)
+        expect(chef_run).to_not render_file('/etc/ssh/ssh_config').with_content(/RSAAuthentication/)
+      end
+    end
+  end
+
   context 'chef-solo' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new.converge(described_recipe)

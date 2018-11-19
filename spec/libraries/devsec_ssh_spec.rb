@@ -195,20 +195,6 @@ describe DevSec::Ssh do
     end
   end
 
-  describe 'get_ssh_server_version' do
-    it 'should call get_ssh_version with server package attribute' do
-      expect(subject).to receive(:get_ssh_version).with(package_name)
-      subject.send(:get_ssh_server_version)
-    end
-  end
-
-  describe 'get_ssh_client_version' do
-    it 'should call get_ssh_version with client package attribute' do
-      expect(subject).to receive(:get_ssh_version).with(package_name)
-      subject.send(:get_ssh_client_version)
-    end
-  end
-
   describe 'find_ssh_version' do
     context 'when it gets the valid ssh version' do
       it 'should return the next small version' do
@@ -312,6 +298,20 @@ describe DevSec::Ssh do
           end
         end
       end
+    end
+  end
+
+  describe 'get_ssh_server_version' do
+    it 'should call get_ssh_version with server package attribute' do
+      expect(subject).to receive(:get_ssh_version).with(package_name)
+      subject.send(:get_ssh_server_version)
+    end
+  end
+
+  describe 'get_ssh_client_version' do
+    it 'should call get_ssh_version with client package attribute' do
+      expect(subject).to receive(:get_ssh_version).with(package_name)
+      subject.send(:get_ssh_client_version)
     end
   end
 end

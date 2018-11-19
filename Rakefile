@@ -57,6 +57,7 @@ begin
     config.future_release = "v#{metadata.version}"
     config.user = 'dev-sec'
     config.project = 'chef-ssh-hardening'
+    config.exclude_labels = ['no changelog', 'question', 'duplicate', 'wontfix', 'invalid']
   end
 rescue LoadError
   puts '>>>>> GitHub Changelog Generator not loaded, omitting tasks'

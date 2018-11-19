@@ -1,10 +1,9 @@
 # ssh-hardening (Chef cookbook)
 
 [![Supermarket](http://img.shields.io/cookbook/v/ssh-hardening.svg)][1]
-[![Build Status](http://img.shields.io/travis/dev-sec/chef-ssh-hardening.svg)][2]
+[![Build Status](https://travis-ci.org/dev-sec/chef-ssh-hardening.svg?branch=master)][2]
 [![Code Coverage](http://img.shields.io/coveralls/dev-sec/chef-ssh-hardening.svg)][3]
-[![Dependencies](http://img.shields.io/gemnasium/dev-sec/chef-ssh-hardening.svg)][4]
-[![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)][5]
+[![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)][4]
 
 ## Description
 
@@ -12,16 +11,16 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 
 ## Requirements
 
-* Chef >= 12.5.1
+* Chef >= 13.10.0
 
 ### Platform
 
-- Debian 7, 8
-- Ubuntu 14.04, 16.04
+- Debian 8, 9
+- Ubuntu 14.04, 16.04, 18.04
 - RHEL 6, 7
 - CentOS 6, 7
 - Oracle Linux 6, 7
-- Fedora 24, 25
+- Fedora 27, 28
 - OpenSuse Leap 42
 - Amazon Linux 1, 2
 
@@ -253,5 +252,4 @@ limitations under the License.
 [1]: https://supermarket.getchef.com/cookbooks/ssh-hardening
 [2]: http://travis-ci.org/dev-sec/chef-ssh-hardening
 [3]: https://coveralls.io/r/dev-sec/chef-ssh-hardening
-[4]: https://gemnasium.com/dev-sec/chef-ssh-hardening
-[5]: https://gitter.im/dev-sec/general
+[4]: https://gitter.im/dev-sec/general

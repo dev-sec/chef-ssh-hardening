@@ -1,0 +1,5 @@
+name: ssh-hardening-integration-tests
+version: 1.0.0
+depends:
+  - name: ssh-baseline
+    url: https://github.com/dev-sec/ssh-baseline

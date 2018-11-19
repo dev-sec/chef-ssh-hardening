@@ -190,7 +190,7 @@ module DevSec
           get_ssh_version(node['ssh-hardening'][v]['package'])
         end
       end
-
+      
       def get_ssh_version(package)
         version = node['packages'][package]['version']
         # on debian we get the epoch in front of version number: 1:7.2p2-4ubuntu2.1

@@ -40,14 +40,14 @@ dh_moduli_file = '/etc/ssh/moduli'
 directory cache_dir
 
 # installs package name
-ohai 'reload' do
+ohai 'reload openssh-server' do
   action :nothing
 end
 
 package 'openssh-server' do
   package_name node['ssh-hardening']['sshserver']['package']
   # we need to reload the package version, otherwise we get the version that was installed before cookbook execution
-  notifies :reload, 'ohai[reload]', :immediate
+  notifies :reload, 'ohai[reload openssh-server]', :immediately
 end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
@@ -182,7 +182,8 @@ template '/etc/ssh/sshd_config' do
         kex:          node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
         cipher:       node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
         use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
-        hostkeys:     node['ssh-hardening']['ssh']['server']['host_key_files'] || DevSec::Ssh.get_server_algorithms.map { |alg| "/etc/ssh/ssh_host_#{alg}_key" }
+        hostkeys:     node['ssh-hardening']['ssh']['server']['host_key_files'] || DevSec::Ssh.get_server_algorithms.map { |alg| "/etc/ssh/ssh_host_#{alg}_key" },
+        version:      DevSec::Ssh.get_ssh_server_version
       }
     end
   )

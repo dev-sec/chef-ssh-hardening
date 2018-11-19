@@ -85,8 +85,12 @@ KexAlgorithms <%= @kex %>
 # --------------
 
 # Secure Login directives.
+<% if @version.to_f < 7.4 %>
 UseLogin no
+<% end %>
+<% if @version.to_f < 7.5 %>
 UsePrivilegeSeparation <%= @use_priv_sep %>
+<% end %>
 PermitUserEnvironment no
 LoginGraceTime <%= @node['ssh-hardening']['ssh']['server']['login_grace_time'] %>
 MaxAuthTries <%= @node['ssh-hardening']['ssh']['server']['max_auth_tries'] %>
@@ -161,17 +165,17 @@ PermitTunnel <%= @permit_tunnel %>
 
 # Disable forwarding tcp connections.
 # no real advantage without denied shell access
-AllowTcpForwarding  <%= ((@node['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']) ? 'yes' : 'no' ) %>
+AllowTcpForwarding <%= ((@node['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']) ? 'yes' : 'no' ) %>
 
 # Disable agent formwarding, since local agent could be accessed through forwarded connection.
 # no real advantage without denied shell access
-AllowAgentForwarding  <%= ((@node['ssh-hardening']['ssh']['server']['allow_agent_forwarding']) ? 'yes' : 'no' ) %>
+AllowAgentForwarding <%= ((@node['ssh-hardening']['ssh']['server']['allow_agent_forwarding']) ? 'yes' : 'no' ) %>
 
 # Do not allow remote port forwardings to bind to non-loopback addresses.
 GatewayPorts no
 
 # Disable X11 forwarding, since local X11 display could be accessed through forwarded connection.
-X11Forwarding  <%= ((@node['ssh-hardening']['ssh']['server']['allow_x11_forwarding']) ? 'yes' : 'no' ) %>
+X11Forwarding <%= ((@node['ssh-hardening']['ssh']['server']['allow_x11_forwarding']) ? 'yes' : 'no' ) %>
 X11UseLocalhost yes
 
 
@@ -214,11 +218,11 @@ AcceptEnv <%= @node['ssh-hardening']['ssh']['server']['accept_env'].join(' ') %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
 ## Subsystem sftp /opt/app/openssh5/libexec/sftp-server
-Subsystem sftp internal-sftp -l VERBOSE
+Subsystem sftp internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sftp']['log_level'] %>
 
 ## These lines must appear at the *end* of sshd_config
 Match Group <%= @node['ssh-hardening']['ssh']['server']['sftp']['group'] %>
-ForceCommand internal-sftp -l VERBOSE
+ForceCommand internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sftp']['log_level'] %>
 ChrootDirectory <%= @node['ssh-hardening']['ssh']['server']['sftp']['chroot'] %>
 AllowTcpForwarding no
 AllowAgentForwarding no
