@@ -226,6 +226,37 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  describe 'permit_tunnel options' do
+    let(:permit_tunnel) { false }
+
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['permit_tunnel'] = permit_tunnel
+      end.converge(described_recipe)
+    end
+
+    context 'with value of true' do
+      let(:permit_tunnel) { true }
+      it 'should set PermitTunnel to yes' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('PermitTunnel yes')
+      end
+    end
+
+    context 'with a valid string' do
+      let(:permit_tunnel) { 'ethernet' }
+      it 'should set PermitTunnel to ethernet' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('PermitTunnel ethernet')
+      end
+    end
+
+    context 'with an invalid string' do
+      let(:permit_tunnel) { 'IAmNotValid' }
+      it 'abort the Chef run' do
+        expect { chef_run }.to_not raise_exception('Incorrect value for attribute node[\'ssh-hardening\'][\'ssh\'][\'server\'][\'permit_tunnel\']: must be boolean or a string as defined in the sshd_config man pages, you passed "IAmNotValid"')
+      end
+    end
+  end
+
   it 'should set UsePAM to yes per default' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
   end

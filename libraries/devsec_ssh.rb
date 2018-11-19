@@ -126,6 +126,20 @@ module DevSec
         end
       end
 
+      # Verify values of permit_tunnel
+      def validate_permit_tunnel(value)
+        case value
+        when true
+          'yes'
+        when false
+          'no'
+        when 'yes', 'no', 'point-to-point', 'ethernet'
+          value
+        else
+          raise "Incorrect value for attribute node['ssh-hardening']['ssh']['server']['permit_tunnel']: must be boolean or a string as defined in the sshd_config man pages, you passed \"#{value}\""
+        end
+      end
+
       private
 
       # :nocov:
