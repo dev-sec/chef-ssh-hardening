@@ -177,6 +177,7 @@ template '/etc/ssh/sshd_config' do
     # we do lazy here to ensure we detect the version that comes with the packge update above
     lazy do
       {
+        permit_tunnel: DevSec::Ssh.validate_permit_tunnel(node['ssh-hardening']['ssh']['server']['permit_tunnel']),
         mac:          node['ssh-hardening']['ssh']['server']['mac']    || DevSec::Ssh.get_server_macs(node['ssh-hardening']['ssh']['server']['weak_hmac']),
         kex:          node['ssh-hardening']['ssh']['server']['kex']    || DevSec::Ssh.get_server_kexs(node['ssh-hardening']['ssh']['server']['weak_kex']),
         cipher:       node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
