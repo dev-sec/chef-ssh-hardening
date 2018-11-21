@@ -1,5 +1,14 @@
 # Change Log
 
+## [v2.7.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.7.0) (2018-11-21)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.6.0...v2.7.0)
+
+**Merged pull requests:**
+
+- permit\_tunnel attribute - allow tun device forwarding [\#211](https://github.com/dev-sec/chef-ssh-hardening/pull/211) ([bobchaos](https://github.com/bobchaos))
+- Update the CI settings [\#207](https://github.com/dev-sec/chef-ssh-hardening/pull/207) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Update issue templates [\#206](https://github.com/dev-sec/chef-ssh-hardening/pull/206) ([rndmh3ro](https://github.com/rndmh3ro))
+
 ## [v2.6.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.6.0) (2018-10-19)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.5.0...v2.6.0)
 
