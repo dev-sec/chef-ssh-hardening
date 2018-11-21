@@ -314,4 +314,30 @@ describe DevSec::Ssh do
       subject.send(:get_ssh_client_version)
     end
   end
+
+  describe 'validate_permit_tunnel' do
+    context 'with value of false' do
+      it 'should return no' do
+        expect(subject.send(:validate_permit_tunnel, false)).to eq 'no'
+      end
+    end
+
+    context 'with value of true' do
+      it 'should return yes' do
+        expect(subject.send(:validate_permit_tunnel, true)).to eq 'yes'
+      end
+    end
+
+    context 'with a valid string ethernet' do
+      it 'should return ethernet' do
+        expect(subject.send(:validate_permit_tunnel, 'ethernet')).to eq 'ethernet'
+      end
+    end
+
+    context 'with an invalid string' do
+      it 'should raise exception' do
+        expect { subject.send(:validate_permit_tunnel, 'IAmNotValid') }.to raise_exception('Incorrect value for attribute node[\'ssh-hardening\'][\'ssh\'][\'server\'][\'permit_tunnel\']: must be boolean or a string as defined in the sshd_config man pages, you passed "IAmNotValid"')
+      end
+    end
+  end
 end
