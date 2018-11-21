@@ -55,6 +55,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['allow_tcp_forwarding']` - `false`. Set to `true` to allow TCP Forwarding
 * `['ssh-hardening']['ssh']['server']['allow_agent_forwarding']` - `false`. Set to `true` to allow Agent Forwarding
 * `['ssh-hardening']['ssh']['server']['allow_x11_forwarding']` - `false`. Set to `true` to allow X11 Forwarding
+* `['ssh-hardening']['ssh']['server']['permit_tunnel']` - `false` to disable tun device forwarding. Set to `true` to allow tun device forwarding. Other accepted values: 'yes', 'no', 'point-to-point', 'ethernet'. See `man sshd_config` for exact behaviors. Note: you'll also need to enable `allow_tcp_forwarding`.
 * `['ssh-hardening']['ssh']['server']['use_pam']` - `true`. Set to `false` to disable the pam authentication of sshd
 * `['ssh-hardening']['ssh']['server']['challenge_response_authentication']` - `false`. Set to `true` to enable challenge response authentication.
 * `['ssh-hardening']['ssh']['server']['deny_users']` - `[]` to configure `DenyUsers`, if specified login is disallowed for user names that match one of the patterns.

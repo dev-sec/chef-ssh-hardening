@@ -226,6 +226,36 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  describe 'permit_tunnel options' do
+    let(:permit_tunnel) { false }
+
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new do |node|
+        node.normal['ssh-hardening']['ssh']['server']['permit_tunnel'] = permit_tunnel
+      end.converge(described_recipe)
+    end
+
+    context 'with default value of false' do
+      it 'should set PermitTunnel to no' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('PermitTunnel no')
+      end
+    end
+
+    context 'with value of true' do
+      let(:permit_tunnel) { true }
+      it 'should set PermitTunnel to yes' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('PermitTunnel yes')
+      end
+    end
+
+    context 'with a valid string' do
+      let(:permit_tunnel) { 'ethernet' }
+      it 'should set PermitTunnel to ethernet' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('PermitTunnel ethernet')
+      end
+    end
+  end
+
   it 'should set UsePAM to yes per default' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
   end
