@@ -11,7 +11,7 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 
 ## Requirements
 
-* Chef >= 13.10.0
+* Chef >= 14.13.11
 
 ### Platform
 
