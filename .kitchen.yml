@@ -11,8 +11,8 @@ platforms:
 - name: oracle-7
 - name: debian-8
 - name: debian-9
-- name: fedora-27
-- name: fedora-28
+- name: fedora-29
+- name: fedora-30
 - name: opensuse-leap-42
 - name: amazonlinux-1
   driver_config:
@@ -39,12 +39,12 @@ suites:
   - recipe[ssh-hardening]
 - name: rhel-with-disabled-pam
   includes:
-    - centos-6.8
-    - centos-7.3
-    - fedora-24
-    - fedora-25
-    - oracle-6.8
-    - oracle-7.3
+    - centos-6
+    - centos-7
+    - fedora-29
+    - fedora-30
+    - oracle-6
+    - oracle-7
   driver:
     provision: true
     vagrantfiles:
