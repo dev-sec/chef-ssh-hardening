@@ -15,7 +15,7 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 
 ### Platform
 
-- Debian 8, 9
+- Debian 8, 9, 10
 - Ubuntu 16.04, 18.04
 - RHEL 6, 7
 - CentOS 6, 7

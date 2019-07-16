@@ -19,6 +19,7 @@ env:
  - INSTANCE=oracle-7
  - INSTANCE=debian-8
  - INSTANCE=debian-9
+ - INSTANCE=debian-10
  - INSTANCE=fedora-29
  - INSTANCE=fedora-30
  - INSTANCE=opensuse-42
