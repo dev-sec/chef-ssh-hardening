@@ -19,8 +19,8 @@ env:
  - INSTANCE=oracle-7
  - INSTANCE=debian-8
  - INSTANCE=debian-9
- - INSTANCE=fedora-27
- - INSTANCE=fedora-28
+ - INSTANCE=fedora-29
+ - INSTANCE=fedora-30
  - INSTANCE=opensuse-42
  - INSTANCE=opensuse-42 CHEF_VERSION=14.13.11
  - INSTANCE=amazonlinux-1

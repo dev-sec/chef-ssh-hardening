@@ -20,7 +20,7 @@ This cookbook provides secure ssh-client and ssh-server configurations. This coo
 - RHEL 6, 7
 - CentOS 6, 7
 - Oracle Linux 6, 7
-- Fedora 27, 28
+- Fedora 29, 30
 - OpenSuse Leap 42
 - Amazon Linux 1, 2
 
