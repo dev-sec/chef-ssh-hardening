@@ -9,7 +9,6 @@ services:
 rvm: 2.6.3
 
 env:
- - INSTANCE=ubuntu-1404
  - INSTANCE=ubuntu-1604
  - INSTANCE=ubuntu-1604 CHEF_VERSION=14.13.11
  - INSTANCE=ubuntu-1804
