@@ -501,6 +501,35 @@ describe 'ssh-hardening::server' do
     end
   end
 
+  describe 'match configuration blocks' do
+    context 'without custom extra config value' do
+      cached(:chef_run) do
+        ChefSpec::SoloRunner.new.converge(described_recipe)
+      end
+
+      it 'does not have any match config blocks' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
+          with_content(/^# Match Configuration Blocks/)
+      end
+    end
+
+    context 'with custom match config block value' do
+      cached(:chef_run) do
+        ChefSpec::SoloRunner.new do |node|
+          node.normal['ssh-hardening']['ssh']['server']['match_blocks']['User root'] = <<~ROOT
+            AuthorizedKeysFile .ssh/authorized_keys
+          ROOT
+        end.converge(described_recipe)
+      end
+
+      it 'uses the match config blocks' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content(/^# Match Configuration Blocks/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content(/^Match User root/)
+      end
+    end
+  end
+
   it 'disables the challenge response authentication' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').
       with_content(/ChallengeResponseAuthentication no/)

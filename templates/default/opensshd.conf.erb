@@ -245,3 +245,11 @@ X11Forwarding no
 #PermitRootLogin no
 #X11Forwarding no
 <% end %>
+
+<%- unless @node['ssh-hardening']['ssh']['server']['match_blocks'].empty? %>
+# Match Configuration Blocks
+  <%- @node['ssh-hardening']['ssh']['server']['match_blocks'].each do |key, value| %>
+Match <%= key %>
+  <%= value.split("\n").join("\n  ") %>
+  <% end -%>
+<% end -%>
