@@ -79,6 +79,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['sftp']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled
 * `['ssh-hardening']['ssh']['server']['authorized_keys_path']` - `nil`. If not nil, full path to an authorized keys folder is expected
 * `['ssh-hardening']['ssh']['server']['extras']` - `{}`. Add extra configuration options, see [below](#extra-configuration-options) for details
+* `['ssh-hardening']['ssh']['server']['match_blocks']` - `{}`. Match configuration block, see [below](#match-configuration-options-for-sshd) for details
 
 ## Usage
 
@@ -142,6 +143,24 @@ end
 default['ssh-hardening']['ssh']['client']['extras'].tap do |extra|
   extra['PermitLocalCommand'] = 'no'
   extra['Tunnel'] =  'no'
+end
+```
+
+## Match Configuration Options for sshd
+Match blocks have to be placed by the end of sshd_config. This can be achieved by using the `match_blocks` attribute tree:
+
+```
+default['ssh-hardening']['ssh']['server']['match_blocks'].tap do |match|
+  match['User root'] = <<~ROOT
+    AuthorizedKeysFile .ssh/authorized_keys
+  ROOT
+  match['User git'] = <<~GIT
+    Banner none
+    AuthorizedKeysCommand /bin/false
+    AuthorizedKeysFile .ssh/authorized_keys
+    GSSAPIAuthentication no
+    PasswordAuthentication no
+  GIT
 end
 ```
 

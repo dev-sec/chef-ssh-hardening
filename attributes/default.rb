@@ -113,6 +113,9 @@ default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Blo
   # extra server configuration options
   server['extras']                   = {}
 
+  # server match configuration block
+  server['match_blocks']             = {}
+
   # sshd sftp options
   server['sftp']['enable']                  = false
   server['sftp']['log_level']               = 'VERBOSE'
