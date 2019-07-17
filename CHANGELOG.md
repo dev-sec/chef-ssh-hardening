@@ -1,5 +1,18 @@
 # Change Log
 
+## [v2.8.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.8.0) (2019-07-17)
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.7.0...v2.8.0)
+
+**Merged pull requests:**
+
+- Support of custom match configuration blocks [\#221](https://github.com/dev-sec/chef-ssh-hardening/pull/221) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Enable CI testing of Debian 10 [\#220](https://github.com/dev-sec/chef-ssh-hardening/pull/220) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Updating supported fedora versions and include Fedora 30 [\#219](https://github.com/dev-sec/chef-ssh-hardening/pull/219) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Removal of Ubuntu 14.04 because of EOL [\#218](https://github.com/dev-sec/chef-ssh-hardening/pull/218) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Switching testing to chef 14&15 [\#217](https://github.com/dev-sec/chef-ssh-hardening/pull/217) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Tests: update of gems [\#213](https://github.com/dev-sec/chef-ssh-hardening/pull/213) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Tests: try to use SoloRunner instead of ServerRunner [\#212](https://github.com/dev-sec/chef-ssh-hardening/pull/212) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
 ## [v2.7.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.7.0) (2018-11-21)
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.6.0...v2.7.0)
 
