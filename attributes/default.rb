@@ -108,7 +108,7 @@ default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Blo
   server['password_authentication']  = false
   server['log_level']                = 'verbose'
   server['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
-  server['authorized_keys_path']     = nil     # if not nil, full path to an authorized keys folder is expected
+  server['authorized_keys_path']     = nil     # if not nil, full path to one or multipe space-separated authorized keys file is expected
 
   # extra server configuration options
   server['extras']                   = {}
@@ -121,5 +121,6 @@ default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Blo
   server['sftp']['log_level']               = 'VERBOSE'
   server['sftp']['group']                   = 'sftponly'
   server['sftp']['chroot']                  = '/home/%u'
+  server['sftp']['authorized_keys_path']    = nil     # if not nil, full path to one or multipe space-separated authorized keys file is expected
   server['sftp']['password_authentication'] = false
 end

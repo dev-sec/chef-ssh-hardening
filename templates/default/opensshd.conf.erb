@@ -222,13 +222,16 @@ Subsystem sftp internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sft
 
 ## These lines must appear at the *end* of sshd_config
 Match Group <%= @node['ssh-hardening']['ssh']['server']['sftp']['group'] %>
-ForceCommand internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sftp']['log_level'] %>
-ChrootDirectory <%= @node['ssh-hardening']['ssh']['server']['sftp']['chroot'] %>
-AllowTcpForwarding no
-AllowAgentForwarding no
-PasswordAuthentication <%= ((@node['ssh-hardening']['ssh']['server']['sftp']['password_authentication']) ? 'yes' : 'no' ) %>
-PermitRootLogin no
-X11Forwarding no
+  ForceCommand internal-sftp -l <%= @node['ssh-hardening']['ssh']['server']['sftp']['log_level'] %>
+  ChrootDirectory <%= @node['ssh-hardening']['ssh']['server']['sftp']['chroot'] %>
+<% if @node['ssh-hardening']['ssh']['server']['sftp']['authorized_keys_path'] %>
+  AuthorizedKeysFile <%= @node['ssh-hardening']['ssh']['server']['sftp']['authorized_keys_path'] %>
+<% end %>
+  AllowTcpForwarding no
+  AllowAgentForwarding no
+  PasswordAuthentication <%= ((@node['ssh-hardening']['ssh']['server']['sftp']['password_authentication']) ? 'yes' : 'no' ) %>
+  PermitRootLogin no
+  X11Forwarding no
 <% else %>
 # Configuration, in case SFTP is used
 ## override default of no subsystems
@@ -237,13 +240,14 @@ X11Forwarding no
 #
 ## These lines must appear at the *end* of sshd_config
 #Match Group sftponly
-#ForceCommand internal-sftp -l VERBOSE
-#ChrootDirectory /sftpchroot/home/%u
-#AllowTcpForwarding no
-#AllowAgentForwarding no
-#PasswordAuthentication no
-#PermitRootLogin no
-#X11Forwarding no
+  #ForceCommand internal-sftp -l VERBOSE
+  #ChrootDirectory /sftpchroot/home/%u
+  #AuthorizedKeysFile /sftpchroot/home/%u/.ssh/authorized_keys
+  #AllowTcpForwarding no
+  #AllowAgentForwarding no
+  #PasswordAuthentication no
+  #PermitRootLogin no
+  #X11Forwarding no
 <% end %>
 
 <%- unless @node['ssh-hardening']['ssh']['server']['match_blocks'].empty? %>

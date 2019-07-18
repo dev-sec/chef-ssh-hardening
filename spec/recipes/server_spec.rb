@@ -707,7 +707,7 @@ describe 'ssh-hardening::server' do
 
     it 'sets the SFTP chroot correctly' do
       expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/^ChrootDirectory test_home_dir$/)
+        with_content(/^[[:space:]]*ChrootDirectory test_home_dir$/)
     end
   end
 
@@ -772,14 +772,28 @@ describe 'ssh-hardening::server' do
 
       it 'does not have AuthorizedKeysFile configured' do
         expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
-          with_content('AuthorizedKeysFile')
+          with_content(/^[[:space:]]*AuthorizedKeysFile/)
       end
     end
 
-    context 'with customized AuthorizedKeysFile' do
+    context 'with customized global AuthorizedKeysFile' do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new do |node|
           node.normal['ssh-hardening']['ssh']['server']['authorized_keys_path'] = '/some/authorizedkeysfile'
+        end.converge(described_recipe)
+      end
+
+      it 'has AuthorizedKeysFile configured' do
+        expect(chef_run).to render_file('/etc/ssh/sshd_config').
+          with_content('AuthorizedKeysFile /some/authorizedkeysfile')
+      end
+    end
+
+    context 'with customized sftponly AuthorizedKeysFile' do
+      cached(:chef_run) do
+        ChefSpec::SoloRunner.new do |node|
+          node.normal['ssh-hardening']['ssh']['server']['sftp']['enable'] = true
+          node.normal['ssh-hardening']['ssh']['server']['sftp']['authorized_keys_path'] = '/some/authorizedkeysfile'
         end.converge(described_recipe)
       end
 
