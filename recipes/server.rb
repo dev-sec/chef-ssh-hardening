@@ -56,9 +56,7 @@ if %w[fedora rhel].include?(node['platform_family'])
   module_file = ::File.join(cache_dir, 'ssh_password.mod')
   package_file = ::File.join(cache_dir, 'ssh_password.pp')
 
-  package 'policycoreutils-python'
-  # on fedora we need an addtional package for semodule_package
-  package 'policycoreutils-python-utils' if node['platform_family'] == 'fedora'
+  package node['ssh-hardening']['selinux']['package']
 
   if node['ssh-hardening']['ssh']['server']['use_pam']
     # UsePAM yes: disable and remove the additional SELinux policy
