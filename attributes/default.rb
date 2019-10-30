@@ -31,6 +31,14 @@ else
   default['ssh-hardening']['sshclient']['package'] = 'openssh-client'
 end
 
+# Define the package name for selinux utils
+if node['platform_family'] == 'fedora' || # rubocop:disable Style/ConditionalAssignment
+   node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 8
+  default['ssh-hardening']['selinux']['package'] = 'policycoreutils-python-utils'
+else
+  default['ssh-hardening']['selinux']['package'] = 'policycoreutils-python'
+end
+
 # Define the server package name
 case node['platform']
 when 'suse', 'opensuse', 'opensuseleap'

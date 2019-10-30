@@ -32,9 +32,6 @@ script:
   -  bundle exec rake kitchen KITCHEN_LOCAL_YAML=.kitchen.dokken.yml
 
 matrix:
-  allow_failures:
-    # temporaray disable failing tests until all problems are fixed
-    - env: INSTANCE=centos-8
   include:
     - env: UNIT_AND_LINT=1
       script:
