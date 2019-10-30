@@ -7,6 +7,7 @@ platforms:
 - name: ubuntu-18.04
 - name: centos-6
 - name: centos-7
+- name: centos-8
 - name: oracle-6
 - name: oracle-7
 - name: debian-8
@@ -42,6 +43,7 @@ suites:
   includes:
     - centos-6
     - centos-7
+    - centos-8
     - fedora-29
     - fedora-30
     - oracle-6
