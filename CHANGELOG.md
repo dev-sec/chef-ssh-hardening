@@ -1,6 +1,17 @@
-# Change Log
+# Changelog
+
+## [v2.9.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.9.0) (2019-11-21)
+
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.8.0...v2.9.0)
+
+**Merged pull requests:**
+
+- CentOS 8: proper selinux package naming [\#223](https://github.com/dev-sec/chef-ssh-hardening/pull/223) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- CI: enable testing on centos-8 [\#222](https://github.com/dev-sec/chef-ssh-hardening/pull/222) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Allow to specify an alternate AuthorizedKeysFile inside the Match block [\#214](https://github.com/dev-sec/chef-ssh-hardening/pull/214) ([dud225](https://github.com/dud225))
 
 ## [v2.8.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.8.0) (2019-07-17)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.7.0...v2.8.0)
 
 **Merged pull requests:**
@@ -14,6 +25,7 @@
 - Tests: try to use SoloRunner instead of ServerRunner [\#212](https://github.com/dev-sec/chef-ssh-hardening/pull/212) ([artem-sidorenko](https://github.com/artem-sidorenko))
 
 ## [v2.7.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.7.0) (2018-11-21)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.6.0...v2.7.0)
 
 **Merged pull requests:**
@@ -23,6 +35,7 @@
 - Update issue templates [\#206](https://github.com/dev-sec/chef-ssh-hardening/pull/206) ([rndmh3ro](https://github.com/rndmh3ro))
 
 ## [v2.6.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.6.0) (2018-10-19)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.5.0...v2.6.0)
 
 **Closed issues:**
@@ -35,6 +48,7 @@
 - Removal of deprecated options for newer openssh versions [\#203](https://github.com/dev-sec/chef-ssh-hardening/pull/203) ([artem-sidorenko](https://github.com/artem-sidorenko))
 
 ## [v2.5.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.5.0) (2018-10-10)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.4.0...v2.5.0)
 
 **Closed issues:**
@@ -47,6 +61,7 @@
 - Add attribute for sftp subsystem logging [\#200](https://github.com/dev-sec/chef-ssh-hardening/pull/200) ([rediculum](https://github.com/rediculum))
 
 ## [v2.4.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.4.0) (2018-08-01)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.3.1...v2.4.0)
 
 **Closed issues:**
@@ -63,6 +78,7 @@
 - amazonlinux support [\#188](https://github.com/dev-sec/chef-ssh-hardening/pull/188) ([chris-rock](https://github.com/chris-rock))
 
 ## [v2.3.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.3.1) (2018-02-13)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.3.0...v2.3.1)
 
 **Merged pull requests:**
@@ -70,6 +86,7 @@
 - Modified the client\_alive\_interval default to 300 [\#187](https://github.com/dev-sec/chef-ssh-hardening/pull/187) ([iennae](https://github.com/iennae))
 
 ## [v2.3.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.3.0) (2017-12-19)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.2.1...v2.3.0)
 
 **Closed issues:**
@@ -84,6 +101,7 @@
 - Fix Extra Configuration [\#183](https://github.com/dev-sec/chef-ssh-hardening/pull/183) ([bdwyertech](https://github.com/bdwyertech))
 
 ## [v2.2.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.1) (2017-08-22)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.2.0...v2.2.1)
 
 **Closed issues:**
@@ -95,6 +113,7 @@
 - Fix to Issue \#180. Cookbook fails on Amazon Linux [\#181](https://github.com/dev-sec/chef-ssh-hardening/pull/181) ([jonasduarte](https://github.com/jonasduarte))
 
 ## [v2.2.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.0) (2017-06-18)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.1.0...v2.2.0)
 
 **Closed issues:**
@@ -110,6 +129,7 @@
 - CI: removal of EOL distros from testing and support [\#175](https://github.com/dev-sec/chef-ssh-hardening/pull/175) ([artem-sidorenko](https://github.com/artem-sidorenko))
 
 ## [v2.1.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.1.0) (2017-04-19)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v2.0.0...v2.1.0)
 
 **Implemented enhancements:**
@@ -124,6 +144,7 @@
 - Removal of apt/yum cookbooks from tests [\#169](https://github.com/dev-sec/chef-ssh-hardening/pull/169) ([artem-sidorenko](https://github.com/artem-sidorenko))
 
 ## [v2.0.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.0.0) (2017-02-06)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.3.0...v2.0.0)
 
 **Implemented enhancements:**
@@ -177,6 +198,7 @@
 - Refactoring of library to simplify the kex/cipher handling [\#134](https://github.com/dev-sec/chef-ssh-hardening/pull/134) ([artem-sidorenko](https://github.com/artem-sidorenko))
 
 ## [v1.3.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.3.0) (2016-11-23)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.2.1...v1.3.0)
 
 **Implemented enhancements:**
@@ -202,6 +224,7 @@
 - Update Rubocop, Foodcritic, and Chefspec coverage [\#124](https://github.com/dev-sec/chef-ssh-hardening/pull/124) ([shortdudey123](https://github.com/shortdudey123))
 
 ## [v1.2.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.2.1) (2016-09-25)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
@@ -217,6 +240,7 @@
 - change hardening-io to dev-sec domain for build status and code coverage [\#118](https://github.com/dev-sec/chef-ssh-hardening/pull/118) ([atomic111](https://github.com/atomic111))
 
 ## [v1.2.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.2.0) (2016-05-29)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.1.0...v1.2.0)
 
 **Implemented enhancements:**
@@ -250,6 +274,7 @@
 - improve metadata description [\#88](https://github.com/dev-sec/chef-ssh-hardening/pull/88) ([chris-rock](https://github.com/chris-rock))
 
 ## [v1.1.0](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.1.0) (2015-04-28)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.0.3...v1.1.0)
 
 **Closed issues:**
@@ -274,6 +299,7 @@
 - Adding attributes to enable printing the MOTD. [\#71](https://github.com/dev-sec/chef-ssh-hardening/pull/71) ([dmerrick](https://github.com/dmerrick))
 
 ## [v1.0.3](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.0.3) (2015-01-14)
+
 [Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/v1.0.2...v1.0.3)
 
 **Closed issues:**
@@ -288,6 +314,9 @@
 - reprioritize etm macs [\#68](https://github.com/dev-sec/chef-ssh-hardening/pull/68) ([arlimus](https://github.com/arlimus))
 
 ## [v1.0.2](https://github.com/dev-sec/chef-ssh-hardening/tree/v1.0.2) (2015-01-12)
+
+[Full Changelog](https://github.com/dev-sec/chef-ssh-hardening/compare/21e5369c17790bf3096ad51f3d67dc998c74b632...v1.0.2)
+
 **Closed issues:**
 
 - release on supermarket [\#62](https://github.com/dev-sec/chef-ssh-hardening/issues/62)
@@ -357,4 +386,4 @@
 
 
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
