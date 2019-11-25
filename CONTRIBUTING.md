@@ -8,9 +8,9 @@ This document provides an overview of how you can participat in improving this p
 
 Much of the issues, goals and ideas are tracked in the respective projects in GitHub. Please use this channel to report bugs and post ideas.
 
-### Trello
+### Github projects
 
-The overall hardening project is organized publicly on Trello. Feel free to join and add tasks and ideas for the overall project. [https://trello.com/b/gL9v8N1q/dt-hardening](https://trello.com/b/gL9v8N1q/dt-hardening)
+The overall hardening project is organized publicly with Github projects. Feel free to add tasks and ideas for the overall project. In most cases, those tasks should match a specific issue located in this repository. [https://github.com/orgs/dev-sec/projects](https://github.com/orgs/dev-sec/projects)
 
 ## git and GitHub
 
