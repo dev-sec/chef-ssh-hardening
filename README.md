@@ -71,7 +71,7 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['login_grace_time']` - `30s`. Time in which the login should be successfully, otherwise the user is disconnected.
 * `['ssh-hardening']['ssh']['server']['max_auth_tries']` - `2`. The number of authentication attempts per connection
 * `['ssh-hardening']['ssh']['server']['max_sessions']` - `10`. The number of sessions per connection
-* `['ssh-hardening']['ssh']['server']['max_startups']` - `10:30:100`. The maximum number of concurrent unauthenticated connections to the SSH daemon.
+* `['ssh-hardening']['ssh']['server']['max_startups']` - `10:30:60`. The maximum number of concurrent unauthenticated connections to the SSH daemon.
 * `['ssh-hardening']['ssh']['server']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled
 * `['ssh-hardening']['ssh']['server']['log_level']` - `verbose`. The log level of sshd. See `LogLevel` in `man 5 sshd_config` for possible values.
 * `['ssh-hardening']['ssh']['server']['sftp']['enable']` - `false`. Set to `true` to enable the SFTP feature of OpenSSH daemon
