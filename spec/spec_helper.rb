@@ -1,7 +1,5 @@
-# encoding: utf-8
-
 #
-# Copyright 2014, Deutsche Telekom AG
+# Copyright:: 2014, Deutsche Telekom AG
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +21,6 @@ require 'coveralls'
 
 # coverage report
 Coveralls.wear!
-at_exit { ChefSpec::Coverage.report! }
 
 RSpec.configure do |config|
   # OS and version for mocking of ohai data, needed by chefspec

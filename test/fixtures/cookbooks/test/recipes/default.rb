@@ -1,9 +1,8 @@
-# encoding: utf-8
 #
-# Cookbook Name:: test
+# Cookbook:: test
 # Recipe:: default.rb
 #
-# Copyright 2017, Artem Sidorenko
+# Copyright:: 2017, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +17,7 @@
 # limitations under the License.
 #
 
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   apt_update 'update-apt-cache' do
     action :update
   end

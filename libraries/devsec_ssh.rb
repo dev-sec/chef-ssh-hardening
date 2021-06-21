@@ -1,13 +1,11 @@
-# encoding: utf-8
-
 #
-# Cookbook Name:: ssh-hardening
+# Cookbook:: ssh-hardening
 # Library:: devsec_ssh
 #
-# Copyright 2012, Dominik Richter
-# Copyright 2014, Christoph Hartmann
-# Copyright 2014, Deutsche Telekom AG
-# Copyright 2016, Artem Sidorenko
+# Copyright:: 2012, Dominik Richter
+# Copyright:: 2014, Christoph Hartmann
+# Copyright:: 2014, Deutsche Telekom AG
+# Copyright:: 2016, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,40 +40,40 @@ module DevSec
     # Fallback ssh version for autodetection
     FALLBACK_SSH_VERSION ||= 5.9
     # Support types of ssh
-    SSH_TYPES ||= %i[client server].freeze
+    SSH_TYPES ||= %i(client server).freeze
     # Crypto configuration for different ssh parameters
     CRYPTO ||= {
       kexs: {
         5.3 => [],
-        5.9 => %w[diffie-hellman-group-exchange-sha256],
-        6.6 => %w[curve25519-sha256@libssh.org diffie-hellman-group-exchange-sha256],
-        :weak => %w[diffie-hellman-group14-sha1 diffie-hellman-group-exchange-sha1 diffie-hellman-group1-sha1]
+        5.9 => %w(diffie-hellman-group-exchange-sha256),
+        6.6 => %w(curve25519-sha256@libssh.org diffie-hellman-group-exchange-sha256),
+        :weak => %w(diffie-hellman-group14-sha1 diffie-hellman-group-exchange-sha1 diffie-hellman-group1-sha1),
       },
       macs: {
-        5.3 => %w[hmac-ripemd160 hmac-sha1],
-        5.9 => %w[hmac-sha2-512 hmac-sha2-256 hmac-ripemd160],
-        6.6 => %w[hmac-sha2-512-etm@openssh.com hmac-sha2-256-etm@openssh.com
-                  umac-128-etm@openssh.com hmac-sha2-512 hmac-sha2-256],
-        :weak => %w[hmac-sha1]
+        5.3 => %w(hmac-ripemd160 hmac-sha1),
+        5.9 => %w(hmac-sha2-512 hmac-sha2-256 hmac-ripemd160),
+        6.6 => %w(hmac-sha2-512-etm@openssh.com hmac-sha2-256-etm@openssh.com
+                  umac-128-etm@openssh.com hmac-sha2-512 hmac-sha2-256),
+        :weak => %w(hmac-sha1),
       },
       ciphers: {
-        5.3 => %w[aes256-ctr aes192-ctr aes128-ctr],
-        6.6 => %w[chacha20-poly1305@openssh.com aes256-gcm@openssh.com aes128-gcm@openssh.com
-                  aes256-ctr aes192-ctr aes128-ctr],
-        :weak => %w[aes256-cbc aes192-cbc aes128-cbc]
-      }
+        5.3 => %w(aes256-ctr aes192-ctr aes128-ctr),
+        6.6 => %w(chacha20-poly1305@openssh.com aes256-gcm@openssh.com aes128-gcm@openssh.com
+                  aes256-ctr aes192-ctr aes128-ctr),
+        :weak => %w(aes256-cbc aes192-cbc aes128-cbc),
+      },
     }.freeze
     # Privilege separation values
     PRIVILEGE_SEPARATION ||= {
       5.3 => 'yes',
-      5.9 => 'sandbox'
+      5.9 => 'sandbox',
     }.freeze
     # Hostkey algorithms
     # In the current implementation they are server specific so we need own data hash for it
     HOSTKEY_ALGORITHMS ||= {
-      5.3 => %w[rsa],
-      6.0 => %w[rsa ecdsa],
-      6.6 => %w[rsa ecdsa ed25519]
+      5.3 => %w(rsa),
+      6.0 => %w(rsa ecdsa),
+      6.6 => %w(rsa ecdsa ed25519),
     }.freeze
 
     class << self
@@ -163,7 +161,7 @@ module DevSec
         # on the particilar ssh version. Return nil in such cases
         if crypto.empty?
           Chef::Log.debug("No value present for ssh version #{found_ssh_version}. Returning nil.")
-          return nil
+          return
         end
 
         if enable_weak
@@ -194,7 +192,7 @@ module DevSec
       def get_ssh_version(package)
         version = node['packages'][package]['version']
         # on debian we get the epoch in front of version number: 1:7.2p2-4ubuntu2.1
-        version = version.split(':')[1] if node['platform_family'] == 'debian'
+        version = version.split(':')[1] if platform_family?('debian')
         Chef::Log.debug("Detected openssh version #{version} for package #{package}")
         version.to_f
       rescue NoMethodError

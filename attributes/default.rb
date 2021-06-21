@@ -1,10 +1,8 @@
-# encoding: utf-8
-
 #
-# Cookbook Name:: ssh-hardening
+# Cookbook:: ssh-hardening
 # Attributes:: default
 #
-# Copyright 2012, Dominik Richter
+# Copyright:: 2012, Dominik Richter
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,28 +30,26 @@ else
 end
 
 # Define the package name for selinux utils
-if node['platform_family'] == 'fedora' || # rubocop:disable Style/ConditionalAssignment
-   node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 8
+if platform_family?('fedora') || # rubocop:disable Style/ConditionalAssignment
+   platform_family?('rhel') && node['platform_version'].to_f >= 8
   default['ssh-hardening']['selinux']['package'] = 'policycoreutils-python-utils'
 else
   default['ssh-hardening']['selinux']['package'] = 'policycoreutils-python'
 end
 
 # Define the server package name
-case node['platform']
-when 'suse', 'opensuse', 'opensuseleap'
-  default['ssh-hardening']['sshserver']['package'] = 'openssh'
-else
-  default['ssh-hardening']['sshserver']['package'] = 'openssh-server'
-end
+default['ssh-hardening']['sshserver']['package'] = if platform?('suse', 'opensuse', 'opensuseleap')
+                                                     'openssh'
+                                                   else
+                                                     'openssh-server'
+                                                   end
 
 # Define the service name for sshd
-case node['platform_family']
-when 'rhel', 'fedora', 'suse', 'freebsd', 'gentoo', 'amazon'
-  default['ssh-hardening']['sshserver']['service_name'] = 'sshd'
-else
-  default['ssh-hardening']['sshserver']['service_name'] = 'ssh'
-end
+default['ssh-hardening']['sshserver']['service_name'] = if platform_family?('rhel', 'fedora', 'suse', 'freebsd', 'gentoo', 'amazon')
+                                                          'sshd'
+                                                        else
+                                                          'ssh'
+                                                        end
 
 # sshd + ssh client
 default['ssh-hardening']['network']['ipv6']['enable']      = false
@@ -68,9 +64,9 @@ default['ssh-hardening']['ssh']['client'].tap do |client|
   client['cbc_required']  = false
   client['weak_hmac']     = false
   client['weak_kex']      = false
-  client['allow_agent_forwarding']   = false
-  client['remote_hosts']  = []
-  client['password_authentication'] = false   # ssh
+  client['allow_agent_forwarding'] = false
+  client['remote_hosts'] = []
+  client['password_authentication'] = false # ssh
   # http://undeadly.org/cgi?action=article&sid=20160114142733
   client['roaming']       = false
   client['send_env']      = ['LANG', 'LC_*', 'LANGUAGE']
@@ -80,7 +76,7 @@ default['ssh-hardening']['ssh']['client'].tap do |client|
 end
 
 # sshd
-default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable BlockLength
+default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Metrics/BlockLength
   server['kex']                      = nil     # nil = calculate best combination for server version
   server['cipher']                   = nil     # nil = calculate best combination for server version
   server['mac']                      = nil     # nil = calculate best combination for server version
