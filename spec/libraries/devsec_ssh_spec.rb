@@ -1,7 +1,5 @@
-# encoding: utf-8
-
 #
-# Copyright 2016, Artem Sidorenko
+# Copyright:: 2016, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,12 +40,12 @@ describe DevSec::Ssh do
       'platform_version' => version,
       'ssh-hardening' => {
         'sshclient' => {
-          'package' => package_name
+          'package' => package_name,
         },
         'sshserver' => {
-          'package' => package_name
-        }
-      }
+          'package' => package_name,
+        },
+      },
     }
     node['packages'] = { package_name => { 'version' => package_version } } if package_installed
 
@@ -254,7 +252,7 @@ describe DevSec::Ssh do
   # get_[client|server]_[kexs|macs|ciphers]
   # In order to cover all possible combinations, we need a complex nested loops:-\
   # We start with client|server combination
-  %w[client server].each do |type|
+  %w(client server).each do |type|
     # Go over different types of crypto parameters, e.g. kexs, macs, ciphers
     DevSec::Ssh::CRYPTO.each do |crypto_type, crypto_value| # we can not use subject here, as its not in the block
       function = "get_#{type}_#{crypto_type}"

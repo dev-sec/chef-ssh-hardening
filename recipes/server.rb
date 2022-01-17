@@ -1,11 +1,9 @@
-# encoding: utf-8
-
 #
-# Cookbook Name:: ssh-hardening
+# Cookbook:: ssh-hardening
 # Recipe:: server.rb
 #
-# Copyright 2012, Dominik Richter
-# Copyright 2014, Deutsche Telekom AG
+# Copyright:: 2012, Dominik Richter
+# Copyright:: 2014, Deutsche Telekom AG
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,7 +49,7 @@ package 'openssh-server' do
 end
 
 # Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
-if %w[fedora rhel].include?(node['platform_family'])
+if platform_family?('fedora', 'rhel')
   policy_file = ::File.join(cache_dir, 'ssh_password.te')
   module_file = ::File.join(cache_dir, 'ssh_password.mod')
   package_file = ::File.join(cache_dir, 'ssh_password.pp')
@@ -104,7 +102,7 @@ end
 # remove all small primes
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
 dh_min_prime_size = node['ssh-hardening']['ssh']['server']['dh_min_prime_size'].to_i - 1 # 4096 is 4095 in the moduli file
-ruby_block 'remove small primes from DH moduli' do # ~FC014
+ruby_block 'remove small primes from DH moduli' do
   block do
     tmp_file = "#{dh_moduli_file}.tmp"
     ::File.open(tmp_file, 'w') do |new_file|
@@ -134,8 +132,7 @@ end
 service 'sshd' do
   # use upstart for ubuntu, otherwise chef uses init
   # @see http://docs.opscode.com/resource_service.html#providers
-  case node['platform']
-  when 'ubuntu'
+  if platform?('ubuntu')
     if node['platform_version'].to_f >= 15.04
       provider Chef::Provider::Service::Systemd
     elsif node['platform_version'].to_f >= 12.04
@@ -144,19 +141,19 @@ service 'sshd' do
   end
   service_name node['ssh-hardening']['sshserver']['service_name']
   supports value_for_platform(
-    'centos' => { 'default' => %i[restart reload status] },
-    'redhat' => { 'default' => %i[restart reload status] },
-    'fedora' => { 'default' => %i[restart reload status] },
-    'scientific' => { 'default' => %i[restart reload status] },
+    'centos' => { 'default' => %i(restart reload status) },
+    'redhat' => { 'default' => %i(restart reload status) },
+    'fedora' => { 'default' => %i(restart reload status) },
+    'scientific' => { 'default' => %i(restart reload status) },
     'arch' => { 'default' => [:restart] },
-    'debian' => { 'default' => %i[restart reload status] },
+    'debian' => { 'default' => %i(restart reload status) },
     'ubuntu' => {
-      '8.04' => %i[restart reload],
-      'default' => %i[restart reload status]
+      '8.04' => %i(restart reload),
+      'default' => %i(restart reload status),
     },
-    'default' => { 'default' => %i[restart reload] }
+    'default' => { 'default' => %i(restart reload) }
   )
-  action %i[enable start]
+  action %i(enable start)
 end
 
 directory 'openssh-server ssh directory /etc/ssh' do
@@ -181,7 +178,7 @@ template '/etc/ssh/sshd_config' do
         cipher:       node['ssh-hardening']['ssh']['server']['cipher'] || DevSec::Ssh.get_server_ciphers(node['ssh-hardening']['ssh']['server']['cbc_required']),
         use_priv_sep: node['ssh-hardening']['ssh']['use_privilege_separation'] || DevSec::Ssh.get_server_privilege_separarion,
         hostkeys:     node['ssh-hardening']['ssh']['server']['host_key_files'] || DevSec::Ssh.get_server_algorithms.map { |alg| "/etc/ssh/ssh_host_#{alg}_key" },
-        version:      DevSec::Ssh.get_ssh_server_version
+        version:      DevSec::Ssh.get_ssh_server_version,
       }
     end
   )

@@ -1,8 +1,6 @@
-# encoding: UTF-8
-
 #
-# Copyright 2014, Deutsche Telekom AG
-# Copyright 2016, Artem Sidorenko
+# Copyright:: 2014, Deutsche Telekom AG
+# Copyright:: 2016, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -66,8 +64,8 @@ describe 'ssh-hardening::server' do
   end
 
   it 'accepts default locale environment variables' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content('AcceptEnv LANG LC_* LANGUAGE')
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content('AcceptEnv LANG LC_* LANGUAGE')
   end
 
   include_examples 'does not allow weak hmacs'
@@ -143,8 +141,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'uses the value of kex attribute' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/KexAlgorithms mycustomkexvalue/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/KexAlgorithms mycustomkexvalue/)
     end
   end
 
@@ -156,8 +154,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'uses the value of mac attribute' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/MACs mycustommacvalue/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/MACs mycustommacvalue/)
     end
   end
 
@@ -169,8 +167,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'uses the value of cipher attribute' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/Ciphers mycustomciphervalue/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/Ciphers mycustomciphervalue/)
     end
   end
 
@@ -193,8 +191,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'unlocks root account' do
-      expect(chef_run).to run_execute('unlock root account if it is locked').
-        with(command: "sed 's/^root:\!/root:*/' /etc/shadow -i")
+      expect(chef_run).to run_execute('unlock root account if it is locked')
+        .with(command: "sed 's/^root:\!/root:*/' /etc/shadow -i")
     end
   end
 
@@ -209,8 +207,8 @@ describe 'ssh-hardening::server' do
   end
 
   it 'disables the login banner' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/Banner none/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/Banner none/)
   end
 
   context 'with provided login banner path' do
@@ -221,8 +219,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'uses the given login banner' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/Banner \/etc\/ssh\/banner/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(%r{Banner /etc/ssh/banner})
     end
   end
 
@@ -273,7 +271,7 @@ describe 'ssh-hardening::server' do
 
     context 'running with OpenSSH >= 7.4 on RHEL 7' do
       let(:chef_run) do
-        ChefSpec::SoloRunner.new(platform: 'centos', version: '7.5.1804').converge(described_recipe)
+        ChefSpec::SoloRunner.new(platform: 'centos', version: '7').converge(described_recipe)
       end
 
       before do
@@ -439,8 +437,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'disables the debian banner' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/DebianBanner no/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/DebianBanner no/)
     end
 
     context 'with enabled debian banner' do
@@ -451,8 +449,8 @@ describe 'ssh-hardening::server' do
       end
 
       it 'uses the enabled debian banner' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config').
-          with_content(/DebianBanner yes/)
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content(/DebianBanner yes/)
       end
     end
 
@@ -462,14 +460,14 @@ describe 'ssh-hardening::server' do
       end
 
       cached(:chef_run) do
-        ChefSpec::SoloRunner.new(platform: 'centos', version: '7.5.1804') do |node|
+        ChefSpec::SoloRunner.new(platform: 'centos', version: '7') do |node|
           node.normal['ssh-hardening']['ssh']['server']['os_banner'] = true
         end.converge(described_recipe)
       end
 
       it 'does not have the debian banner option' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
-          with_content(/DebianBanner/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/DebianBanner/)
       end
     end
   end
@@ -482,8 +480,8 @@ describe 'ssh-hardening::server' do
 
       it 'does not have any extra config options' do
         expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
-          with_content(/^# Extra Configuration Options/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/^# Extra Configuration Options/)
       end
     end
 
@@ -509,8 +507,8 @@ describe 'ssh-hardening::server' do
 
       it 'does not have any match config blocks' do
         expect(chef_run).to render_file('/etc/ssh/sshd_config')
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
-          with_content(/^# Match Configuration Blocks/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/^# Match Configuration Blocks/)
       end
     end
 
@@ -531,8 +529,8 @@ describe 'ssh-hardening::server' do
   end
 
   it 'disables the challenge response authentication' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/ChallengeResponseAuthentication no/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/ChallengeResponseAuthentication no/)
   end
 
   context 'with challenge response authentication enabled' do
@@ -543,14 +541,14 @@ describe 'ssh-hardening::server' do
     end
 
     it 'enables the challenge response authentication' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/ChallengeResponseAuthentication yes/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/ChallengeResponseAuthentication yes/)
     end
   end
 
   it 'sets the login grace time to 30s' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/LoginGraceTime 30s/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/LoginGraceTime 30s/)
   end
 
   context 'with configured login grace time to 60s' do
@@ -561,14 +559,14 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets the login grace time to 60s' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/LoginGraceTime 60s/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/LoginGraceTime 60s/)
     end
   end
 
   it 'sets the log level to verbose' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content('LogLevel VERBOSE')
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content('LogLevel VERBOSE')
   end
 
   context 'with log level set to debug' do
@@ -579,61 +577,61 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets the log level to debug' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content('LogLevel DEBUG')
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content('LogLevel DEBUG')
     end
   end
 
   it 'leaves deny users commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/#DenyUsers */)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#DenyUsers */)
   end
 
   it 'leaves allow users commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/#AllowUsers user1/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#AllowUsers user1/)
   end
 
   it 'leaves deny groups commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/#DenyGroups */)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#DenyGroups */)
   end
 
   it 'leaves allow groups commented' do
-    expect(chef_run).to render_file('/etc/ssh/sshd_config').
-      with_content(/#AllowGroups group1/)
+    expect(chef_run).to render_file('/etc/ssh/sshd_config')
+      .with_content(/#AllowGroups group1/)
   end
 
   context 'with attribute deny_users' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w[someuser]
+        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w(someuser)
       end.converge(described_recipe)
     end
 
     it 'adds user to deny list' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/DenyUsers [^#]*\bsomeuser\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/DenyUsers [^#]*\bsomeuser\b/)
     end
   end
 
   context 'with attribute deny_users mutiple' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w[someuser otheruser]
+        node.normal['ssh-hardening']['ssh']['server']['deny_users'] = %w(someuser otheruser)
       end.converge(described_recipe)
     end
 
     it 'adds users to deny list' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/DenyUsers [^#]*\bsomeuser otheruser\b/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/DenyUsers [^#]*\bsomeuser otheruser\b/)
     end
   end
 
   context 'without attribute use_dns' do
     it 'leaves UseDNS commented' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/#UseDNS no/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/#UseDNS no/)
     end
   end
 
@@ -645,8 +643,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets UseDNS correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/UseDNS no/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/UseDNS no/)
     end
   end
 
@@ -658,15 +656,15 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets UseDNS correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/UseDNS yes/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/UseDNS yes/)
     end
   end
 
   context 'without attribute ["sftp"]["enable"]' do
     it 'leaves SFTP Subsystem commented' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/^#Subsystem sftp/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/^#Subsystem sftp/)
     end
   end
 
@@ -678,8 +676,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets SFTP Subsystem correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/^Subsystem sftp/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/^Subsystem sftp/)
     end
   end
 
@@ -692,8 +690,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets the SFTP Group correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/^Match Group testgroup$/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/^Match Group testgroup$/)
     end
   end
 
@@ -706,8 +704,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets the SFTP chroot correctly' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/^[[:space:]]*ChrootDirectory test_home_dir$/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/^[[:space:]]*ChrootDirectory test_home_dir$/)
     end
   end
 
@@ -719,8 +717,8 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets proper IPv4 ListenAdress' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/ListenAddress 0.0.0.0/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/ListenAddress 0.0.0.0/)
     end
   end
 
@@ -732,9 +730,9 @@ describe 'ssh-hardening::server' do
     end
 
     it 'sets proper IPv4 and IPv6 ListenAdress' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/ListenAddress 0.0.0.0/).
-        with_content(/ListenAddress ::/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/ListenAddress 0.0.0.0/)
+        .with_content(/ListenAddress ::/)
     end
   end
 
@@ -746,21 +744,21 @@ describe 'ssh-hardening::server' do
     end
 
     it 'will not accept any environment variables' do
-      expect(chef_run).to_not render_file('/etc/ssh/sshd_config').
-        with_content(/AcceptEnv/)
+      expect(chef_run).to_not render_file('/etc/ssh/sshd_config')
+        .with_content(/AcceptEnv/)
     end
   end
 
   context 'with custom accept_env attribute' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['server']['accept_env'] = %w[some environment variables]
+        node.normal['ssh-hardening']['ssh']['server']['accept_env'] = %w(some environment variables)
       end.converge(described_recipe)
     end
 
     it 'uses the value of accept_env attribute' do
-      expect(chef_run).to render_file('/etc/ssh/sshd_config').
-        with_content(/AcceptEnv some environment variables/)
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
+        .with_content(/AcceptEnv some environment variables/)
     end
   end
 
@@ -771,8 +769,8 @@ describe 'ssh-hardening::server' do
       end
 
       it 'does not have AuthorizedKeysFile configured' do
-        expect(chef_run).not_to render_file('/etc/ssh/sshd_config').
-          with_content(/^[[:space:]]*AuthorizedKeysFile/)
+        expect(chef_run).not_to render_file('/etc/ssh/sshd_config')
+          .with_content(/^[[:space:]]*AuthorizedKeysFile/)
       end
     end
 
@@ -784,8 +782,8 @@ describe 'ssh-hardening::server' do
       end
 
       it 'has AuthorizedKeysFile configured' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config').
-          with_content('AuthorizedKeysFile /some/authorizedkeysfile')
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content('AuthorizedKeysFile /some/authorizedkeysfile')
       end
     end
 
@@ -798,8 +796,8 @@ describe 'ssh-hardening::server' do
       end
 
       it 'has AuthorizedKeysFile configured' do
-        expect(chef_run).to render_file('/etc/ssh/sshd_config').
-          with_content('AuthorizedKeysFile /some/authorizedkeysfile')
+        expect(chef_run).to render_file('/etc/ssh/sshd_config')
+          .with_content('AuthorizedKeysFile /some/authorizedkeysfile')
       end
     end
   end
