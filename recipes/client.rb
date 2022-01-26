@@ -1,11 +1,9 @@
-# encoding: utf-8
-
 #
-# Cookbook Name:: ssh-hardening
+# Cookbook:: ssh-hardening
 # Recipe:: client.rb
 #
-# Copyright 2012, Dominik Richter
-# Copyright 2014, Deutsche Telekom AG
+# Copyright:: 2012, Dominik Richter
+# Copyright:: 2014, Deutsche Telekom AG
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,7 +47,7 @@ template '/etc/ssh/ssh_config' do
         mac:     node['ssh-hardening']['ssh']['client']['mac']    || DevSec::Ssh.get_client_macs(node['ssh-hardening']['ssh']['client']['weak_hmac']),
         kex:     node['ssh-hardening']['ssh']['client']['kex']    || DevSec::Ssh.get_client_kexs(node['ssh-hardening']['ssh']['client']['weak_kex']),
         cipher:  node['ssh-hardening']['ssh']['client']['cipher'] || DevSec::Ssh.get_client_ciphers(node['ssh-hardening']['ssh']['client']['cbc_required']),
-        version: DevSec::Ssh.get_ssh_client_version
+        version: DevSec::Ssh.get_ssh_client_version,
       }
     end
   )
