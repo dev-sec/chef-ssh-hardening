@@ -1,8 +1,6 @@
-# encoding: UTF-8
-
 #
-# Copyright 2014, Deutsche Telekom AG
-# Copyright 2016, Artem Sidorenko
+# Copyright:: 2014, Deutsche Telekom AG
+# Copyright:: 2016, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -56,13 +54,13 @@ describe 'ssh-hardening::client' do
   include_examples 'does not allow weak ciphers'
 
   it 'disables client roaming' do
-    expect(chef_run).to render_file('/etc/ssh/ssh_config').
-      with_content(/UseRoaming no/)
+    expect(chef_run).to render_file('/etc/ssh/ssh_config')
+      .with_content(/UseRoaming no/)
   end
 
   it 'sends default locale environment variables' do
-    expect(chef_run).to render_file('/etc/ssh/ssh_config').
-      with_content('SendEnv LANG LC_* LANGUAGE')
+    expect(chef_run).to render_file('/etc/ssh/ssh_config')
+      .with_content('SendEnv LANG LC_* LANGUAGE')
   end
 
   include_examples 'allow ctr ciphers'
@@ -135,8 +133,8 @@ describe 'ssh-hardening::client' do
     end
 
     it 'uses the value of kex attribute' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/KexAlgorithms mycustomkexvalue/)
+      expect(chef_run).to render_file('/etc/ssh/ssh_config')
+        .with_content(/KexAlgorithms mycustomkexvalue/)
     end
   end
 
@@ -148,8 +146,8 @@ describe 'ssh-hardening::client' do
     end
 
     it 'uses the value of mac attribute' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/MACs mycustommacvalue/)
+      expect(chef_run).to render_file('/etc/ssh/ssh_config')
+        .with_content(/MACs mycustommacvalue/)
     end
   end
 
@@ -161,8 +159,8 @@ describe 'ssh-hardening::client' do
     end
 
     it 'uses the value of cipher attribute' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/Ciphers mycustomciphervalue/)
+      expect(chef_run).to render_file('/etc/ssh/ssh_config')
+        .with_content(/Ciphers mycustomciphervalue/)
     end
   end
 
@@ -174,21 +172,21 @@ describe 'ssh-hardening::client' do
     end
 
     it 'will not send any environment variables' do
-      expect(chef_run).to_not render_file('/etc/ssh/ssh_config').
-        with_content(/SendEnv/)
+      expect(chef_run).to_not render_file('/etc/ssh/ssh_config')
+        .with_content(/SendEnv/)
     end
   end
 
   context 'with custom send_env attribute' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
-        node.normal['ssh-hardening']['ssh']['client']['send_env'] = %w[some environment variables]
+        node.normal['ssh-hardening']['ssh']['client']['send_env'] = %w(some environment variables)
       end.converge(described_recipe)
     end
 
     it 'uses the value of send_env attribute' do
-      expect(chef_run).to render_file('/etc/ssh/ssh_config').
-        with_content(/SendEnv some environment variables/)
+      expect(chef_run).to render_file('/etc/ssh/ssh_config')
+        .with_content(/SendEnv some environment variables/)
     end
   end
 
@@ -200,8 +198,8 @@ describe 'ssh-hardening::client' do
 
       it 'does not have any extra config options' do
         expect(chef_run).to render_file('/etc/ssh/ssh_config')
-        expect(chef_run).not_to render_file('/etc/ssh/ssh_config').
-          with_content(/^# Extra Configuration Options/)
+        expect(chef_run).not_to render_file('/etc/ssh/ssh_config')
+          .with_content(/^# Extra Configuration Options/)
       end
     end
 
