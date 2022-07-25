@@ -240,6 +240,7 @@ See [https://wiki.archlinux.org/index.php/SFTP_chroot](https://wiki.archlinux.or
 * Zac Hallett [zhallett](https://github.com/zhallett)
 * Petri Sirkkala [sirkkalap](https://github.com/sirkkalap)
 * [stribika](https://github.com/stribika)
+* Siddhant Rath [sidxz](https://github.com/sidxz)
 
 This cookbook is mostly based on guides by:
 
