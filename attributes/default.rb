@@ -21,7 +21,7 @@
 
 # Define the client package name
 case node['platform']
-when 'redhat', 'centos', 'fedora', 'amazon', 'oracle', 'scientific'
+when 'redhat', 'centos', 'fedora', 'amazon', 'oracle', 'scientific', 'rocky', 'almalinux'
   default['ssh-hardening']['sshclient']['package'] = 'openssh-clients'
 when 'debian', 'ubuntu'
   default['ssh-hardening']['sshclient']['package'] = 'openssh-client'
