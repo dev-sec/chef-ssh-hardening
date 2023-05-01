@@ -201,7 +201,7 @@ describe DevSec::Ssh do
         expect(subject.send(:find_ssh_version, 5.7, [5.3, 5.9, 6.6])).to eq 5.3
       end
     end
-    context 'when it gets the unvalid ssh version' do
+    context 'when it gets the invalid ssh version' do
       it 'should raise an exception' do
         expect { subject.send(:find_ssh_version, 3.0, [5.3, 5.9, 6.6]) }.to raise_exception(/Unsupported ssh version/)
       end
@@ -221,7 +221,7 @@ describe DevSec::Ssh do
         end
       end
     end
-    context 'when openssh has a totaly unsupported version, e.g. 3.0' do
+    context 'when openssh has a totally unsupported version, e.g. 3.0' do
       it 'should raise an exception' do
         expect(subject).to receive(:get_ssh_server_version) { 3.0 }
         expect { subject.get_server_privilege_separarion }.to raise_exception(/Unsupported ssh version/)
@@ -242,7 +242,7 @@ describe DevSec::Ssh do
         end
       end
     end
-    context 'when openssh has a totaly unsupported version, e.g. 3.0' do
+    context 'when openssh has a totally unsupported version, e.g. 3.0' do
       it 'should raise an exception' do
         expect(subject).to receive(:get_ssh_server_version) { 3.0 }
         expect { subject.get_server_algorithms }.to raise_exception(/Unsupported ssh version/)
@@ -259,7 +259,7 @@ describe DevSec::Ssh do
     DevSec::Ssh::CRYPTO.each do |crypto_type, crypto_value| # we can not use subject here, as its not in the block
       function = "get_#{type}_#{crypto_type}"
 
-      # here we start to describe a specfic function like get_client_kexs
+      # here we start to describe a specific function like get_client_kexs
       describe function do
         # Go over different ssh versions
         crypto_value.each do |openssh_version, crypto_params|
@@ -276,7 +276,7 @@ describe DevSec::Ssh do
                 expect(subject.send(function)).to eq nil
               end
             else
-              # Check the different combinatios of weak_parameter to the function
+              # Check the different combinations of weak_parameter to the function
               [true, false].each do |weak_option|
                 context "and when weak option is #{weak_option}" do
                   let(:ret) { subject.send(function, weak_option).split(',') }
@@ -291,7 +291,7 @@ describe DevSec::Ssh do
           end
         end
 
-        context 'when openssh has a totaly unsupported version, e.g. 3.0' do
+        context 'when openssh has a totally unsupported version, e.g. 3.0' do
           it 'should raise an exception' do
             expect(subject).to receive("get_ssh_#{type}_version".to_sym) { 3.0 }
             expect { subject.send(function) }.to raise_exception(/Unsupported ssh version/)

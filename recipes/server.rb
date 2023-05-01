@@ -50,7 +50,7 @@ package 'openssh-server' do
   notifies :reload, 'ohai[reload openssh-server]', :immediately
 end
 
-# Handle addional SELinux policy on RHEL/Fedora for different UsePAM options
+# Handle additional SELinux policy on RHEL/Fedora for different UsePAM options
 if %w[fedora rhel].include?(node['platform_family'])
   policy_file = ::File.join(cache_dir, 'ssh_password.te')
   module_file = ::File.join(cache_dir, 'ssh_password.mod')
@@ -172,7 +172,7 @@ template '/etc/ssh/sshd_config' do
   owner 'root'
   group 'root'
   variables(
-    # we do lazy here to ensure we detect the version that comes with the packge update above
+    # we do lazy here to ensure we detect the version that comes with the package update above
     lazy do
       {
         permit_tunnel: DevSec::Ssh.validate_permit_tunnel(node['ssh-hardening']['ssh']['server']['permit_tunnel']),
