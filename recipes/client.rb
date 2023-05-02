@@ -43,7 +43,7 @@ template '/etc/ssh/ssh_config' do
   owner 'root'
   group 'root'
   variables(
-    # we do lazy here to ensure we detect the version that comes with the packge update above
+    # we do lazy here to ensure we detect the version that comes with the package update above
     lazy do
       {
         mac:     node['ssh-hardening']['ssh']['client']['mac']    || DevSec::Ssh.get_client_macs(node['ssh-hardening']['ssh']['client']['weak_hmac']),

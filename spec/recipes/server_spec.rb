@@ -260,7 +260,7 @@ describe 'ssh-hardening::server' do
     expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UsePAM yes')
   end
 
-  describe 'version specifc options' do
+  describe 'version specific options' do
     context 'running with OpenSSH < 7.4' do
       it 'should have UseLogin' do
         expect(chef_run).to render_file('/etc/ssh/sshd_config').with_content('UseLogin')

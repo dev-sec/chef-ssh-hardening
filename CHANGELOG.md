@@ -97,7 +97,7 @@
 **Merged pull requests:**
 
 - remove ripemd from MAC list [\#186](https://github.com/dev-sec/chef-ssh-hardening/pull/186) ([atomic111](https://github.com/atomic111))
-- Allow password authentification for sftp [\#184](https://github.com/dev-sec/chef-ssh-hardening/pull/184) ([avanier](https://github.com/avanier))
+- Allow password authentication for sftp [\#184](https://github.com/dev-sec/chef-ssh-hardening/pull/184) ([avanier](https://github.com/avanier))
 - Fix Extra Configuration [\#183](https://github.com/dev-sec/chef-ssh-hardening/pull/183) ([bdwyertech](https://github.com/bdwyertech))
 
 ## [v2.2.1](https://github.com/dev-sec/chef-ssh-hardening/tree/v2.2.1) (2017-08-22)
@@ -152,7 +152,7 @@
 - Send and Accept locale environment variables [\#167](https://github.com/dev-sec/chef-ssh-hardening/pull/167) ([mikemoate](https://github.com/mikemoate))
 - Removal of DSA key from defaults [\#161](https://github.com/dev-sec/chef-ssh-hardening/pull/161) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Allow log level configuration of sshd [\#159](https://github.com/dev-sec/chef-ssh-hardening/pull/159) ([artem-sidorenko](https://github.com/artem-sidorenko))
-- Split the attribues to the client and server areas [\#150](https://github.com/dev-sec/chef-ssh-hardening/pull/150) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Split the attributes to the client and server areas [\#150](https://github.com/dev-sec/chef-ssh-hardening/pull/150) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Attribute namespace \['ssh-hardening'\] added [\#144](https://github.com/dev-sec/chef-ssh-hardening/pull/144) ([artem-sidorenko](https://github.com/artem-sidorenko))
 - Add node attributes to override KEX, MAC and cipher values [\#141](https://github.com/dev-sec/chef-ssh-hardening/pull/141) ([bazbremner](https://github.com/bazbremner))
 - Use different algorithms depending on the ssh version [\#166](https://github.com/dev-sec/chef-ssh-hardening/pull/166) ([artem-sidorenko](https://github.com/artem-sidorenko))

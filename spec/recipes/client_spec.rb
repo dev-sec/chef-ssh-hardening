@@ -219,7 +219,7 @@ describe 'ssh-hardening::client' do
     end
   end
 
-  describe 'version specifc options' do
+  describe 'version specific options' do
     context 'running with OpenSSH < 7.6' do
       it 'should have RhostsRSAAuthentication and RSAAuthentication' do
         expect(chef_run).to render_file('/etc/ssh/ssh_config').with_content(/RhostsRSAAuthentication/)

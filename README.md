@@ -76,9 +76,9 @@ override['ssh-hardening']['ssh']['server']['listen_to'] = node['ipaddress']
 * `['ssh-hardening']['ssh']['server']['sftp']['enable']` - `false`. Set to `true` to enable the SFTP feature of OpenSSH daemon
 * `['ssh-hardening']['ssh']['server']['sftp']['group']` - `sftponly`. Sets the `Match Group` option of SFTP to allow SFTP only for dedicated users
 * `['ssh-hardening']['ssh']['server']['sftp']['chroot']` - `/home/%u`. Sets the directory where the SFTP user should be chrooted
-* `['ssh-hardening']['ssh']['server']['sftp']['authorized_keys_path']` - `nil`. If not nil, full path to one or multipe space-separated authorized keys file that will be set inside the `Match Group` for SFTP-only access
+* `['ssh-hardening']['ssh']['server']['sftp']['authorized_keys_path']` - `nil`. If not nil, full path to one or multiple space-separated authorized keys file that will be set inside the `Match Group` for SFTP-only access
 * `['ssh-hardening']['ssh']['server']['sftp']['password_authentication']` - `false`. Set to `true` if password authentication should be enabled
-* `['ssh-hardening']['ssh']['server']['authorized_keys_path']` - `nil`. If not nil, full path to one or multipe space-separated authorized keys file is expected.
+* `['ssh-hardening']['ssh']['server']['authorized_keys_path']` - `nil`. If not nil, full path to one or multiple space-separated authorized keys file is expected.
 * `['ssh-hardening']['ssh']['server']['extras']` - `{}`. Add extra configuration options, see [below](#extra-configuration-options) for details
 * `['ssh-hardening']['ssh']['server']['match_blocks']` - `{}`. Match configuration block, see [below](#match-configuration-options-for-sshd) for details
 
@@ -213,7 +213,7 @@ Alternatively, if you intend to use PAM, you enabled it via `['ssh-hardening']['
 
 **Why doesn't my application connect via SSH anymore?**
 
-Always look into log files first and if possible look at the negotation between client and server that is completed when connecting.
+Always look into log files first and if possible look at the negotiation between client and server that is completed when connecting.
 
 We have seen some issues in applications (based on python and ruby) that are due to their use of an outdated crypto set. This collides with this hardening module, which reduced the list of ciphers, message authentication codes (MACs) and key exchange (KEX) algorithms to a more secure selection.
 
