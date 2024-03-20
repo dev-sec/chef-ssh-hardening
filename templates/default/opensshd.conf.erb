@@ -95,7 +95,7 @@ PermitUserEnvironment no
 LoginGraceTime <%= @node['ssh-hardening']['ssh']['server']['login_grace_time'] %>
 MaxAuthTries <%= @node['ssh-hardening']['ssh']['server']['max_auth_tries'] %>
 MaxSessions <%= @node['ssh-hardening']['ssh']['server']['max_sessions'] %>
-MaxStartups 10:30:100
+MaxStartups <%= @node['ssh-hardening']['ssh']['server']['max_startups'] %>
 
 # Enable public key authentication
 PubkeyAuthentication yes

@@ -113,6 +113,7 @@ default['ssh-hardening']['ssh']['server'].tap do |server| # rubocop: disable Blo
   server['login_grace_time']         = '30s'
   server['max_auth_tries']           = 2
   server['max_sessions']             = 10
+  server['max_startups']             = '10:30:100'
   server['password_authentication']  = false
   server['log_level']                = 'verbose'
   server['accept_env']               = ['LANG', 'LC_*', 'LANGUAGE']
