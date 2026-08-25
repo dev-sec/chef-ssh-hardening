@@ -11,7 +11,7 @@ group :test do
   gem 'foodcritic', '~> 16.0'
   gem 'rake'
   gem 'rubocop', '~> 1.90.0'
-  gem 'simplecov', '~> 0.16'
+  gem 'simplecov', '~> 1.0'
 end
 
 group :integration do
